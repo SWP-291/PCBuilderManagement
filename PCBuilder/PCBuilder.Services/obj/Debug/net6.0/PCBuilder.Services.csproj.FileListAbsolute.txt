@@ -1,0 +1,15 @@
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Services.deps.json
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Services.dll
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Services.pdb
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Repository.dll
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Repository.pdb
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.csproj.AssemblyReference.cache
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.GeneratedMSBuildEditorConfig.editorconfig
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.AssemblyInfoInputs.cache
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.AssemblyInfo.cs
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.csproj.CoreCompileInputs.cache
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.csproj.CopyComplete
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.dll
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\refint\PCBuilder.Services.dll
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.pdb
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\ref\PCBuilder.Services.dll
