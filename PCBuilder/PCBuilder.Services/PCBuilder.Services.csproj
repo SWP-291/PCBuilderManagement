@@ -10,4 +10,9 @@
     <ProjectReference Include="..\PCBuilder.Repository\PCBuilder.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IServices\" />
+    <Folder Include="Service\" />
+  </ItemGroup>
+
 </Project>
