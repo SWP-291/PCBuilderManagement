@@ -1,4 +1,18 @@
-﻿namespace PCBuilder.API
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using PCBuilder.Repository;
+using PCBuilder.Repository.IRepository;
+using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Repository;
+using PCBuilder.Services;
+using PCBuilder.Services.IServices;
+using PCBuilder.Services.Service;
+
+namespace PCBuilder.API
 {
     public class Startup
     {
@@ -13,8 +27,16 @@
         {
             services.AddControllers();
             services.AddSwaggerGen();
+            //Add DbContext
+            services.AddDbContext<PcBuildingContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Data Source=ec2-3-84-219-144.compute-1.amazonaws.com;Initial Catalog=PcBuilding;Persist Security Info=True;User ID=sa;Password=swp12345@;TrustServerCertificate=True"));
+            });
+
             // Cấu hình dependency injection
-            //services.AddScoped<IService,Service>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserServices, UserServices>();
+
 
         }
 
