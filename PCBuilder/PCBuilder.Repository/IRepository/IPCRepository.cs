@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PCBuilder.Services.IServices
+namespace PCBuilder.Repository.IRepository
 {
-    public interface IUserServices
+    public interface IPCRepository
     {
-        Task<List<User>> GetUserList();
+        Task<List<Pc>> GetPCList();
     }
 }

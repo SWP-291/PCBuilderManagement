@@ -9,18 +9,17 @@ using System.Threading.Tasks;
 
 namespace PCBuilder.Services.Service
 {
-    public class UserServices : IUserServices
+    public class PCServices : IPCServices
     {
-        private readonly IUserRepository _iUserRepository;
+        private readonly IPCRepository _pCRepository;
 
-        public UserServices(IUserRepository iUserRepository)
+        public PCServices(IPCRepository pCRepository)
         {
-            _iUserRepository = iUserRepository;
+            _pCRepository = pCRepository;
         }
-
-        Task<List<User>> IUserServices.GetUserList()
+        Task<List<Pc>> IPCServices.GetPCList()
         {
-            return _iUserRepository.GetUserList();
+            return _pCRepository.GetPCList();
         }
     }
 }

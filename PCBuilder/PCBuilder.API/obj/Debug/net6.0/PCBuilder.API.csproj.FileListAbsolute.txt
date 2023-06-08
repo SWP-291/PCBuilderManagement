@@ -81,3 +81,6 @@ T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\PCBui
 T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\PCBuilder.Services.dll
 T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\PCBuilder.Repository.pdb
 T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\PCBuilder.Services.pdb
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\System.Text.Json.dll
+T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll

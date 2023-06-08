@@ -18,7 +18,7 @@ namespace PCBuilder.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserList()
         {
-            var User = await _userServices.GetListUser();
+            var User = await _userServices.GetUserList();
             return Ok(User);
         }
     }

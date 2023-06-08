@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace PCBuilder.Services.IServices
 {
-    public interface IUserServices
+    public interface IPCServices
     {
-        Task<List<User>> GetUserList();
+        Task<List<Pc>> GetPCList();
     }
 }

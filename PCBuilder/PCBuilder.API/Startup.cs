@@ -35,7 +35,11 @@ namespace PCBuilder.API
 
             // Cấu hình dependency injection
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPCRepository, PCRepository>();
+
             services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IPCServices, PCServices>();
+
 
 
         }
