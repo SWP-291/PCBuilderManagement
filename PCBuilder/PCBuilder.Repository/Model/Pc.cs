@@ -34,6 +34,5 @@ public partial class Pc
     
     public virtual ICollection<PcComponent> PcComponents { get; set; } = new List<PcComponent>();
 
-    [JsonIgnore]
     public virtual Pc? Template { get; set; }
 }

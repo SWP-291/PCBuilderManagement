@@ -5,12 +5,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PCBuilder.Repository;
-using PCBuilder.Repository.IRepository;
-using PCBuilder.Repository.Models;
 using PCBuilder.Repository.Repository;
+using PCBuilder.Repository.Models;
 using PCBuilder.Services;
-using PCBuilder.Services.IServices;
 using PCBuilder.Services.Service;
+using PCBuilder.Services.DTO;
+using System.Reflection.PortableExecutable;
 
 namespace PCBuilder.API
 {
@@ -33,12 +33,16 @@ namespace PCBuilder.API
                 options.UseSqlServer(Configuration.GetConnectionString("Data Source=ec2-3-84-219-144.compute-1.amazonaws.com;Initial Catalog=PcBuilding;Persist Security Info=True;User ID=sa;Password=swp12345@;TrustServerCertificate=True"));
             });
 
-            // Cấu hình dependency injection
+            //Add Automapper
+            services.AddAutoMapper(typeof(MappingConfig));
+
+            // Add dependency injection
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPCRepository, PCRepository>();
 
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IPCServices, PCServices>();
+
 
 
 

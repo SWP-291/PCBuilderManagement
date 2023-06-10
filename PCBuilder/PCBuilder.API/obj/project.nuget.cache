@@ -1,13 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "7aHWmcIyZEJDN1N/WQg2xxQeF69yLdvvdOsdcBC9873MOsaSTAv6eDgUOJ+igsRfrFBgDFrt8aY2xvhzjRHupw==",
+  "dgSpecHash": "TGIOfw2sywgS88XCh+gjeLOJoNhtET5aCikAjEnp1B7Ijje1DLxvpAhUqabHA8EWcN7GDivFovlmIvcn6VyHIg==",
   "success": true,
-  "projectFilePath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
+  "projectFilePath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.data.sqlclient\\5.0.1\\microsoft.data.sqlclient.5.0.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\5.0.1\\microsoft.data.sqlclient.sni.runtime.5.0.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.5\\microsoft.entityframeworkcore.7.0.5.nupkg.sha512",

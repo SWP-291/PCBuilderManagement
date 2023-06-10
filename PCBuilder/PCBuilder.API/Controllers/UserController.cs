@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PCBuilder.Services.IServices;
+using PCBuilder.Services.Service;
 
 namespace PCBuilder.API.Controllers
 {
@@ -18,7 +18,7 @@ namespace PCBuilder.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserList()
         {
-            var User = await _userServices.GetUserList();
+            var User = await _userServices.GetUsersAsync();
             return Ok(User);
         }
     }

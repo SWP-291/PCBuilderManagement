@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Repository.Models;
-using PCBuilder.Services.IServices;
+using PCBuilder.Services.Service;
 
 namespace PCBuilder.API.Controllers
 {
@@ -17,10 +17,7 @@ namespace PCBuilder.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPCList()
         {
-            List<Pc> PCs =  await _IPCServices.GetPCList();
-            
-            //string json = JsonConvert.SerializeObject(PCs);
-
+            var PCs = await _IPCServices.GetPCList();
             return Ok(PCs);
         }
     }
