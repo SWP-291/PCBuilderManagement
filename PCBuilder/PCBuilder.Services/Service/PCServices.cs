@@ -48,7 +48,7 @@ namespace PCBuilder.Services.Service
                 }
 
                 //OR 
-                //CompanyListDto.AddRange(from item in CompaniesList select _mapper.Map<CompanyDto>(item));
+                //PcListDTO.AddRange(from item in PCList select _mapper.Map<PcDTO>(item));
                 _response.Success = true;
                 _response.Message = "ok";
                 _response.Data = PcListDTO;
