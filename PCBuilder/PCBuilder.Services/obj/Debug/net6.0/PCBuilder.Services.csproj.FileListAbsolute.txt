@@ -13,3 +13,18 @@ T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\
 T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\refint\PCBuilder.Services.dll
 T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.pdb
 T:\LearnSpace\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\ref\PCBuilder.Services.dll
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Services.deps.json
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Services.dll
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Services.pdb
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Repository.dll
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Repository.pdb
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.csproj.AssemblyReference.cache
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.GeneratedMSBuildEditorConfig.editorconfig
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.AssemblyInfoInputs.cache
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.AssemblyInfo.cs
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.csproj.CoreCompileInputs.cache
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.csproj.CopyComplete
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.dll
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\refint\PCBuilder.Services.dll
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.pdb
+T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\ref\PCBuilder.Services.dll

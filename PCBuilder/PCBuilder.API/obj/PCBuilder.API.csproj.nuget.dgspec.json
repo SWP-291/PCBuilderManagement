@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj": {}
+    "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj": {}
   },
   "projects": {
-    "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj": {
+    "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
+        "projectUniqueName": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
         "projectName": "PCBuilder.API",
-        "projectPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
+        "projectPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\obj\\",
+        "outputPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,11 +28,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
-                "projectPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
+              "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
+                "projectPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
               },
-              "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj": {
-                "projectPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj"
+              "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj": {
+                "projectPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj"
               }
             }
           }
@@ -50,6 +50,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[7.0.2, )"
             }
           },
           "imports": [
@@ -75,14 +79,14 @@
         }
       }
     },
-    "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
+    "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
+        "projectUniqueName": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
         "projectName": "PCBuilder.Repository",
-        "projectPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
+        "projectPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\obj\\",
+        "outputPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -152,14 +156,14 @@
         }
       }
     },
-    "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj": {
+    "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj",
+        "projectUniqueName": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj",
         "projectName": "PCBuilder.Services",
-        "projectPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj",
+        "projectPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\obj\\",
+        "outputPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -176,8 +180,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
-                "projectPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
+              "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
+                "projectPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
               }
             }
           }
@@ -191,6 +195,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

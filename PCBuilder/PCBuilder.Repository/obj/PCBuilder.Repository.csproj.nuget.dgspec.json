@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {}
+    "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {}
   },
   "projects": {
-    "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
+    "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
+        "projectUniqueName": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
         "projectName": "PCBuilder.Repository",
-        "projectPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
+        "projectPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "T:\\LearnSpace\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\obj\\",
+        "outputPath": "T:\\LearnSpace\\Git Manager\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
