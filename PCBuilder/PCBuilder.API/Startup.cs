@@ -11,6 +11,7 @@ using PCBuilder.Services;
 using PCBuilder.Services.Service;
 using PCBuilder.Services.DTO;
 using System.Reflection.PortableExecutable;
+using Microsoft.AspNetCore.Components;
 
 namespace PCBuilder.API
 {
@@ -49,7 +50,11 @@ namespace PCBuilder.API
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryServices, CategoryServices>();
 
+            services.AddScoped<IComponentRepository, ComponentRepository>();
+            services.AddScoped<IComponentServices, ComponentServices>();
 
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderServices, OrderServices>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
