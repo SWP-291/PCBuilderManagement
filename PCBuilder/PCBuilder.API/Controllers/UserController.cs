@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PCBuilder.Services.DTO;
 using PCBuilder.Services.Service;
 
 namespace PCBuilder.API.Controllers
@@ -20,6 +21,51 @@ namespace PCBuilder.API.Controllers
         {
             var User = await _userServices.GetUsersAsync();
             return Ok(User);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _userServices.GetUserByIdAsync(id);
+
+            if (!user.Success)
+            {
+                return NotFound(user);
+            }
+
+            return Ok(user);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(UserDTO userDTO)
+        {
+            var createdUser = await _userServices.CreateUserAsync(userDTO);
+            if (!createdUser.Success)
+            {
+                return BadRequest(createdUser);
+            }
+
+            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Data.Id }, createdUser);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserDTO userDTO)
+        {
+            var updatedUser = await _userServices.UpdateUserAsync(id, userDTO);
+            if (!updatedUser.Success)
+            {
+                return NotFound(updatedUser);
+            }
+
+            return Ok(updatedUser);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var deletedUser = await _userServices.DeleteUserAsync(id);
+            if (!deletedUser.Success)
+            {
+                return NotFound(deletedUser);
+            }
+
+            return Ok(deletedUser);
         }
     }
 }

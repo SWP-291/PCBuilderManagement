@@ -72,5 +72,19 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("search/{name}")]
+        public async Task<IActionResult> SearchPCByName(string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                var searchResult = await _IPCServices.SearchPCsByName(name);
+                return Ok(searchResult);
+            }
+            else
+            {
+                var PCs = await _IPCServices.GetPCList();
+                return Ok(PCs);
+            }
+        }
     }
 }

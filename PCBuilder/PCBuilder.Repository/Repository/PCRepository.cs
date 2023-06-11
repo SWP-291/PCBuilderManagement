@@ -20,6 +20,7 @@ namespace PCBuilder.Repository.Repository
         Task<Pc> CreatePcAsync(Pc pc);
         Task<Pc> UpdatePcAsync(Pc pc);
         Task<bool> DeletePcAsync(int id);
+        Task<ICollection<Pc>> SearchPcsByNameAsync(string name);
     }
     public class PCRepository : IPCRepository
     {
@@ -63,6 +64,12 @@ namespace PCBuilder.Repository.Repository
             _dataContext.Pcs.Remove(pc);
             await _dataContext.SaveChangesAsync();
             return true;
+        }
+        public async Task<ICollection<Pc>> SearchPcsByNameAsync(string name)
+        {
+            return await _dataContext.Pcs
+                .Where(pc => pc.Name.Contains(name))
+                .ToListAsync();
         }
     }
 }

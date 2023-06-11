@@ -23,6 +23,7 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<PcDTO>> CreatePC(PcDTO pcDTO);
         Task<ServiceResponse<PcDTO>> UpdatePC(int ID, PcDTO pcDTO);
         Task<ServiceResponse<bool>> DeletePC(int ID);
+        Task<ServiceResponse<List<PcDTO>>> SearchPCsByName(String name);
     }
 
     public class PCServices : IPCServices
@@ -185,5 +186,30 @@ namespace PCBuilder.Services.Service
 
             return _response;
         }
+        public async Task<ServiceResponse<List<PcDTO>>> SearchPCsByName(string name)
+        {
+            ServiceResponse<List<PcDTO>> _response = new();
+
+            try
+            {
+                var searchResult = await _repository.SearchPcsByNameAsync(name);
+
+                var pcListDTO = searchResult.Select(pc => _mapper.Map<PcDTO>(pc)).ToList();
+
+                _response.Success = true;
+                _response.Message = "ok";
+                _response.Data = pcListDTO;
+            }
+            catch (Exception ex)
+            {
+                _response.Success = false;
+                _response.Data = null;
+                _response.Message = "Error";
+                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return _response;
+        }
+
     }
 }
