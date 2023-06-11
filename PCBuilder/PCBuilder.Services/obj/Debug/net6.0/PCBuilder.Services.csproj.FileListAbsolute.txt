@@ -28,3 +28,18 @@ T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\D
 T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\refint\PCBuilder.Services.dll
 T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.pdb
 T:\LearnSpace\Git Manager\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\ref\PCBuilder.Services.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Services.deps.json
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Services.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Services.pdb
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Repository.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\bin\Debug\net6.0\PCBuilder.Repository.pdb
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.csproj.AssemblyReference.cache
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.AssemblyInfoInputs.cache
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.AssemblyInfo.cs
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.csproj.CoreCompileInputs.cache
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.csproj.CopyComplete
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\refint\PCBuilder.Services.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\PCBuilder.Services.pdb
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Services\obj\Debug\net6.0\ref\PCBuilder.Services.dll
