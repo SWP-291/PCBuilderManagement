@@ -43,7 +43,11 @@ namespace PCBuilder.API
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IPCServices, PCServices>();
 
+            services.AddScoped<IBrandRepository, BrandRepository>();
+            services.AddScoped<IBrandServices, BrandServices>();
 
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryServices, CategoryServices>();
 
 
         }
