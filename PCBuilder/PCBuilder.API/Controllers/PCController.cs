@@ -54,7 +54,10 @@ namespace PCBuilder.API.Controllers
                         Name = componentDTO.Name,
                         Image = componentDTO.Image,
                         Price = componentDTO.Price,
-                        Description = componentDTO.Description
+                        Description = componentDTO.Description,
+                        CategoryId = componentDTO.CategoryId,
+                        BrandId = componentDTO.BrandId
+                        
                     };
 
                     pcComponentDTO.Components.Add(component);
