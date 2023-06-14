@@ -21,6 +21,52 @@ namespace PCBuilder.API.Controllers
             var PCs = await _IPCServices.GetPCList();
             return Ok(PCs);
         }
+        [HttpGet("PCtest")]
+        public async Task<IActionResult> GetPCComponent()
+        {
+            var response = await _IPCServices.GetPCComponent();
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            var pcDTOList = response.Data;
+            var pcComponentDTOList = new List<PcDTO>();
+
+            foreach (var pcDTO in pcDTOList)
+            {
+                var pcComponentDTO = new PcDTO
+                {
+                    Id = pcDTO.Id,
+                    Name = pcDTO.Name,
+                    Description = pcDTO.Description,
+                    Price = pcDTO.Price,
+                    Discount = pcDTO.Discount,
+                    Components = new List<ComponentDTO>()
+                };
+
+                foreach (var componentDTO in pcDTO.Components)
+                {
+                    var component = new ComponentDTO
+                    {
+                        Id = componentDTO.Id,
+                        Name = componentDTO.Name,
+                        Image = componentDTO.Image,
+                        Price = componentDTO.Price,
+                        Description = componentDTO.Description
+                    };
+
+                    pcComponentDTO.Components.Add(component);
+                }
+
+                pcComponentDTOList.Add(pcComponentDTO);
+            }
+
+            return Ok(pcComponentDTOList);
+        }
+
+
         [HttpGet("{PcId}")]
         public async Task<IActionResult> GetPcByIdList(int PcId)
         {

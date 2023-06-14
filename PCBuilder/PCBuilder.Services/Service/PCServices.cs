@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using PCBuilder.Services.DTO;
 using AutoMapper;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.EntityFrameworkCore;
 
 namespace PCBuilder.Services.Service
 {
@@ -24,6 +25,8 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<PcDTO>> UpdatePC(int ID, PcDTO pcDTO);
         Task<ServiceResponse<bool>> DeletePC(int ID);
         Task<ServiceResponse<List<PcDTO>>> SearchPCsByName(String name);
+        Task<ServiceResponse<List<PcDTO>>> GetPCComponent();
+
     }
 
     public class PCServices : IPCServices
@@ -43,7 +46,7 @@ namespace PCBuilder.Services.Service
 
             try
             {
-
+                
                 var PCList = await _repository.GetAllPcsAsync();
 
                 var PcListDTO = new List<PcDTO>();
@@ -70,6 +73,39 @@ namespace PCBuilder.Services.Service
 
             return _response;
         }
+        public async Task<ServiceResponse<List<PcDTO>>> GetPCComponent()
+        {
+            ServiceResponse<List<PcDTO>> response = new ServiceResponse<List<PcDTO>>();
+
+            try
+            {
+                var pcList = await _repository.GetPcsWithComponentsAsync();
+
+                List<PcDTO> pcDTOList = new List<PcDTO>();
+
+                foreach (var pc in pcList)
+                {
+                    var pcDTO = _mapper.Map<PcDTO>(pc);
+                    pcDTO.Components = pc.PcComponents.Select(pcComp => _mapper.Map<ComponentDTO>(pcComp.Component)).ToList();
+                    pcDTOList.Add(pcDTO);
+                }
+
+                response.Success = true;
+                response.Message = "PCs with components retrieved successfully";
+                response.Data = pcDTOList;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error retrieving PCs with components";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
+
+
 
 
 

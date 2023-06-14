@@ -15,6 +15,7 @@ namespace PCBuilder.Repository.Repository
         Task<Category> CreateCategoryAsync(Category category);
         Task<Category> UpdateCategoryAsync(Category category);
         Task<bool> DeleteCategoryAsync(int id);
+        Task<ICollection<Category>> SearchCategorysByNameAsync(String name);
     }
     public class CategoryRepository : ICategoryRepository
     {
@@ -59,6 +60,14 @@ namespace PCBuilder.Repository.Repository
             await _dataContext.SaveChangesAsync();
             return true;
         }
+        public async Task<ICollection<Category>> SearchCategorysByNameAsync(string name)
+        {
+            return await _dataContext.Categories
+                .Where(Category => Category.Name.Contains(name))
+                .ToListAsync();
+        }
+
+      
     }
 
 }

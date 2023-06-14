@@ -73,6 +73,20 @@ namespace PCBuilder.API.Controllers
 
             return Ok(deletedCategory);
         }
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchCategoriesByName([FromQuery] string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                var searchResult = await _categoryServices.SearchCategoriesByName(name);
+                return Ok(searchResult);
+            }
+            else
+            {
+                var Categories = await _categoryServices.GetCategoriesAsync();
+                return Ok(Categories);
+            }
+        }
     }
 
 }

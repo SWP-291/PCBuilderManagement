@@ -17,6 +17,7 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<CategoryDTO>> CreateCategoryAsync(CategoryDTO categoryDTO);
         Task<ServiceResponse<CategoryDTO>> UpdateCategoryAsync(int id, CategoryDTO categoryDTO);
         Task<ServiceResponse<bool>> DeleteCategoryAsync(int id);
+        Task<ServiceResponse<List<CategoryDTO>>> SearchCategoriesByName(string name);
     }
     public class CategoryServices : ICategoryServices
     {
@@ -169,7 +170,31 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
+        public async Task<ServiceResponse<List<CategoryDTO>>> SearchCategoriesByName(string name)
+        {
+            ServiceResponse<List<CategoryDTO>> _response = new();
 
+            try
+            {
+                var searchResult = await _categoryRepository.SearchCategorysByNameAsync(name);
 
+                var categoryListDTO = searchResult.Select(Category => _mapper.Map<CategoryDTO>(Category)).ToList();
+
+                _response.Success = true;
+                _response.Message = "ok";
+                _response.Data = categoryListDTO;
+            }
+            catch (Exception ex)
+            {
+                _response.Success = false;
+                _response.Data = null;
+                _response.Message = "Error";
+                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return _response;
+        }
+
+       
     } 
 }
