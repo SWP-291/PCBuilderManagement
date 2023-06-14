@@ -18,7 +18,7 @@ namespace PCBuilder.Services.DTO
 
         public decimal Amount { get; set; }
 
-        public string StatusId { get; set; }
+        public string? StatusId { get; set; }
 
         public int PaymentId { get; set; }
     }
