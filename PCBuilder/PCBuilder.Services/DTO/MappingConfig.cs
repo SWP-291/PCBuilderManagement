@@ -15,6 +15,10 @@ namespace PCBuilder.Services.DTO
         {
             CreateMap<Pc, PcDTO>().ReverseMap();
             CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<Brand, BrandDTO>().ReverseMap();
+            CreateMap<Category, CategoryDTO>().ReverseMap();
+            CreateMap<Component, ComponentDTO>().ReverseMap();
+            CreateMap<Order, OrderDTO>().ReverseMap();
 
         }
     }

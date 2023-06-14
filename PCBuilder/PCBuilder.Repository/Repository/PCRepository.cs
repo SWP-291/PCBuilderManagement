@@ -16,6 +16,11 @@ namespace PCBuilder.Repository.Repository
         /// </summary>
         /// <returns>Models.Pc</returns>
         Task<ICollection<Pc>> GetAllPcsAsync();
+        Task<Pc> GetPcsByIdAsync(int PcId);
+        Task<Pc> CreatePcAsync(Pc pc);
+        Task<Pc> UpdatePcAsync(Pc pc);
+        Task<bool> DeletePcAsync(int id);
+        Task<ICollection<Pc>> SearchPcsByNameAsync(string name);
     }
     public class PCRepository : IPCRepository
     {
@@ -28,6 +33,43 @@ namespace PCBuilder.Repository.Repository
         public async Task<ICollection<Pc>> GetAllPcsAsync()
         {
             return await _dataContext.Pcs.ToListAsync();
+        }
+
+        public async Task<Pc> GetPcsByIdAsync(int PcId)
+        {
+            return await _dataContext.Pcs.FindAsync(PcId);
+        }
+        public async Task<Pc> CreatePcAsync(Pc pc)
+        {
+            _dataContext.Pcs.Add(pc);
+            await _dataContext.SaveChangesAsync();
+            return pc;
+        }
+
+        public async Task<Pc> UpdatePcAsync(Pc pc)
+        {
+            _dataContext.Pcs.Update(pc);
+            await _dataContext.SaveChangesAsync();
+            return pc;
+        }
+
+        public async Task<bool> DeletePcAsync(int id)
+        {
+            var pc = await _dataContext.Pcs.FindAsync(id);
+            if (pc == null)
+            {
+                return false;
+            }
+
+            _dataContext.Pcs.Remove(pc);
+            await _dataContext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<ICollection<Pc>> SearchPcsByNameAsync(string name)
+        {
+            return await _dataContext.Pcs
+                .Where(pc => pc.Name.Contains(name))
+                .ToListAsync();
         }
     }
 }
