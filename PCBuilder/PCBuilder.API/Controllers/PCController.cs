@@ -72,8 +72,8 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("search/{name}")]
-        public async Task<IActionResult> SearchPCByName(string name)
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchPCByName([FromQuery] string name)
         {
             if (!string.IsNullOrEmpty(name))
             {

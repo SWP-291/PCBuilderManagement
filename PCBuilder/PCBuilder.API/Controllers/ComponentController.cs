@@ -79,7 +79,6 @@ namespace PCBuilder.API.Controllers
             }
 
             return Ok(response);
-
         }
     }
 }

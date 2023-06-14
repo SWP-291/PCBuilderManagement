@@ -23,7 +23,7 @@ namespace PCBuilder.Repository.Repository
 
 
     }
-    public class UserRepository: IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly PcBuildingContext _context;
         public UserRepository(PcBuildingContext context)
@@ -33,7 +33,8 @@ namespace PCBuilder.Repository.Repository
 
         public async Task<ICollection<User>> GetAllUsersAsync()
         {
-            return await _context.Users.ToListAsync();
+            // load list user co isActive true
+            return await _context.Users.Where(p => p.IsActive == true).ToListAsync();
         }
 
         public async Task<User> GetUserByIdAsync(int id)
@@ -62,8 +63,8 @@ namespace PCBuilder.Repository.Repository
             {
                 return false;
             }
-
-            _context.Users.Remove(user);
+            // khong xoa chi thay doi isActive field
+            user.IsActive = false;
             await _context.SaveChangesAsync();
             return true;
         }

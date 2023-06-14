@@ -47,7 +47,7 @@ namespace PCBuilder.Services.Service
                     UserListDto.Add(_mapper.Map<UserDTO>(item));
                 }
 
-                //OR 
+                //OR
                 //UserListDto.AddRange(from item in CompaniesList select _mapper.Map<UserDTO>(item));
                 _response.Success = true;
                 _response.Message = "ok";
@@ -135,6 +135,12 @@ namespace PCBuilder.Services.Service
                 // Update the properties of the existing user
                 existingUser.Fullname = userDTO.Fullname;
                 existingUser.Email = userDTO.Email;
+                existingUser.Phone = userDTO.Phone;
+                existingUser.Country = userDTO.Country;
+                existingUser.Gender = userDTO.Gender;
+                existingUser.Password = userDTO.Password;
+                existingUser.Address = userDTO.Address;
+                existingUser.Avatar = userDTO.Avatar;
 
                 var updatedUser = await _iUserRepository.UpdateUserAsync(existingUser);
                 var updatedUserDto = _mapper.Map<UserDTO>(updatedUser);
@@ -180,7 +186,7 @@ namespace PCBuilder.Services.Service
             }
 
             return response;
-        
+
         }
 
     }

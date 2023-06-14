@@ -10,10 +10,10 @@ namespace PCBuilder.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserServices _userServices;
-        
+
         public UserController(IUserServices userServices)
         {
-            _userServices  = userServices;
+            _userServices = userServices;
         }
 
         [HttpGet]
@@ -35,25 +35,19 @@ namespace PCBuilder.API.Controllers
             return Ok(user);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateUser(UserDTO userDTO)
+        public async Task<IActionResult> CreateUser([FromBody] UserDTO userDTO)
         {
             var createdUser = await _userServices.CreateUserAsync(userDTO);
-            if (!createdUser.Success)
-            {
-                return BadRequest(createdUser);
-            }
-
-            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Data.Id }, createdUser);
+            return createdUser.Success ? CreatedAtAction(nameof(GetUserById), new { id = createdUser.Data.Id }, createdUser) : (ActionResult)BadRequest(createdUser);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UserDTO userDTO)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO userDTO)
         {
             var updatedUser = await _userServices.UpdateUserAsync(id, userDTO);
             if (!updatedUser.Success)
             {
                 return NotFound(updatedUser);
             }
-
             return Ok(updatedUser);
         }
         [HttpDelete("{id}")]
@@ -64,7 +58,6 @@ namespace PCBuilder.API.Controllers
             {
                 return NotFound(deletedUser);
             }
-
             return Ok(deletedUser);
         }
     }
