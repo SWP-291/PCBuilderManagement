@@ -10,6 +10,7 @@ using PCBuilder.Services.DTO;
 using AutoMapper;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace PCBuilder.Services.Service
 {
@@ -25,7 +26,8 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<PcDTO>> UpdatePC(int ID, PcDTO pcDTO);
         Task<ServiceResponse<bool>> DeletePC(int ID);
         Task<ServiceResponse<List<PcDTO>>> SearchPCsByName(String name);
-        Task<ServiceResponse<List<PcDTO>>> GetPCComponent();
+        Task<ServiceResponse<List<PCInformationDTO>>> GetPCComponent();
+        Task<ServiceResponse<PCInformationDTO>> GetPCComponentByID(int pcId);
 
     }
 
@@ -73,19 +75,19 @@ namespace PCBuilder.Services.Service
 
             return _response;
         }
-        public async Task<ServiceResponse<List<PcDTO>>> GetPCComponent()
+        public async Task<ServiceResponse<List<PCInformationDTO>>> GetPCComponent()
         {
-            ServiceResponse<List<PcDTO>> response = new ServiceResponse<List<PcDTO>>();
+            ServiceResponse<List<PCInformationDTO>> response = new ServiceResponse<List<PCInformationDTO>>();
 
             try
             {
                 var pcList = await _repository.GetPcsWithComponentsAsync();
 
-                List<PcDTO> pcDTOList = new List<PcDTO>();
+                List<PCInformationDTO> pcDTOList = new List<PCInformationDTO>();
 
                 foreach (var pc in pcList)
                 {
-                    var pcDTO = _mapper.Map<PcDTO>(pc);
+                    var pcDTO = _mapper.Map<PCInformationDTO>(pc);
                     pcDTO.Components = pc.PcComponents.Select(pcComp => _mapper.Map<ComponentDTO>(pcComp.Component)).ToList();
                     pcDTOList.Add(pcDTO);
                 }
@@ -104,6 +106,38 @@ namespace PCBuilder.Services.Service
             return response;
         }
 
+
+        public async Task<ServiceResponse<PCInformationDTO>> GetPCComponentByID(int PcId)
+        {
+            ServiceResponse<PCInformationDTO> response = new ServiceResponse<PCInformationDTO>();
+
+            try
+            {
+                var pc = await _repository.GetPcsWithComponentByIdAsync(PcId);
+
+                if (pc == null)
+                {
+                    response.Success = false;
+                    response.Message = "PC not found";
+                    return response;
+                }
+
+                var pcDTO = _mapper.Map<PCInformationDTO>(pc);
+                pcDTO.Components = pc.PcComponents.Select(pcComp => _mapper.Map<ComponentDTO>(pcComp.Component)).ToList();
+
+                response.Success = true;
+                response.Message = "PC with components retrieved successfully";
+                response.Data = pcDTO;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error retrieving PC with components";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
 
 
 
@@ -247,5 +281,6 @@ namespace PCBuilder.Services.Service
             return _response;
         }
 
+        
     }
 }

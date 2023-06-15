@@ -21,7 +21,7 @@ namespace PCBuilder.API.Controllers
             var PCs = await _IPCServices.GetPCList();
             return Ok(PCs);
         }
-        [HttpGet("PCtest")]
+        [HttpGet("PCWithComponent")]
         public async Task<IActionResult> GetPCComponent()
         {
             var response = await _IPCServices.GetPCComponent();
@@ -32,11 +32,11 @@ namespace PCBuilder.API.Controllers
             }
 
             var pcDTOList = response.Data;
-            var pcComponentDTOList = new List<PcDTO>();
+            var pcComponentDTOList = new List<PCInformationDTO>();
 
             foreach (var pcDTO in pcDTOList)
             {
-                var pcComponentDTO = new PcDTO
+                var pcComponentDTO = new PCInformationDTO
                 {
                     Id = pcDTO.Id,
                     Name = pcDTO.Name,
@@ -68,6 +68,46 @@ namespace PCBuilder.API.Controllers
 
             return Ok(pcComponentDTOList);
         }
+        [HttpGet("PCWithComponent/{PcId}")]
+        public async Task<IActionResult> GetPcComponentById(int PcId)
+        {
+            var response = await _IPCServices.GetPCComponentByID(PcId);
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            var pcDTO = response.Data;
+            var pcComponentDTO = new PCInformationDTO
+            {
+                Id = pcDTO.Id,
+                Name = pcDTO.Name,
+                Description = pcDTO.Description,
+                Price = pcDTO.Price,
+                Discount = pcDTO.Discount,
+                Components = new List<ComponentDTO>()
+            };
+
+            foreach (var componentDTO in pcDTO.Components)
+            {
+                var component = new ComponentDTO
+                {
+                    Id = componentDTO.Id,
+                    Name = componentDTO.Name,
+                    Image = componentDTO.Image,
+                    Price = componentDTO.Price,
+                    Description = componentDTO.Description,
+                    CategoryId = componentDTO.CategoryId,
+                    BrandId = componentDTO.BrandId
+                };
+
+                pcComponentDTO.Components.Add(component);
+            }
+
+            return Ok(pcComponentDTO);
+        }
+
 
 
         [HttpGet("{PcId}")]
