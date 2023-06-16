@@ -37,6 +37,9 @@ namespace PCBuilder.API
             //Add Automapper
             services.AddAutoMapper(typeof(MappingConfig));
 
+            // Add Cors
+            services.AddCors();
+
             // Add dependency injection
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPCRepository, PCRepository>();
@@ -74,6 +77,11 @@ namespace PCBuilder.API
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:3000")
+                       .AllowAnyHeader()
+                       .AllowAnyMethod());
 
             app.UseHttpsRedirection();
             app.UseRouting();
