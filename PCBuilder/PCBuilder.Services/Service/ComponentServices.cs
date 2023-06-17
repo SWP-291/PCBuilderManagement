@@ -17,6 +17,7 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<ComponentDTO>> CreateComponent(ComponentDTO componentDTO);
         Task<ServiceResponse<ComponentDTO>> UpdateComponent(int id, ComponentDTO componentDTO);
         Task<ServiceResponse<bool>> DeleteComponent(int id);
+        Task<ServiceResponse<ICollection<ComponentDTO>>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending);
     }
     public class ComponentServices : IComponentServices
     {
@@ -168,6 +169,30 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
+
+        public async Task<ServiceResponse<ICollection<ComponentDTO>>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending)
+        {
+            var response = new ServiceResponse<ICollection<ComponentDTO>>();
+
+            try
+            {
+                var searchResult = await _componentRepository.GetProductsByPriceRange(minPrice, maxPrice, isDescending);
+
+                var componentsDTO = searchResult.Select(c => _mapper.Map<ComponentDTO>(c)).ToList();
+
+                response.Success = true;
+                response.Message = "ok";
+                response.Data = componentsDTO;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Data = null;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return response;
+        }
     }
 }
-

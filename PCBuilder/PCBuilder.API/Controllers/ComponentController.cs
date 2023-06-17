@@ -29,6 +29,18 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("FilterComponent")]
+        public async Task<IActionResult> FilterComponents(decimal? minPrice, decimal? maxPrice, bool? isDescending)
+        {
+            var response = await _componentServices.GetProductsByPriceRange(minPrice, maxPrice, isDescending);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetComponentById(int id)
         {

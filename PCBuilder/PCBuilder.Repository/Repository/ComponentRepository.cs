@@ -12,6 +12,7 @@ namespace PCBuilder.Repository.Repository
     {
         Task<ICollection<Component>> GetAllComponentsAsync();
         Task<Component> GetComponentByIdAsync(int id);
+        Task<ICollection<Component>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending);
         Task<Component> CreateComponentAsync(Component component);
         Task<Component> UpdateComponentAsync(Component component);
         Task<bool> DeleteComponentAsync(int id);
@@ -60,6 +61,25 @@ namespace PCBuilder.Repository.Repository
             _dataContext.Components.Remove(component);
             await _dataContext.SaveChangesAsync();
             return true;
+        }
+
+
+        public async Task<ICollection<Component>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending)
+        {
+            var query = _dataContext.Components.AsQueryable();
+            if (minPrice.HasValue)
+            {
+                query = query.Where(c => c.Price >= minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(c => c.Price <= maxPrice.Value);
+            }
+            query = isDescending.HasValue && isDescending.Value
+                ? query.OrderByDescending(p => p.Price)
+                : query.OrderBy(p => p.Price);
+
+            return await query.ToListAsync();
         }
     }
 
