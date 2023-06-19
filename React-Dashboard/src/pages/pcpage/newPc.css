@@ -1,0 +1,45 @@
+.newPC {
+    flex: 20;
+}
+
+.addPcTitle {
+    margin-left: 20px;
+}
+
+.addPcForm {
+    margin-top: 10px;
+}
+
+.addPcItem {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.addPcItem>label {
+    color: gray;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.addPcItem>input {
+    padding: 10px;
+}
+
+.addPcItem>select {
+    padding: 10px;
+}
+
+.addPcButton {
+    margin-top: 10px;
+    padding: 7px 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: teal;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 100px;
+}
