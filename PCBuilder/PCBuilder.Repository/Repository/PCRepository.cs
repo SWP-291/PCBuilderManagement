@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +21,8 @@ namespace PCBuilder.Repository.Repository
         Task<Pc> UpdatePcAsync(Pc pc);
         Task<bool> DeletePcAsync(int id);
         Task<ICollection<Pc>> SearchPcsByNameAsync(string name);
+        Task<ICollection<Pc>> GetPcsWithComponentsAsync();
+        Task<Pc> GetPcsWithComponentByIdAsync(int PcId);
     }
     public class PCRepository : IPCRepository
     {
@@ -32,12 +34,13 @@ namespace PCBuilder.Repository.Repository
 
         public async Task<ICollection<Pc>> GetAllPcsAsync()
         {
-            return await _dataContext.Pcs.ToListAsync();
+            return await _dataContext.Pcs.Include(e => e.PcComponents).ToListAsync();
         }
 
         public async Task<Pc> GetPcsByIdAsync(int PcId)
         {
             return await _dataContext.Pcs.FindAsync(PcId);
+            
         }
         public async Task<Pc> CreatePcAsync(Pc pc)
         {
@@ -70,6 +73,24 @@ namespace PCBuilder.Repository.Repository
             return await _dataContext.Pcs
                 .Where(pc => pc.Name.Contains(name))
                 .ToListAsync();
+        }
+
+       
+
+        public async Task<ICollection<Pc>> GetPcsWithComponentsAsync()
+        {
+            return await _dataContext.Pcs
+        .Include(pc => pc.PcComponents)
+        .ThenInclude(pcComp => pcComp.Component)
+        .ToListAsync();
+        }
+
+        public async Task<Pc> GetPcsWithComponentByIdAsync(int PcId)
+        {
+            return await _dataContext.Pcs
+        .Include(pc => pc.PcComponents)
+        .ThenInclude(pcComp => pcComp.Component)
+        .FirstOrDefaultAsync(pc => pc.Id == PcId);
         }
     }
 }

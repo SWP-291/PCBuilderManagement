@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

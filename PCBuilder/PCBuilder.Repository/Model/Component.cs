@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PCBuilder.Repository.Models;
+namespace PCBuilder.Repository.Model;
 
 public partial class Component
 {
@@ -18,6 +18,8 @@ public partial class Component
     public int BrandId { get; set; }
 
     public int CategoryId { get; set; }
+
+    public bool? IsPublic { get; set; }
 
     public virtual Brand Brand { get; set; } = null!;
 

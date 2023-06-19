@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PCBuilder.Repository.Models;
+namespace PCBuilder.Repository.Model;
 
 public partial class PcComponent
 {
@@ -11,7 +11,7 @@ public partial class PcComponent
 
     public int PcId { get; set; }
 
-    public bool? Status { get; set; }
+    public int? Quantity { get; set; }
 
     public virtual Component Component { get; set; } = null!;
 

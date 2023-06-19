@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using PCBuilder.Repository.Repository;
 using PCBuilder.Services.DTO;
 using System;

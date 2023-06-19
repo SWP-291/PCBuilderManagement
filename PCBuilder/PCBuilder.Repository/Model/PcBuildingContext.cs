@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace PCBuilder.Repository.Models;
+namespace PCBuilder.Repository.Model;
 
 public partial class PcBuildingContext : DbContext
 {
@@ -43,16 +43,14 @@ public partial class PcBuildingContext : DbContext
     {
         modelBuilder.Entity<Brand>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Brand__3214EC077D273C00");
+            entity.HasKey(e => e.Id).HasName("PK__Brand__3214EC07B586B789");
 
             entity.ToTable("Brand");
 
             entity.Property(e => e.Logo)
                 .HasMaxLength(250)
                 .IsUnicode(false);
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Origin)
                 .HasMaxLength(200)
                 .IsUnicode(false);
@@ -60,7 +58,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC07090B9093");
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC07204175EB");
 
             entity.ToTable("Category");
 
@@ -68,7 +66,6 @@ public partial class PcBuildingContext : DbContext
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Categories)
                 .HasForeignKey(d => d.BrandId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Category__BrandI__4BAC3F29");
 
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
@@ -78,7 +75,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Compatibility>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Compatib__3214EC0764787FBA");
+            entity.HasKey(e => e.Id).HasName("PK__Compatib__3214EC0774F09A5B");
 
             entity.ToTable("Compatibility");
 
@@ -96,7 +93,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Component>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Componen__3214EC07244E738A");
+            entity.HasKey(e => e.Id).HasName("PK__Componen__3214EC07F34AFB05");
 
             entity.ToTable("Component");
 
@@ -104,9 +101,7 @@ public partial class PcBuildingContext : DbContext
             entity.Property(e => e.Image)
                 .HasMaxLength(250)
                 .IsUnicode(false);
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Components)
@@ -122,12 +117,12 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07ACBFDD50");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07BE9EB17D");
 
             entity.ToTable("Order");
 
             entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.OrderDate).HasColumnType("datetime");
+            entity.Property(e => e.OrderDate).HasColumnType("date");
             entity.Property(e => e.StatusId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -149,14 +144,12 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC07BDD5CEFF");
+            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC0759DA2C7B");
 
             entity.ToTable("Payment");
 
             entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Name)
-                .HasMaxLength(255)
-                .IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.PaymentMode)
                 .HasMaxLength(200)
                 .IsUnicode(false);
@@ -167,7 +160,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Pc>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PC__3214EC07AEE6B79A");
+            entity.HasKey(e => e.Id).HasName("PK__PC__3214EC07F188AB29");
 
             entity.ToTable("PC");
 
@@ -176,9 +169,7 @@ public partial class PcBuildingContext : DbContext
             entity.Property(e => e.Image)
                 .HasMaxLength(250)
                 .IsUnicode(false);
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.TemplateId).HasColumnName("TemplateID");
 
@@ -193,7 +184,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<PcComponent>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PC_Compo__3214EC07F9530A01");
+            entity.HasKey(e => e.Id).HasName("PK__PC_Compo__3214EC07C3825B15");
 
             entity.ToTable("PC_Component");
 
@@ -210,7 +201,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC074E99BD77");
+            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC0717850A15");
 
             entity.ToTable("Role");
 
@@ -221,28 +212,20 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC0762C75835");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC0788ABF565");
 
             entity.ToTable("User");
 
-            entity.Property(e => e.Address)
-                .HasMaxLength(500)
-                .IsUnicode(false);
+            entity.Property(e => e.Address).HasMaxLength(500);
             entity.Property(e => e.Avatar)
                 .HasMaxLength(500)
                 .IsUnicode(false);
-            entity.Property(e => e.Country)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Country).HasMaxLength(100);
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.Fullname)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.Gender)
-                .HasMaxLength(10)
-                .IsUnicode(false);
+            entity.Property(e => e.Fullname).HasMaxLength(100);
+            entity.Property(e => e.Gender).HasMaxLength(10);
             entity.Property(e => e.Password)
                 .HasMaxLength(100)
                 .IsUnicode(false);

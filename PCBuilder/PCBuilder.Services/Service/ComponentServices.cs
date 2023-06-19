@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using PCBuilder.Repository.Repository;
 using PCBuilder.Services.DTO;
 using System;
@@ -17,6 +17,8 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<ComponentDTO>> CreateComponent(ComponentDTO componentDTO);
         Task<ServiceResponse<ComponentDTO>> UpdateComponent(int id, ComponentDTO componentDTO);
         Task<ServiceResponse<bool>> DeleteComponent(int id);
+        Task<ServiceResponse<List<ComponentDTO>>> SearchComponentsByName(string name);
+        Task<ServiceResponse<ICollection<ComponentDTO>>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending);
     }
     public class ComponentServices : IComponentServices
     {
@@ -164,6 +166,54 @@ namespace PCBuilder.Services.Service
                 response.Success = false;
                 response.Message = "Error deleting component";
                 response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+        public async Task<ServiceResponse<List<ComponentDTO>>> SearchComponentsByName(string name)
+        {
+            ServiceResponse<List<ComponentDTO>> _response = new();
+
+            try
+            {
+                var searchResult = await _componentRepository.SearchComponentsByNameAsync(name);
+
+                var categoryListDTO = searchResult.Select(C => _mapper.Map<ComponentDTO>(C)).ToList();
+
+                _response.Success = true;
+                _response.Message = "ok";
+                _response.Data = categoryListDTO;
+            }
+            catch (Exception ex)
+            {
+                _response.Success = false;
+                _response.Data = null;
+                _response.Message = "Error";
+                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+            }
+
+            return _response;
+        }
+        public async Task<ServiceResponse<ICollection<ComponentDTO>>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending)
+        {
+            var response = new ServiceResponse<ICollection<ComponentDTO>>();
+
+            try
+            {
+                var searchResult = await _componentRepository.GetProductsByPriceRange(minPrice, maxPrice, isDescending);
+
+                var componentsDTO = searchResult.Select(c => _mapper.Map<ComponentDTO>(c)).ToList();
+
+                response.Success = true;
+                response.Message = "ok";
+                response.Data = componentsDTO;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Data = null;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
 
             return response;

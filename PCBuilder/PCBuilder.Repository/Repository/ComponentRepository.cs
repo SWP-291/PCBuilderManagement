@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,9 @@ namespace PCBuilder.Repository.Repository
         Task<Component> CreateComponentAsync(Component component);
         Task<Component> UpdateComponentAsync(Component component);
         Task<bool> DeleteComponentAsync(int id);
+        Task<List<Component>> GetComponentsByIdsAsync(List<int> componentIds);
+        Task<ICollection<Component>> SearchComponentsByNameAsync(string name);
+        Task<ICollection<Component>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending);
     }
 
     public class ComponentRepository : IComponentRepository
@@ -35,6 +38,14 @@ namespace PCBuilder.Repository.Repository
         {
             return await _dataContext.Components.FindAsync(id);
         }
+
+        public async Task<List<Component>> GetComponentsByIdsAsync(List<int> componentIds)
+        {
+            return await _dataContext.Components
+                .Where(c => componentIds.Contains(c.Id))
+                .ToListAsync();
+        }
+
         public async Task<Component> CreateComponentAsync(Component component)
         {
             _dataContext.Components.Add(component);
@@ -60,6 +71,29 @@ namespace PCBuilder.Repository.Repository
             _dataContext.Components.Remove(component);
             await _dataContext.SaveChangesAsync();
             return true;
+        }
+        public async Task<ICollection<Component>> SearchComponentsByNameAsync(string name)
+        {
+            return await _dataContext.Components
+                .Where(C => C.Name.Contains(name))
+                .ToListAsync();
+        }
+        public async Task<ICollection<Component>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending)
+        {
+            var query = _dataContext.Components.AsQueryable();
+            if (minPrice.HasValue)
+            {
+                query = query.Where(c => c.Price >= minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(c => c.Price <= maxPrice.Value);
+            }
+            query = isDescending.HasValue && isDescending.Value
+                ? query.OrderByDescending(p => p.Price)
+                : query.OrderBy(p => p.Price);
+
+            return await query.ToListAsync();
         }
     }
 
