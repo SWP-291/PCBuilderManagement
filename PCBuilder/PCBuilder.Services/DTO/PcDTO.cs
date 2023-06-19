@@ -1,4 +1,4 @@
-﻿using PCBuilder.Repository.Models;
+﻿using PCBuilder.Repository.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

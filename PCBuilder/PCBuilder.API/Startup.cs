@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PCBuilder.Repository;
 using PCBuilder.Repository.Repository;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using PCBuilder.Services;
 using PCBuilder.Services.Service;
 using PCBuilder.Services.DTO;
@@ -37,9 +37,6 @@ namespace PCBuilder.API
             //Add Automapper
             services.AddAutoMapper(typeof(MappingConfig));
 
-            // Add Cors
-            services.AddCors();
-
             // Add dependency injection
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPCRepository, PCRepository>();
@@ -58,6 +55,8 @@ namespace PCBuilder.API
 
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderServices, OrderServices>();
+
+            services.AddScoped<IPcComponentRepository, PcComponentRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -77,7 +76,6 @@ namespace PCBuilder.API
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-
             app.UseCors(builder =>
                 builder.WithOrigins("http://localhost:3000")
                        .AllowAnyHeader()

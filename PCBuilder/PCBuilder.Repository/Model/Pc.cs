@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
-namespace PCBuilder.Repository.Models;
+namespace PCBuilder.Repository.Model;
 
 public partial class Pc
 {
@@ -28,10 +27,8 @@ public partial class Pc
 
     public virtual ICollection<Pc> InverseTemplate { get; set; } = new List<Pc>();
 
-
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    
     public virtual ICollection<PcComponent> PcComponents { get; set; } = new List<PcComponent>();
 
     public virtual Pc? Template { get; set; }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using PCBuilder.Repository.Repository;
 using PCBuilder.Services.DTO;
 using System;
@@ -17,7 +17,7 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<ComponentDTO>> CreateComponent(ComponentDTO componentDTO);
         Task<ServiceResponse<ComponentDTO>> UpdateComponent(int id, ComponentDTO componentDTO);
         Task<ServiceResponse<bool>> DeleteComponent(int id);
-        Task<ServiceResponse<ICollection<ComponentDTO>>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending);
+        Task<ServiceResponse<List<ComponentDTO>>> SearchComponentsByName(string name);
     }
     public class ComponentServices : IComponentServices
     {
@@ -169,30 +169,30 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
-
-        public async Task<ServiceResponse<ICollection<ComponentDTO>>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending)
+        public async Task<ServiceResponse<List<ComponentDTO>>> SearchComponentsByName(string name)
         {
-            var response = new ServiceResponse<ICollection<ComponentDTO>>();
+            ServiceResponse<List<ComponentDTO>> _response = new();
 
             try
             {
-                var searchResult = await _componentRepository.GetProductsByPriceRange(minPrice, maxPrice, isDescending);
+                var searchResult = await _componentRepository.SearchComponentsByNameAsync(name);
 
-                var componentsDTO = searchResult.Select(c => _mapper.Map<ComponentDTO>(c)).ToList();
+                var categoryListDTO = searchResult.Select(C => _mapper.Map<ComponentDTO>(C)).ToList();
 
-                response.Success = true;
-                response.Message = "ok";
-                response.Data = componentsDTO;
+                _response.Success = true;
+                _response.Message = "ok";
+                _response.Data = categoryListDTO;
             }
             catch (Exception ex)
             {
-                response.Success = false;
-                response.Data = null;
-                response.Message = "Error";
-                response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
+                _response.Success = false;
+                _response.Data = null;
+                _response.Message = "Error";
+                _response.ErrorMessages = new List<string> { Convert.ToString(ex.Message) };
             }
 
-            return response;
+            return _response;
         }
     }
 }
+

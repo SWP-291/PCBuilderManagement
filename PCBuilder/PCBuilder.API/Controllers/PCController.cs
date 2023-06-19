@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using PCBuilder.Services.DTO;
 using PCBuilder.Services.Service;
 
@@ -15,10 +15,24 @@ namespace PCBuilder.API.Controllers
         {
             _IPCServices = IPCServices;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetPCList()
+        [HttpGet("GetListByCustomer")]
+        public async Task<IActionResult> GetPCListByCustomer()
         {
-            var PCs = await _IPCServices.GetPCList();
+            var PCs = await _IPCServices.GetPCListByCustomer();
+            if(PCs == null)
+            {
+                return NotFound();
+            }
+            return Ok(PCs);
+        }
+        [HttpGet("GetListByAdmin")]
+        public async Task<IActionResult> GetPCListByAdmin()
+        {
+            var PCs = await _IPCServices.GetPCListByAdmin();
+            if (PCs == null)
+            {
+                return NotFound();
+            }
             return Ok(PCs);
         }
         [HttpGet("PCWithComponent")]
@@ -30,44 +44,9 @@ namespace PCBuilder.API.Controllers
             {
                 return BadRequest(response);
             }
-
-            var pcDTOList = response.Data;
-            var pcComponentDTOList = new List<PCInformationDTO>();
-
-            foreach (var pcDTO in pcDTOList)
-            {
-                var pcComponentDTO = new PCInformationDTO
-                {
-                    Id = pcDTO.Id,
-                    Name = pcDTO.Name,
-                    Description = pcDTO.Description,
-                    Price = pcDTO.Price,
-                    Discount = pcDTO.Discount,
-                    Components = new List<ComponentDTO>()
-                };
-
-                foreach (var componentDTO in pcDTO.Components)
-                {
-                    var component = new ComponentDTO
-                    {
-                        Id = componentDTO.Id,
-                        Name = componentDTO.Name,
-                        Image = componentDTO.Image,
-                        Price = componentDTO.Price,
-                        Description = componentDTO.Description,
-                        CategoryId = componentDTO.CategoryId,
-                        BrandId = componentDTO.BrandId
-                        
-                    };
-
-                    pcComponentDTO.Components.Add(component);
-                }
-
-                pcComponentDTOList.Add(pcComponentDTO);
-            }
-
-            return Ok(pcComponentDTOList);
+            return Ok(response);
         }
+
         [HttpGet("PCWithComponent/{PcId}")]
         public async Task<IActionResult> GetPcComponentById(int PcId)
         {
@@ -78,34 +57,7 @@ namespace PCBuilder.API.Controllers
                 return BadRequest(response);
             }
 
-            var pcDTO = response.Data;
-            var pcComponentDTO = new PCInformationDTO
-            {
-                Id = pcDTO.Id,
-                Name = pcDTO.Name,
-                Description = pcDTO.Description,
-                Price = pcDTO.Price,
-                Discount = pcDTO.Discount,
-                Components = new List<ComponentDTO>()
-            };
-
-            foreach (var componentDTO in pcDTO.Components)
-            {
-                var component = new ComponentDTO
-                {
-                    Id = componentDTO.Id,
-                    Name = componentDTO.Name,
-                    Image = componentDTO.Image,
-                    Price = componentDTO.Price,
-                    Description = componentDTO.Description,
-                    CategoryId = componentDTO.CategoryId,
-                    BrandId = componentDTO.BrandId
-                };
-
-                pcComponentDTO.Components.Add(component);
-            }
-
-            return Ok(pcComponentDTO);
+            return Ok(response);
         }
 
 
@@ -135,6 +87,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePC(int id, [FromBody] PcDTO pcUpdateDTO)
         {
@@ -160,20 +113,17 @@ namespace PCBuilder.API.Controllers
 
             return Ok(response);
         }
-
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchPCByName([FromQuery] string name)
+        [HttpPost("{PcId}/components")]
+        public async Task<IActionResult> AddComponentsToPC(int PcId,List<int> componentIds)
         {
-            if (!string.IsNullOrEmpty(name))
+            var response = await _IPCServices.AddComponentsToPC(PcId, componentIds);
+
+            if (!response.Success)
             {
-                var searchResult = await _IPCServices.SearchPCsByName(name);
-                return Ok(searchResult);
+                return BadRequest(response);
             }
-            else
-            {
-                var PCs = await _IPCServices.GetPCList();
-                return Ok(PCs);
-            }
+
+            return Ok(response);
         }
     }
 }

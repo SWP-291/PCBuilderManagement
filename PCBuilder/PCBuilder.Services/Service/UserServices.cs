@@ -1,5 +1,5 @@
 ﻿using PCBuilder.Repository.Repository;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using PCBuilder.Services.Service;
 using System;
 using System.Collections.Generic;
@@ -64,6 +64,7 @@ namespace PCBuilder.Services.Service
 
             return _response;
         }
+
         public async Task<ServiceResponse<UserDTO>> GetUserByIdAsync(int id)
         {
             ServiceResponse<UserDTO> response = new ServiceResponse<UserDTO>();

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PCBuilder.Repository.Models;
+namespace PCBuilder.Repository.Model;
 
 public partial class Payment
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using PCBuilder.Services.DTO;
 using PCBuilder.Services.Service;
 

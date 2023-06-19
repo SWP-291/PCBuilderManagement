@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PCBuilder.Repository.Models;
+namespace PCBuilder.Repository.Model;
 
 public partial class Category
 {
@@ -11,9 +11,9 @@ public partial class Category
 
     public int? ParentId { get; set; }
 
-    public int BrandId { get; set; }
+    public int? BrandId { get; set; }
 
-    public virtual Brand Brand { get; set; } = null!;
+    public virtual Brand? Brand { get; set; }
 
     public virtual ICollection<Compatibility> CompatibilityCategory01s { get; set; } = new List<Compatibility>();
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PCBuilder.Repository.Models;
+using PCBuilder.Repository.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +20,7 @@ namespace PCBuilder.Repository.Repository
         Task<User> CreateUserAsync(User user);
         Task<User> UpdateUserAsync(User user);
         Task<bool> DeleteUserAsync(int id);
+        
 
 
     }
@@ -41,7 +42,7 @@ namespace PCBuilder.Repository.Repository
         {
             return await _context.Users.FindAsync(id);
         }
-
+        
         public async Task<User> CreateUserAsync(User user)
         {
             user.RoleId = 1;
