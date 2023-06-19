@@ -36,6 +36,8 @@ namespace PCBuilder.API
 
             //Add Automapper
             services.AddAutoMapper(typeof(MappingConfig));
+            // Add Cors
+            services.AddCors();
 
             // Add dependency injection
             services.AddScoped<IUserRepository, UserRepository>();
