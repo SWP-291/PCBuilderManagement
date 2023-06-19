@@ -17,6 +17,7 @@ namespace PCBuilder.Repository.Repository
         Task<bool> DeleteComponentAsync(int id);
         Task<List<Component>> GetComponentsByIdsAsync(List<int> componentIds);
         Task<ICollection<Component>> SearchComponentsByNameAsync(string name);
+        Task<ICollection<Component>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending);
     }
 
     public class ComponentRepository : IComponentRepository
@@ -76,6 +77,23 @@ namespace PCBuilder.Repository.Repository
             return await _dataContext.Components
                 .Where(C => C.Name.Contains(name))
                 .ToListAsync();
+        }
+        public async Task<ICollection<Component>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending)
+        {
+            var query = _dataContext.Components.AsQueryable();
+            if (minPrice.HasValue)
+            {
+                query = query.Where(c => c.Price >= minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(c => c.Price <= maxPrice.Value);
+            }
+            query = isDescending.HasValue && isDescending.Value
+                ? query.OrderByDescending(p => p.Price)
+                : query.OrderBy(p => p.Price);
+
+            return await query.ToListAsync();
         }
     }
 

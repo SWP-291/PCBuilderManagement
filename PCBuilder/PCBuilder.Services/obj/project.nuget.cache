@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8XPCZcplmt1WICLbxrXVSmmSpYig1V0XEsdQeoN9V/n7Dxv+U+rL+BVmjhEZUurnoFcwFQjhmaIjDAZ1A8iEqQ==",
+  "dgSpecHash": "VeeXmoN9z/yhjjTnh3iMGNxmZQfPDTaraLac63GgszPuIaB8asdK0ErB3X9OURcwYoqRfSz6039wTIRS4SDUmw==",
   "success": true,
-  "projectFilePath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\BEinProgress\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj",
+  "projectFilePath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LENOVO\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

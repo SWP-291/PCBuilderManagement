@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9rFqEPoda7JJKQ+tPQwTpmQR/9fvW5qd4AVIThU/LZxi/x0wisZCwDsTZsYF099ztBAM0/idKGbLbwROg0RsHQ==",
+  "dgSpecHash": "BjkcxYoYPFw6IJhASLFiH2VxmK6C91pjLJgPxGSh1LWE9RWOJi58UTvJJUHLjcMrcxLVaAjNBFkcCwcRel4tEA==",
   "success": true,
-  "projectFilePath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\BEinProgress\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
+  "projectFilePath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LENOVO\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

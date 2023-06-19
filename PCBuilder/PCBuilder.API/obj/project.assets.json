@@ -3799,11 +3799,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\BEinProgress\\PCBuilderManagement\\PCBuilder.API\\PCBuilder.API.csproj",
+      "projectUniqueName": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
       "projectName": "PCBuilder.API",
-      "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\BEinProgress\\PCBuilderManagement\\PCBuilder.API\\PCBuilder.API.csproj",
+      "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
       "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-      "outputPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\BEinProgress\\PCBuilderManagement\\PCBuilder.API\\obj\\",
+      "outputPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3820,11 +3820,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FreeCourseOnline\\freecourse-webapi-net5\\BEinProgress\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
-              "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\BEinProgress\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
+            "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
+              "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
             },
-            "D:\\FreeCourseOnline\\freecourse-webapi-net5\\BEinProgress\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj": {
-              "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\BEinProgress\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj"
+            "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj": {
+              "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj"
             }
           }
         }
