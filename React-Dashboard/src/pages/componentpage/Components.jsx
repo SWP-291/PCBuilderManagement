@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import DashboardHeader from "../../components/DashboardHeader/Header";
 import { Link } from "react-router-dom";
+import "./newComponent.css";
 import {
   getComponentAPI,
   editComponentAPI,
@@ -119,10 +120,13 @@ const Categories = () => {
 
   return (
     <div>
-      <Link to="/newComponent">
-        <DashboardHeader btnText="New Component" />
-      </Link>
-
+      <DashboardHeader btnText="New Component" />
+      <h2 className="title">
+        Components List
+        <Link to="/newComponent">
+          <button className="btn-create">Create Component</button>
+        </Link>
+      </h2>
       <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
         <div
           className="dashboard-content"
@@ -131,18 +135,7 @@ const Categories = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
-          <h2
-            style={{
-              textAlign: "center",
-              color: "#009393",
-              fontSize: "xx-large",
-              fontWeight: "700",
-            }}
-          >
-            Components List
-          </h2>
-        </div>
+        ></div>
         <DataGrid
           rows={data}
           columns={columns}

@@ -108,9 +108,14 @@ const OrderTable = () => {
 
   return (
     <div>
-      <Link to="/newBrand">
-        <DashboardHeader btnText="New Brand" />
-      </Link>
+      <DashboardHeader btnText="New Brand" />
+
+      <h2 className="title">
+        Brands List
+        <Link to="/newBrand">
+          <button className="btn-create">Create Brand</button>
+        </Link>
+      </h2>
 
       <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
         <div
@@ -120,18 +125,7 @@ const OrderTable = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
-          <h2
-            style={{
-              textAlign: "center",
-              color: "#009393",
-              fontSize: "xx-large",
-              fontWeight: "700",
-            }}
-          >
-            Brands List
-          </h2>
-        </div>
+        ></div>
         <DataGrid
           rows={data}
           columns={columns}

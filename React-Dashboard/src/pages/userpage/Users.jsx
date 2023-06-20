@@ -131,9 +131,13 @@ const Users = () => {
 
   return (
     <div>
-      <Link to="/newUser">
-        <DashboardHeader btnText="New User" />
-      </Link>
+      <DashboardHeader btnText="New User" />
+      <h2 className="title">
+        Users List
+        <Link to="/newUser">
+          <button className="btn-create">Create User</button>
+        </Link>
+      </h2>
 
       <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
         <div
@@ -143,18 +147,7 @@ const Users = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
-          <h2
-            style={{
-              textAlign: "center",
-              color: "#009393",
-              fontSize: "xx-large",
-              fontWeight: "700",
-            }}
-          >
-            Users List
-          </h2>
-        </div>
+        ></div>
         <DataGrid
           rows={data}
           columns={columns}

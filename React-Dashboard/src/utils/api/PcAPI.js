@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 
 const END_POINT = {
-  PC: "PC",
+  PC: "PC/GetListByAdmin",
 };
 
 export const getPcAPI = () => {

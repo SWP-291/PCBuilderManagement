@@ -26,13 +26,12 @@ function App() {
 
         <div className="dashboard-body">
           <Routes>
-            <Route path="*" element={<div></div>} />
-            <Route exact path="/" element={<Brands />} />
+            <Route exact path="/brands" element={<Brands />} />
             <Route exact path="/orders" element={<Orders />} />
             <Route exact path="/newOrder" element={<NewOrder />} />
             <Route exact path="/newBrand" element={<NewBrand />} />
             <Route exact path="/newPc" element={<NewPC />} />
-            <Route exact path="/pc" element={<PC />} />
+            <Route exact path="/" element={<PC />} />
             <Route exact path="/newUser" element={<NewUser />} />
             <Route exact path="/users" element={<User />} />
             <Route exact path="/newComponent" element={<NewComponent />} />

@@ -27,6 +27,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-left: 91%;
+    margin-top: 5px;
 }
 .dashbord-header-icon {
     width: 20px;

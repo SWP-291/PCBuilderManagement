@@ -8,22 +8,24 @@ import Category from "../assets/icons/categorys.svg";
 const sidebar_menu = [
   {
     id: 1,
-    icon: BrandIcon,
+    icon: PcIcon,
     path: "/",
-    title: "Brands",
+    title: "PCs",
   },
+
   {
     id: 2,
-    icon: OrderIcon,
-    path: "/orders",
-    title: "Orders",
+    icon: Components,
+    path: "/components",
+    title: "Components",
   },
   {
     id: 3,
-    icon: PcIcon,
-    path: "/Pc",
-    title: "PCs",
+    icon: Category,
+    path: "/category",
+    title: "Categories",
   },
+
   {
     id: 4,
     icon: UserIcon,
@@ -32,15 +34,15 @@ const sidebar_menu = [
   },
   {
     id: 5,
-    icon: Components,
-    path: "/components",
-    title: "Components",
+    icon: BrandIcon,
+    path: "/brands",
+    title: "Brands",
   },
   {
     id: 6,
-    icon: Category,
-    path: "/category",
-    title: "Categories",
+    icon: OrderIcon,
+    path: "/orders",
+    title: "Orders",
   },
 ];
 

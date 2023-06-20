@@ -128,9 +128,14 @@ const Pcs = () => {
 
   return (
     <div>
-      <Link to="/newPc">
-        <DashboardHeader btnText="New PC" />
-      </Link>
+      <DashboardHeader btnText="New PC" />
+
+      <h2 className="title">
+        Pcs List
+        <Link to="/newPc">
+          <button className="btn-create">Create PC</button>
+        </Link>
+      </h2>
 
       <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
         <div
@@ -140,18 +145,7 @@ const Pcs = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
-          <h2
-            style={{
-              textAlign: "center",
-              color: "#009393",
-              fontSize: "xx-large",
-              fontWeight: "700",
-            }}
-          >
-            PCs List
-          </h2>
-        </div>
+        ></div>
         <DataGrid
           rows={data}
           columns={columns}

@@ -75,7 +75,7 @@ const Component = () => {
       editable: true,
     },
     { field: "parentId", headerName: "Parent ID", width: 150, editable: true },
-    { field: "brandID", headerName: "Brand ID", width: 150, editable: true },
+    { field: "brandId", headerName: "Brand ID", width: 150, editable: true },
     {
       field: "actions",
       headerName: "Actions",
@@ -100,9 +100,13 @@ const Component = () => {
 
   return (
     <div>
-      <Link to="/newCategory">
-        <DashboardHeader btnText="New Category" />
-      </Link>
+      <DashboardHeader btnText="New Category" />
+      <h2 className="title">
+        Categories List
+        <Link to="/newCategory">
+          <button className="btn-create">Create Category</button>
+        </Link>
+      </h2>
 
       <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
         <div
@@ -112,18 +116,7 @@ const Component = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
-          <h2
-            style={{
-              textAlign: "center",
-              color: "#009393",
-              fontSize: "xx-large",
-              fontWeight: "700",
-            }}
-          >
-            Categories List
-          </h2>
-        </div>
+        ></div>
         <DataGrid
           rows={data}
           columns={columns}
