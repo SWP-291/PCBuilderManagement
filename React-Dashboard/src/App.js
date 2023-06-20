@@ -9,7 +9,7 @@ import Brands from "./pages/brandpage/Brands";
 import NewBrand from "./pages/brandpage/NewBrand";
 import Orders from "./pages/orderpage/Orders";
 import NewOrder from "./pages/orderpage/NewOrder";
-import PC from "./pages/pcpage/PCs";
+import PC from "./pages/pcpage/ListPC";
 import NewPC from "./pages/pcpage/NewPc";
 import User from "./pages/userpage/Users";
 import NewUser from "./pages/userpage/NewUser";

@@ -46,11 +46,11 @@
 
 .btn-create{
     padding: 0.8em;
-    padding-left: 2em;
+    padding-left: 1em;
     padding-right: 2em;
     cursor: pointer;
     color: #FFFFFF;
-    font-size: 0.9rem;
+    font-size: 0.7  rem;
     font-weight: 700;
     border-radius: 8px;
     text-transform: uppercase;
