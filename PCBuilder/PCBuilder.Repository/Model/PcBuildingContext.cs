@@ -37,13 +37,13 @@ public partial class PcBuildingContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=ec2-3-84-219-144.compute-1.amazonaws.com;Initial Catalog=PcBuilding;Persist Security Info=True;User ID=sa;Password=swp12345@;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=ec2-54-206-132-163.ap-southeast-2.compute.amazonaws.com;Initial Catalog=PcBuilding;Persist Security Info=True;User ID=sa;Password=swp12345@;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Brand>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Brand__3214EC07B586B789");
+            entity.HasKey(e => e.Id).HasName("PK__Brand__3214EC07C4AB75DE");
 
             entity.ToTable("Brand");
 
@@ -58,7 +58,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC07204175EB");
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC07291F9833");
 
             entity.ToTable("Category");
 
@@ -75,7 +75,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Compatibility>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Compatib__3214EC0774F09A5B");
+            entity.HasKey(e => e.Id).HasName("PK__Compatib__3214EC07980CD0A7");
 
             entity.ToTable("Compatibility");
 
@@ -93,7 +93,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Component>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Componen__3214EC07F34AFB05");
+            entity.HasKey(e => e.Id).HasName("PK__Componen__3214EC07A2BF0C34");
 
             entity.ToTable("Component");
 
@@ -117,7 +117,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07BE9EB17D");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC0729EA2CFD");
 
             entity.ToTable("Order");
 
@@ -144,7 +144,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC0759DA2C7B");
+            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC07C0A10367");
 
             entity.ToTable("Payment");
 
@@ -160,7 +160,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Pc>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PC__3214EC07F188AB29");
+            entity.HasKey(e => e.Id).HasName("PK__PC__3214EC07BDDF9D3E");
 
             entity.ToTable("PC");
 
@@ -171,6 +171,7 @@ public partial class PcBuildingContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Summary).HasMaxLength(500);
             entity.Property(e => e.TemplateId).HasColumnName("TemplateID");
 
             entity.HasOne(d => d.DesignByNavigation).WithMany(p => p.Pcs)
@@ -184,7 +185,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<PcComponent>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PC_Compo__3214EC07C3825B15");
+            entity.HasKey(e => e.Id).HasName("PK__PC_Compo__3214EC072CC7BFCB");
 
             entity.ToTable("PC_Component");
 
@@ -201,7 +202,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC0717850A15");
+            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC0791D0DE71");
 
             entity.ToTable("Role");
 
@@ -212,7 +213,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC0788ABF565");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC071BB75BF0");
 
             entity.ToTable("User");
 
