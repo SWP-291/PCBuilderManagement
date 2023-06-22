@@ -9,6 +9,8 @@ public partial class Pc
 
     public string Name { get; set; } = null!;
 
+    public string Summary { get; set; } = null!;
+
     public string? Description { get; set; }
 
     public decimal? Price { get; set; }

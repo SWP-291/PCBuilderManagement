@@ -181,6 +181,7 @@ namespace PCBuilder.Services.Service
                     {
                         Id = pcDTO.Id,
                         Name = pcDTO.Name,
+                        Summary = pcDTO.Summary,
                         Description = pcDTO.Description,
                         Price = pcDTO.Price,
                         Discount = pcDTO.Discount,
@@ -245,6 +246,7 @@ namespace PCBuilder.Services.Service
                 {
                     Id = pcDTO.Id,
                     Name = pcDTO.Name,
+                    Summary = pcDTO.Summary,
                     Description = pcDTO.Description,
                     Price = pcDTO.Price,
                     Discount = pcDTO.Discount,

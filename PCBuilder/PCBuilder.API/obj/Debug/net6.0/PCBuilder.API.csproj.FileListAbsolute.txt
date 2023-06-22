@@ -436,3 +436,8 @@ D:\FreeCourseOnline\freecourse-webapi-net5\BEinProgress\PCBuilderManagement\PCBu
 D:\FreeCourseOnline\freecourse-webapi-net5\BEinProgress\PCBuilderManagement\PCBuilder.API\obj\Debug\net6.0\PCBuilder.API.pdb
 D:\FreeCourseOnline\freecourse-webapi-net5\BEinProgress\PCBuilderManagement\PCBuilder.API\obj\Debug\net6.0\PCBuilder.API.genruntimeconfig.cache
 D:\FreeCourseOnline\freecourse-webapi-net5\BEinProgress\PCBuilderManagement\PCBuilder.API\obj\Debug\net6.0\ref\PCBuilder.API.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\Humanizer.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\Mono.TextTemplating.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.API\bin\Debug\net6.0\System.CodeDom.dll

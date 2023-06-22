@@ -31,7 +31,7 @@ namespace PCBuilder.API
             //Add DbContext
             services.AddDbContext<PcBuildingContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("Data Source=ec2-3-84-219-144.compute-1.amazonaws.com;Initial Catalog=PcBuilding;Persist Security Info=True;User ID=sa;Password=swp12345@;TrustServerCertificate=True"));
+                options.UseSqlServer(Configuration.GetConnectionString("Data Source=ec2-54-206-132-163.ap-southeast-2.compute.amazonaws.com;Initial Catalog=PcBuilding;Persist Security Info=True;User ID=sa;Password=swp12345@;TrustServerCertificate=True"));
             });
 
             //Add Automapper
