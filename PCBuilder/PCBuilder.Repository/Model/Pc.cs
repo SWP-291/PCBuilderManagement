@@ -25,6 +25,8 @@ public partial class Pc
 
     public string? Image { get; set; }
 
+    public bool? IsTemplate { get; set; }
+
     public virtual User? DesignByNavigation { get; set; }
 
     public virtual ICollection<Pc> InverseTemplate { get; set; } = new List<Pc>();

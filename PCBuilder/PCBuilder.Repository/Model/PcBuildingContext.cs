@@ -37,13 +37,13 @@ public partial class PcBuildingContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=ec2-54-206-132-163.ap-southeast-2.compute.amazonaws.com;Initial Catalog=PcBuilding;Persist Security Info=True;User ID=sa;Password=swp12345@;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=PcBuiding;Persist Security Info=True;User ID=sa;Password=12345;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Brand>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Brand__3214EC07C4AB75DE");
+            entity.HasKey(e => e.Id).HasName("PK__Brand__3214EC071020EC74");
 
             entity.ToTable("Brand");
 
@@ -58,7 +58,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC07291F9833");
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC0720487175");
 
             entity.ToTable("Category");
 
@@ -66,16 +66,16 @@ public partial class PcBuildingContext : DbContext
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Categories)
                 .HasForeignKey(d => d.BrandId)
-                .HasConstraintName("FK__Category__BrandI__4BAC3F29");
+                .HasConstraintName("FK__Category__BrandI__38996AB5");
 
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("FK__Category__Parent__4AB81AF0");
+                .HasConstraintName("FK__Category__Parent__37A5467C");
         });
 
         modelBuilder.Entity<Compatibility>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Compatib__3214EC07980CD0A7");
+            entity.HasKey(e => e.Id).HasName("PK__Compatib__3214EC0735ABFBBF");
 
             entity.ToTable("Compatibility");
 
@@ -84,16 +84,16 @@ public partial class PcBuildingContext : DbContext
 
             entity.HasOne(d => d.Category01).WithMany(p => p.CompatibilityCategory01s)
                 .HasForeignKey(d => d.Category01Id)
-                .HasConstraintName("FK__Compatibi__Categ__4E88ABD4");
+                .HasConstraintName("FK__Compatibi__Categ__3B75D760");
 
             entity.HasOne(d => d.Category02).WithMany(p => p.CompatibilityCategory02s)
                 .HasForeignKey(d => d.Category02Id)
-                .HasConstraintName("FK__Compatibi__Categ__4F7CD00D");
+                .HasConstraintName("FK__Compatibi__Categ__3C69FB99");
         });
 
         modelBuilder.Entity<Component>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Componen__3214EC07A2BF0C34");
+            entity.HasKey(e => e.Id).HasName("PK__Componen__3214EC0750B80F38");
 
             entity.ToTable("Component");
 
@@ -107,17 +107,17 @@ public partial class PcBuildingContext : DbContext
             entity.HasOne(d => d.Brand).WithMany(p => p.Components)
                 .HasForeignKey(d => d.BrandId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Component__Brand__52593CB8");
+                .HasConstraintName("FK__Component__Brand__3F466844");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Components)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Component__Categ__534D60F1");
+                .HasConstraintName("FK__Component__Categ__403A8C7D");
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC0729EA2CFD");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC071A206B5A");
 
             entity.ToTable("Order");
 
@@ -129,22 +129,22 @@ public partial class PcBuildingContext : DbContext
 
             entity.HasOne(d => d.Payment).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.PaymentId)
-                .HasConstraintName("FK__Order__PaymentId__45F365D3");
+                .HasConstraintName("FK__Order__PaymentId__32E0915F");
 
             entity.HasOne(d => d.Pc).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.PcId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Order__PcId__440B1D61");
+                .HasConstraintName("FK__Order__PcId__30F848ED");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Order__UserId__44FF419A");
+                .HasConstraintName("FK__Order__UserId__31EC6D26");
         });
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC07C0A10367");
+            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC07FB39B99F");
 
             entity.ToTable("Payment");
 
@@ -160,11 +160,11 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Pc>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PC__3214EC07BDDF9D3E");
+            entity.HasKey(e => e.Id).HasName("PK__PC__3214EC07D234EF37");
 
             entity.ToTable("PC");
 
-            entity.Property(e => e.Description).HasMaxLength(500);
+            entity.Property(e => e.Description).HasMaxLength(2000);
             entity.Property(e => e.Discount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Image)
                 .HasMaxLength(250)
@@ -176,33 +176,33 @@ public partial class PcBuildingContext : DbContext
 
             entity.HasOne(d => d.DesignByNavigation).WithMany(p => p.Pcs)
                 .HasForeignKey(d => d.DesignBy)
-                .HasConstraintName("FK__PC__DesignBy__3D5E1FD2");
+                .HasConstraintName("FK__PC__DesignBy__2A4B4B5E");
 
             entity.HasOne(d => d.Template).WithMany(p => p.InverseTemplate)
                 .HasForeignKey(d => d.TemplateId)
-                .HasConstraintName("FK__PC__TemplateID__3C69FB99");
+                .HasConstraintName("FK__PC__TemplateID__29572725");
         });
 
         modelBuilder.Entity<PcComponent>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PC_Compo__3214EC072CC7BFCB");
+            entity.HasKey(e => e.Id).HasName("PK__PC_Compo__3214EC07E4A5A6E8");
 
             entity.ToTable("PC_Component");
 
             entity.HasOne(d => d.Component).WithMany(p => p.PcComponents)
                 .HasForeignKey(d => d.ComponentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PC_Compon__Compo__571DF1D5");
+                .HasConstraintName("FK__PC_Compon__Compo__440B1D61");
 
             entity.HasOne(d => d.Pc).WithMany(p => p.PcComponents)
                 .HasForeignKey(d => d.PcId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PC_Compone__PcId__5629CD9C");
+                .HasConstraintName("FK__PC_Compone__PcId__4316F928");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC0791D0DE71");
+            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC0756AD01B0");
 
             entity.ToTable("Role");
 
@@ -213,7 +213,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC071BB75BF0");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC0733816D54");
 
             entity.ToTable("User");
 
@@ -238,7 +238,7 @@ public partial class PcBuildingContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__User__RoleID__398D8EEE");
+                .HasConstraintName("FK__User__RoleID__267ABA7A");
         });
 
         OnModelCreatingPartial(modelBuilder);

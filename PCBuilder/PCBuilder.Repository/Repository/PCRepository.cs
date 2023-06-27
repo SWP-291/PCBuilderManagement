@@ -23,6 +23,7 @@ namespace PCBuilder.Repository.Repository
         Task<ICollection<Pc>> SearchPcsByNameAsync(string name);
         Task<ICollection<Pc>> GetPcsWithComponentsAsync();
         Task<Pc> GetPcsWithComponentByIdAsync(int PcId);
+        Task SaveAsync();
     }
     public class PCRepository : IPCRepository
     {
@@ -92,5 +93,10 @@ namespace PCBuilder.Repository.Repository
         .ThenInclude(pcComp => pcComp.Component)
         .FirstOrDefaultAsync(pc => pc.Id == PcId);
         }
+        public async Task SaveAsync()
+        {
+            await _dataContext.SaveChangesAsync();
+        }
+
     }
 }

@@ -113,7 +113,7 @@ namespace PCBuilder.API.Controllers
 
             return Ok(response);
         }
-        [HttpPost("{PcId}/components")]
+        [HttpPost("{PcId}/AddComponents")]
         public async Task<IActionResult> AddComponentsToPC(int PcId,List<int> componentIds)
         {
             var response = await _IPCServices.AddComponentsToPC(PcId, componentIds);
@@ -124,6 +124,20 @@ namespace PCBuilder.API.Controllers
             }
 
             return Ok(response);
+        }
+        [HttpGet("SearchPC")]
+        public async Task<IActionResult> SearchPCsByName([FromQuery] string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                var searchResult = await _IPCServices.SearchPCsByName(name);
+                return Ok(searchResult);
+            }
+            else
+            {
+                var Pcs = await _IPCServices.GetPCListByCustomer();
+                return Ok(Pcs);
+            }
         }
     }
 }

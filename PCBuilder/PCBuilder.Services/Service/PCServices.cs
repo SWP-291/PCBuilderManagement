@@ -32,8 +32,7 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<List<PcDTO>>> SearchPCsByName(String name);
         Task<ServiceResponse<List<PCInformationDTO>>> GetPCComponent();
         Task<ServiceResponse<PCInformationDTO>> GetPCComponentByID(int pcId);
-        Task<ServiceResponse<PCInformationDTO>> AddComponentsToPC(int pcId,List<int> componentIds);
-
+        Task<ServiceResponse<PCInformationDTO>> AddComponentsToPC(int pcId, List<int> componentIds);
     }
 
     public class PCServices : IPCServices
@@ -43,7 +42,7 @@ namespace PCBuilder.Services.Service
         private readonly IPcComponentRepository _pcComponentRepository;
         private readonly IComponentRepository _componentRepository;
 
-        public PCServices(IPCRepository pCRepository, IMapper mapper, IPcComponentRepository pcComponentRepository, IComponentRepository componentRepository )
+        public PCServices(IPCRepository pCRepository, IMapper mapper, IPcComponentRepository pcComponentRepository, IComponentRepository componentRepository)
         {
             this._repository = pCRepository;
             this._mapper = mapper;
@@ -99,9 +98,9 @@ namespace PCBuilder.Services.Service
 
                 foreach (var item in PCList)
                 {
-                   
-                        PcListDTO.Add(_mapper.Map<PcDTO>(item));
-                    
+
+                    PcListDTO.Add(_mapper.Map<PcDTO>(item));
+
                 }
 
                 //OR 
@@ -128,15 +127,16 @@ namespace PCBuilder.Services.Service
 
             try
             {
-                
+
                 var PCList = await _repository.GetAllPcsAsync();
 
                 var PcListDTO = new List<PcDTO>();
 
                 foreach (var item in PCList)
                 {
-                    if (item.IsPublic == true) {
-                        PcListDTO.Add(_mapper.Map<PcDTO>(item)); 
+                    if (item.IsPublic == true)
+                    {
+                        PcListDTO.Add(_mapper.Map<PcDTO>(item));
                     }
                 }
 
@@ -185,6 +185,11 @@ namespace PCBuilder.Services.Service
                         Description = pcDTO.Description,
                         Price = pcDTO.Price,
                         Discount = pcDTO.Discount,
+                        IsPublic = pcDTO.IsPublic,
+                        TemplateId = pcDTO.TemplateId,
+                        Image = pcDTO.Image,
+                        DesignBy = pcDTO.DesignBy,
+                        IsTemplate = pcDTO.IsTemplate,
                         Components = new List<ComponentDTO>()
                     };
 
@@ -241,7 +246,7 @@ namespace PCBuilder.Services.Service
                 var pcDTO = _mapper.Map<PCInformationDTO>(pc);
                 pcDTO.Components = pc.PcComponents.Select(pcComp => _mapper.Map<ComponentDTO>(pcComp.Component)).ToList();
 
-                
+
                 var pcComponentDTO = new PCInformationDTO
                 {
                     Id = pcDTO.Id,
@@ -250,7 +255,11 @@ namespace PCBuilder.Services.Service
                     Description = pcDTO.Description,
                     Price = pcDTO.Price,
                     Discount = pcDTO.Discount,
+                    IsPublic = pcDTO.IsPublic,
+                    TemplateId = pcDTO.TemplateId,
                     Image = pcDTO.Image,
+                    DesignBy = pcDTO.DesignBy,
+                    IsTemplate = pcDTO.IsTemplate,
                     Components = new List<ComponentDTO>()
                 };
 
@@ -268,8 +277,8 @@ namespace PCBuilder.Services.Service
                     };
 
                     pcComponentDTO.Components.Add(component);
-                }     
-               response.Success = true;
+                }
+                response.Success = true;
                 response.Message = "PC with components retrieved successfully";
                 response.Data = pcComponentDTO;
             }
@@ -320,7 +329,7 @@ namespace PCBuilder.Services.Service
             {
                 pcDTO.IsPublic = false;
                 var pc = _mapper.Map<Pc>(pcDTO);
-               
+
 
                 var createdPc = await _repository.CreatePcAsync(pc);
 
@@ -354,7 +363,7 @@ namespace PCBuilder.Services.Service
                     _response.Message = "PC not found";
                     return _response;
                 }
-                
+
                 _mapper.Map(pcDTO, pc);
                 var updatedPc = await _repository.UpdatePcAsync(pc);
 
@@ -388,7 +397,7 @@ namespace PCBuilder.Services.Service
                     return _response;
                 }
 
-               
+
 
                 _response.Success = true;
                 _response.Message = "PC deleted successfully";
@@ -434,12 +443,19 @@ namespace PCBuilder.Services.Service
 
             try
             {
+
                 // Fetch the PC from the database
                 var pc = await _repository.GetPcsByIdAsync(pcId);
                 if (pc == null)
                 {
                     response.Success = false;
                     response.Message = "PC not found";
+                    return response;
+                }
+                if (pc.IsTemplate == true)
+                {
+                    response.Success = false;
+                    response.Message = "PC Not Custom";
                     return response;
                 }
 
@@ -461,7 +477,7 @@ namespace PCBuilder.Services.Service
                         PcId = pc.Id,
                         Quantity = 1
                     };
-                   
+
 
                     await _pcComponentRepository.AddPcComponentsAsync(pcComponent);
                     var componentDTO = new ComponentDTO
@@ -486,7 +502,7 @@ namespace PCBuilder.Services.Service
                 response.Message = "Components added to PC successfully";
                 response.Data = pcDTO;
 
-                
+
             }
             catch (Exception ex)
             {
@@ -497,5 +513,8 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
-    }
-}
+
+
+
+        }
+ }
