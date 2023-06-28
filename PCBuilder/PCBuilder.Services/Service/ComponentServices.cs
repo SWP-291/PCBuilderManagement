@@ -181,7 +181,7 @@ namespace PCBuilder.Services.Service
                 var categoryListDTO = searchResult.Select(C => _mapper.Map<ComponentDTO>(C)).ToList();
 
                 _response.Success = true;
-                _response.Message = "ok";
+                _response.Message = "Component search successfully";
                 _response.Data = categoryListDTO;
             }
             catch (Exception ex)
@@ -205,7 +205,7 @@ namespace PCBuilder.Services.Service
                 var componentsDTO = searchResult.Select(c => _mapper.Map<ComponentDTO>(c)).ToList();
 
                 response.Success = true;
-                response.Message = "ok";
+                response.Message = "Component retrieved successfully";
                 response.Data = componentsDTO;
             }
             catch (Exception ex)

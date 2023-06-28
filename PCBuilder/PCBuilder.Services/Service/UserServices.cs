@@ -50,7 +50,7 @@ namespace PCBuilder.Services.Service
                 //OR
                 //UserListDto.AddRange(from item in CompaniesList select _mapper.Map<UserDTO>(item));
                 _response.Success = true;
-                _response.Message = "ok";
+                _response.Message = "User retrieved successfully";
                 _response.Data = UserListDto;
 
             }
@@ -84,7 +84,7 @@ namespace PCBuilder.Services.Service
 
                 response.Data = userDto;
                 response.Success = true;
-                response.Message = "OK";
+                response.Message = "User retrieved successfully";
             }
             catch (Exception ex)
             {
@@ -134,16 +134,9 @@ namespace PCBuilder.Services.Service
                 }
 
                 // Update the properties of the existing user
-                existingUser.Fullname = userDTO.Fullname;
-                existingUser.Email = userDTO.Email;
-                existingUser.Phone = userDTO.Phone;
-                existingUser.Country = userDTO.Country;
-                existingUser.Gender = userDTO.Gender;
-                existingUser.Password = userDTO.Password;
-                existingUser.Address = userDTO.Address;
-                existingUser.Avatar = userDTO.Avatar;
+                var updated = _mapper.Map(userDTO, existingUser);
 
-                var updatedUser = await _iUserRepository.UpdateUserAsync(existingUser);
+                var updatedUser = await _iUserRepository.UpdateUserAsync(updated);
                 var updatedUserDto = _mapper.Map<UserDTO>(updatedUser);
 
                 response.Data = updatedUserDto;

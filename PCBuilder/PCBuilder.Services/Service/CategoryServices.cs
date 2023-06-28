@@ -41,7 +41,7 @@ namespace PCBuilder.Services.Service
 
                 response.Data = categoryDTOs;
                 response.Success = true;
-                response.Message = "OK";
+                response.Message = "Category retrieved successfully";
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace PCBuilder.Services.Service
 
                 response.Data = categoryDTO;
                 response.Success = true;
-                response.Message = "OK";
+                response.Message = "Category retrieved successfully";
             }
             catch (Exception ex)
             {
@@ -123,11 +123,12 @@ namespace PCBuilder.Services.Service
                     return response;
                 }
 
-                category.Name = categoryDTO.Name; // Update the category properties
+                var updatedCategory = _mapper.Map(categoryDTO, category);
+                var savedCategory = await _categoryRepository.UpdateCategoryAsync(updatedCategory);
+                var savedCategoryDTO = _mapper.Map<CategoryDTO>(savedCategory);
 
-                var updatedCategory = await _categoryRepository.UpdateCategoryAsync(category);
-                var updatedCategoryDTO = _mapper.Map<CategoryDTO>(updatedCategory);
-                response.Data = updatedCategoryDTO;
+
+                response.Data = savedCategoryDTO;
                 response.Success = true;
                 response.Message = "Category updated successfully.";
             }
@@ -181,7 +182,7 @@ namespace PCBuilder.Services.Service
                 var categoryListDTO = searchResult.Select(Category => _mapper.Map<CategoryDTO>(Category)).ToList();
 
                 _response.Success = true;
-                _response.Message = "ok";
+                _response.Message = "Category search successfully";
                 _response.Data = categoryListDTO;
             }
             catch (Exception ex)

@@ -18,6 +18,7 @@ namespace PCBuilder.Services.DTO
         public bool IsPublic { get; set; }
         public int DesignBy { get; set; }
         public string Image { get; set; }
+        public bool IsTemplate { get; set; }
         public List<ComponentDTO> Components { get; set; }
     }
 }
