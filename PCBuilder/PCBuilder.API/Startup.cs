@@ -31,7 +31,7 @@ namespace PCBuilder.API
             //Add DbContext
             services.AddDbContext<PcBuildingContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("Data Source=.;Initial Catalog=PcBuiding;Persist Security Info=True;User ID=sa;Password=12345;TrustServerCertificate=True"));
+                options.UseSqlServer(Configuration.GetConnectionString("Data Source=trongps-server.database.windows.net;Initial Catalog=PcBuilding;Persist Security Info=True;User ID=swp;Password=GNBUbgCAZ857m2;TrustServerCertificate=True"));
             });
 
             //Add Automapper

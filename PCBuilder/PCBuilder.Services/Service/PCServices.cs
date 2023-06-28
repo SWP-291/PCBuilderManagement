@@ -202,6 +202,7 @@ namespace PCBuilder.Services.Service
                             Name = componentDTO.Name,
                             Image = componentDTO.Image,
                             Price = componentDTO.Price,
+                            Summary = componentDTO.Summary,
                             Description = componentDTO.Description,
                             CategoryId = componentDTO.CategoryId,
                             BrandId = componentDTO.BrandId
@@ -272,6 +273,7 @@ namespace PCBuilder.Services.Service
                         Name = componentDTO.Name,
                         Image = componentDTO.Image,
                         Price = componentDTO.Price,
+                        Summary = componentDTO.Summary,
                         Description = componentDTO.Description,
                         CategoryId = componentDTO.CategoryId,
                         BrandId = componentDTO.BrandId
@@ -499,6 +501,7 @@ namespace PCBuilder.Services.Service
                         Name = component.Name,
                         Image = component.Image,
                         Price = (decimal)component.Price,
+                        Summary = component.Summary,
                         Description = component.Description,
                         BrandId = component.BrandId,
                         CategoryId = component.CategoryId
@@ -584,6 +587,7 @@ namespace PCBuilder.Services.Service
                     Name = component.Name,
                     Image = component.Image,
                     Price = (decimal)component.Price,
+                    Summary = component.Summary,
                     Description = component.Description,
                     BrandId = component.BrandId,
                     CategoryId = component.CategoryId
