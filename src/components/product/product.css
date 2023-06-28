@@ -1,0 +1,30 @@
+.button{
+    display: flex;
+}
+
+.button {
+    display: flex;
+  }
+  
+  .button .btn {
+    margin-right: 10px;
+    /* Add other desired styles */
+  }
+  
+  .button .btn.detail-button {
+    color: #00abc6;
+  }
+  
+  .button .btn.buy-button {
+    color: #00abc6;
+  }
+  
+  .button .btn.detail-button:hover {
+    background-color: #016170;
+    color: white;
+  }
+  
+  .button .btn.buy-button:hover {
+    background-color: #016170;
+    color: white;
+  }

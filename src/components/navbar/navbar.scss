@@ -1,0 +1,42 @@
+.title{
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 100%;
+  letter-spacing: -0.01em;
+  color: #016170;
+}
+.navbar-nav a{
+  font-size: 18px;
+}
+
+.logo {
+  max-width: 70px;
+  border-radius: 2px;
+  padding: 0.2rem;
+}
+
+.navbar-nav{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+}
+
+.navbar-nav .nav-item {
+  /* Add your custom styles here */
+  /* Example styles */
+  margin-right: 20px;
+  font-weight: bold;
+}
+
+.navbar {
+  /* Add your custom styles here */
+  /* Example styles */
+  background-color: rgb(248, 245, 245);
+  padding: 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
