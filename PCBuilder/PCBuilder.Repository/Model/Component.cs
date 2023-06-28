@@ -13,6 +13,8 @@ public partial class Component
 
     public decimal? Price { get; set; }
 
+    public string Summary { get; set; } = null!;
+
     public string? Description { get; set; }
 
     public int BrandId { get; set; }
