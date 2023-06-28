@@ -114,9 +114,9 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
         [HttpPost("{PcId}/AddComponents")]
-        public async Task<IActionResult> AddComponentsToPC(int PcId,List<int> componentIds)
+        public async Task<IActionResult> AddComponentsToPC(int PcId,List<int> componentIds, int quantity)
         {
-            var response = await _IPCServices.AddComponentsToPC(PcId, componentIds);
+            var response = await _IPCServices.AddComponentsToPC(PcId, componentIds, quantity);
 
             if (!response.Success)
             {
@@ -138,6 +138,20 @@ namespace PCBuilder.API.Controllers
                 var Pcs = await _IPCServices.GetPCListByCustomer();
                 return Ok(Pcs);
             }
+        }
+
+        [HttpPut("{id}/components")]
+        public async Task<IActionResult> UpdateComponentsOfPC(int id, List<int> componentIds)
+        {
+            var response = await _IPCServices.UpdateComponentsOfPC(id, componentIds);
+
+            if (response.Success)
+            {
+                var pcComponentDTO = response.Data;
+                return Ok(pcComponentDTO);
+            }
+
+            return BadRequest(response.Message);
         }
     }
 }

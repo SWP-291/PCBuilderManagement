@@ -44,12 +44,12 @@ namespace PCBuilder.API.Controllers
         {
             var response = await _brandServices.CreateBrandAsync(brandDTO);
 
-            if (response.Success)
+            if (!response.Success)
             {
-                return CreatedAtAction(nameof(GetBrandById), new { id = response.Data.Id }, response.Data);
+                return BadRequest(response);
             }
 
-            return BadRequest(response.Message);
+            return Ok(response);
         }
 
         // PUT: api/Brand/{id}
@@ -65,7 +65,7 @@ namespace PCBuilder.API.Controllers
 
             if (response.Success)
             {
-                return Ok(response.Data);
+                return Ok(response);
             }
 
             return BadRequest(response.Message);
@@ -77,12 +77,12 @@ namespace PCBuilder.API.Controllers
         {
             var response = await _brandServices.DeleteBrandAsync(id);
 
-            if (response.Success)
+            if (!response.Success)
             {
-                return NoContent();
+                return BadRequest(response);
             }
 
-            return BadRequest(response.Message);
+            return Ok(response);
         }
     }
 

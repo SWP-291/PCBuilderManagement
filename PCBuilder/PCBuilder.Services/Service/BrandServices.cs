@@ -41,7 +41,7 @@ namespace PCBuilder.Services.Service
 
                 response.Data = brandDTOs;
                 response.Success = true;
-                response.Message = "OK";
+                response.Message = "Brand retrieved successfully";
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace PCBuilder.Services.Service
 
                 response.Data = brandDTO;
                 response.Success = true;
-                response.Message = "OK";
+                response.Message = "Brand retrieved successfully";
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@ namespace PCBuilder.Services.Service
 
                 response.Data = createdBrandDTO;
                 response.Success = true;
-                response.Message = "OK";
+                response.Message = "Brand create successfully";
             }
             catch (Exception ex)
             {
@@ -122,12 +122,13 @@ namespace PCBuilder.Services.Service
                     response.Message = "Brand not found.";
                     return response;
                 }
-                var brand = _mapper.Map<Brand>(brandDTO);
-                var updateBrand = await _brandRepository.UpdateBrandAsync(id, brand);
-                var updateBrandDTO = _mapper.Map<BrandDTO>(updateBrand);
-                response.Data = updateBrandDTO;
+                var updatedBrand = _mapper.Map(brandDTO, existingBrand);
+                var savedBrand = await _brandRepository.UpdateBrandAsync(updatedBrand);
+                var savedBrandDTO = _mapper.Map<BrandDTO>(savedBrand);
+               
+                response.Data = savedBrandDTO;
                 response.Success = true;
-                response.Message = "OK";
+                response.Message = "Brand update successfully";
             }
             catch (Exception ex)
             {
@@ -158,7 +159,7 @@ namespace PCBuilder.Services.Service
 
                 response.Data = success;
                 response.Success = true;
-                response.Message = "OK";
+                response.Message = "Brand delete successfully";
             }
             catch (Exception ex)
             {

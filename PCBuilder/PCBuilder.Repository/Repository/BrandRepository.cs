@@ -13,7 +13,7 @@ namespace PCBuilder.Repository.Repository
         Task<ICollection<Brand>> GetAllBrandsAsync();
         Task<Brand> GetBrandByIdAsync(int id);
         Task<Brand> CreateBrandAsync(Brand brand);
-        Task<Brand> UpdateBrandAsync(int id, Brand brand);
+        Task<Brand> UpdateBrandAsync(Brand brand);
         Task<bool> DeleteBrandAsync(int id);
     }
 
@@ -43,19 +43,11 @@ namespace PCBuilder.Repository.Repository
             return brand;
         }
 
-        public async Task<Brand> UpdateBrandAsync(int id, Brand brand)
+        public async Task<Brand> UpdateBrandAsync(Brand brand)
         {
-            var existingBrand = await _dataContext.Brands.FindAsync(id);
-
-            if (existingBrand != null)
-            {
-                existingBrand.Name = brand.Name;
-                // Update other properties as needed
-
-                await _dataContext.SaveChangesAsync();
-            }
-
-            return existingBrand;
+            _dataContext.Brands.Update(brand);
+            await _dataContext.SaveChangesAsync();
+            return brand;
         }
 
         public async Task<bool> DeleteBrandAsync(int id)
