@@ -5,6 +5,7 @@ import "../customize/Customize.scss";
 
 // import Col from 'react-bootstrap/Col';
 import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import ItemsModal from "../modal/ItemsModal";
 import cpu from "../assets/image/cpu.png";
@@ -94,86 +95,178 @@ export default function Product() {
           <h3 className="display-6 fw-bold my-4">{product.price}</h3>
           <p className="lead">{product.description}</p>
         </div>
-        <div className="container py-5 customize">
+        <div className="container py-5 fluid customize">
           <Row>
             <div className="title">
               <h1>SELECT YOUR COMPONENTS</h1>
             </div>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              <Row>
-                <Form.Group className="mb-4">
-                  <img src={cpu} alt="CPU" />
-                  <Button
-                    onClick={() => {
-                      setOpenModal(true);
-                    }}
-                  >
-                    <Form.Label>CPU</Form.Label>
-                  </Button>
-                  {openModal && <ItemsModal closeModel={setOpenModal} />}
-                </Form.Group>
-                <Form.Group className="mb-4">
-                  <img src={ram} alt="RAM" />
-                  <Button
-                    onClick={() => {
-                      setOpenModal(true);
-                    }}
-                  >
-                    <Form.Label>RAM</Form.Label>
-                  </Button>
-                  {openModal && <ItemsModal closeModel={setOpenModal} />}
-                </Form.Group>
-                <Form.Group className="mb-4">
-                  <img src={gpu} alt="GPU" />
-                  <Button
-                    onClick={() => {
-                      setOpenModal(true);
-                    }}
-                  >
-                    <Form.Label>GPU</Form.Label>
-                  </Button>
-                  {openModal && <ItemsModal closeModel={setOpenModal} />}
-                </Form.Group>
-              </Row>
-              <Row>
-                <Form.Group className="mb-4">
-                  <img src={ssd} alt="SSD" />
-                  <Button
-                    onClick={() => {
-                      setOpenModal(true);
-                    }}
-                  >
-                    <Form.Label>SSD</Form.Label>
-                  </Button>
-                  {openModal && <ItemsModal closeModel={setOpenModal} />}
-                </Form.Group>
-                <Form.Group className="mb-4">
-                  <img src={hdd} alt="HDD" />
-                  <Button
-                    onClick={() => {
-                      setOpenModal(true);
-                    }}
-                  >
-                    <Form.Label>HDD</Form.Label>
-                  </Button>
-                  {openModal && <ItemsModal closeModel={setOpenModal} />}
-                </Form.Group>
-                <Form.Group className="mb-4">
-                  <img src={cpuheatsink} alt="CPU Heatsink" />
-                  <Button
-                    onClick={() => {
-                      setOpenModal(true);
-                    }}
-                  >
-                    <Form.Label>CPU HEATSINK</Form.Label>
-                  </Button>
-                  {openModal && <ItemsModal closeModel={setOpenModal} />}
-                </Form.Group>
-              </Row>
-              <NavLink to="/payment">
-                <Button type="submit">Buy Now</Button>
-              </NavLink>
-            </Form>
+          </Row>
+          <Row>
+            <Col>
+              <div className="select">
+                <img src={cpu} alt="CPU" />
+                <p> Select CPU</p>
+              </div>
+              <div className="price">
+                <p></p>
+                <Button
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                >
+                  Select
+                </Button>
+                {openModal && <ItemsModal closeModel={setOpenModal} />}
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div className="select">
+                <img src={ram} alt="RAM" />
+                <p>Select RAM</p>
+              </div>
+              <div className="price">
+                <p></p>
+                <Button
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                >
+                  Select
+                </Button>
+                {openModal && <ItemsModal closeModel={setOpenModal} />}
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div className="select">
+                <img src={gpu} alt="GPU" />
+                <p>Select GPU</p>
+              </div>
+              <div className="price">
+                <p></p>
+                <Button
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                >
+                  Select
+                </Button>
+                {openModal && <ItemsModal closeModel={setOpenModal} />}
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div className="select">
+                <img src={ssd} alt="SSD" />
+                <p>Select SSD</p>
+              </div>
+              <div className="price">
+                <p></p>
+                <Button
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                >
+                  Select
+                </Button>
+                {openModal && <ItemsModal closeModel={setOpenModal} />}
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div className="select">
+                <img src={ssd} alt="SSD" />
+                <p>Select HDD</p>
+              </div>
+
+              <div className="price">
+                <p></p>
+                <Button
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                >
+                  Select
+                </Button>
+                {openModal && <ItemsModal closeModel={setOpenModal} />}
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <div className="select">
+                <img src={cpuheatsink} alt="CPU Heatsink" />
+                <p>Select CPU HEATSINK</p>
+              </div>
+              <div className="price">
+                <p></p>
+                <Button
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                >
+                  Select
+                </Button>
+                {openModal && <ItemsModal closeModel={setOpenModal} />}
+              </div>
+            </Col>
+            {/* <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                <Row>
+                    <Form.Group className="mb-4" >
+                        <img src={cpu} alt='CPU'/>  
+                        <Button onClick = {() => {setOpenModal(true);}}>                    
+                        <p>CPU</p>   
+                        </Button>  
+                        { openModal && <ItemsModal closeModel= {setOpenModal} />}                    
+                    </Form.Group> 
+                    <Form.Group className="mb-4">
+                        <img src={ram} alt='RAM'/>   
+                        <Button onClick = {() => {setOpenModal(true);}}>                    
+                            <p>RAM</p>   
+                            </Button>  
+                            { openModal && <ItemsModal closeModel= {setOpenModal} />}   
+                    </Form.Group>
+                    <Form.Group className="mb-4">
+                        <img src={gpu} alt='GPU'/>   
+                        <Button onClick = {() => {setOpenModal(true);}}>                    
+                            <p>GPU</p>   
+                            </Button>  
+                            { openModal && <ItemsModal closeModel= {setOpenModal} />}   
+                    </Form.Group>
+                </Row>
+                <Row>
+                    <Form.Group className="mb-4">
+                        <img src={ssd} alt='SSD'/>   
+                        <Button onClick = {() => {setOpenModal(true);}}>                    
+                            <p>SSD</p>   
+                            </Button>  
+                            { openModal && <ItemsModal closeModel= {setOpenModal} />}   
+                    </Form.Group>
+                    <Form.Group className="mb-4">
+                        <img src={hdd} alt='HDD'/>   
+                        <Button onClick = {() => {setOpenModal(true);}}>                    
+                            <p>HDD</p>   
+                            </Button>  
+                            { openModal && <ItemsModal closeModel= {setOpenModal} />}   
+                    </Form.Group>
+                    <Form.Group className="mb-4">
+                        <img src={cpuheatsink} alt='CPU Heatsink'/>   
+                        <Button onClick = {() => {setOpenModal(true);}}>                    
+                            <p>CPU HEATSINK</p>   
+                            </Button>  
+                            { openModal && <ItemsModal closeModel= {setOpenModal} />}   
+                    </Form.Group>
+                </Row>
+                <NavLink to='/payment'>
+                    <Button type='submit'>Buy Now</Button>
+                </NavLink>
+                </Form> */}
           </Row>
         </div>
       </>

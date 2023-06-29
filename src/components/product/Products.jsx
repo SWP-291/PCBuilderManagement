@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { NavLink } from "react-router-dom";
-import "./product.css";
 
 export default function Products() {
   const [data, setData] = useState([]);
@@ -12,7 +11,7 @@ export default function Products() {
   // useEffect(() => {
   //   const getProducts = async () => {
   //     setLoading(true);
-  //     const response = await fetch("https://localhost:7262/api/PC/GetListByCustomer");
+  //     const response = await fetch("https://fakestoreapi.com/products");
   //     if (componentMounted) {
   //       setData(await response.clone().json());
   //       setFilter(await response.json());
@@ -31,38 +30,22 @@ export default function Products() {
     const getProducts = async () => {
       setLoading(true);
       const response = await fetch(
-        "https://fakestoreapi.com/products?fbclid=IwAR1YHbn0JC-X1bwdexd9rH09-Oc5JZIDlt3VVcgy9q917OzNyWxktCdaem8"
+        "https://localhost:7262/api/PC/GetListByCustomer"
       );
+
       if (componentMounted) {
-        setData(await response.clone().json());
-        setFilter(await response.json());
+        const responseData = await response.json();
+        setData(responseData.data);
+        setFilter(responseData.data);
         setLoading(false);
-        console.log(filter);
       }
       return () => {
         componentMounted = false;
       };
     };
+
     getProducts();
   }, []);
-
-  // useEffect(() => {
-  //   const getProducts = async () => {
-  //     setLoading(true);
-  //     const response = await fetch('https://fakestoreapi.com/products/${ID}');
-  //     if (componentMounted) {
-  //       setData(await response.clone().json());
-  //       setFilter(await response.json());
-  //       setLoading(false);
-  //       console.log(filter);
-  //     }
-  //     return () => {
-  //       componentMounted = false;
-  //     };
-  //   };
-
-  //   getProducts();
-  // }, []);
 
   const Loading = () => {
     return (
@@ -97,13 +80,13 @@ export default function Products() {
           </button>
           <button
             className="btn btn-outline-dark me-2"
-            onClick={() => filterProduct("pc template")}
+            onClick={() => filterProduct("men's clothing")}
           >
             PC Template
           </button>
           <button
             className="btn btn-outline-dark me-2"
-            onClick={() => filterProduct("customize pc")}
+            onClick={() => filterProduct("electronics")}
           >
             Customize PC
           </button>
@@ -122,20 +105,12 @@ export default function Products() {
                   <div className="card-body">
                     <h5 className="card-title mb-0">{pro.title}</h5>
                     <p className="card-text">${pro.price}</p>
-                    <div className="button">
-                      <NavLink
-                        to={`/products/${pro.id}`}
-                        className="btn btn-outline-primary detail-button"
-                      >
-                        Detail
-                      </NavLink>
-                      <NavLink
-                        to={`/products/${pro.id}`}
-                        className="btn btn-outline-primary buy-button"
-                      >
-                        Buy Now
-                      </NavLink>
-                    </div>
+                    <NavLink
+                      to={`/products/${pro.id}`}
+                      className="btn btn-primary"
+                    >
+                      Detail
+                    </NavLink>
                   </div>
                 </div>
               </div>

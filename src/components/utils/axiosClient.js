@@ -3,7 +3,7 @@ import axiosClient from "axios";
 const instance = axiosClient.create({
   baseURL: process.env.REACT_APP_URL_API,
 });
-
+console.log(process.env.REACT_APP_URL_API);
 instance.interceptors.request.use(async (config) => {
   return config;
 });
