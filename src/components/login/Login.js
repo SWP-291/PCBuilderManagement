@@ -95,7 +95,7 @@ function Login() {
     <div className="login template d-flex justify-content-center align-items-center vh-100">
       <div className="form-container p-5 rounded bg-white">
         <form>
-          <h3 className="text-center">Sign In</h3>
+          <h3 className="text-center">Login</h3>
           <div className="mb-2">
             <label htmlFor="email">Email</label>
             <input

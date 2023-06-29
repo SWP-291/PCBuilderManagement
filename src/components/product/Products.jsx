@@ -63,12 +63,69 @@ export default function Products() {
     );
   };
 
-  const filterProduct = (cate) => {
-    const updatedList = data.filter((x) => x.category === cate);
+  const filterProduct = (isTemplate) => {
+    const updatedList = data.filter((x) => x.isTemplate === isTemplate);
     setFilter(updatedList);
   };
 
   const ShowProducts = () => {
+    const handleViewDetail = (productId) => {
+      // Handle the view detail action
+      console.log(`View detail for product ${productId}`);
+    };
+
+    const handleBuyNow = (productId) => {
+      // Handle the buy now action
+      console.log(`Buy now for product ${productId}`);
+    };
+
+    const handleCustomizePC = (productId) => {
+      // Handle the customize PC action
+      console.log(`Customize PC for product ${productId}`);
+    };
+
+    const getProductButtons = (product) => {
+      if (product.isTemplate) {
+        return (
+          <>
+            <NavLink
+              to={`/PC/${product.id}`}
+              className="btn btn-outline-primary detail-button"
+              onClick={() => handleViewDetail(product.id)}
+            >
+              Detail
+            </NavLink>
+            <NavLink
+              to={`/PC/${product.id}`}
+              className="btn btn-outline-primary buy-button"
+              onClick={() => handleBuyNow(product.id)}
+            >
+              Buy Now
+            </NavLink>
+          </>
+        );
+      } else {
+        return (
+          <>
+            <NavLink
+              to={`/customize-pc/${product.id}`}
+              className="btn btn-outline-primary detail-button"
+              onClick={() => handleViewDetail(product.id)}
+            >
+              Detail
+            </NavLink>
+            <NavLink
+              to={`/customize-pc/${product.id}`}
+              className="btn btn-outline-primary buy-button"
+              onClick={() => handleCustomizePC(product.id)}
+            >
+              Customize PC & Buy
+            </NavLink>
+          </>
+        );
+      }
+    };
+
     return (
       <>
         <div className="buttons d-flex justify-content-center mb-3 pb-3">
@@ -80,13 +137,13 @@ export default function Products() {
           </button>
           <button
             className="btn btn-outline-dark me-2"
-            onClick={() => filterProduct("men's clothing")}
+            onClick={() => filterProduct(true)}
           >
             PC Template
           </button>
           <button
             className="btn btn-outline-dark me-2"
-            onClick={() => filterProduct("electronics")}
+            onClick={() => filterProduct(false)}
           >
             Customize PC
           </button>
@@ -99,18 +156,13 @@ export default function Products() {
                   <img
                     src={pro.image}
                     className="card-img-top"
-                    alt={pro.title}
+                    alt={pro.name}
                     height="250px"
                   />
                   <div className="card-body">
-                    <h5 className="card-title mb-0">{pro.title}</h5>
+                    <h5 className="card-title mb-0">{pro.name}</h5>
                     <p className="card-text">${pro.price}</p>
-                    <NavLink
-                      to={`/products/${pro.id}`}
-                      className="btn btn-primary"
-                    >
-                      Detail
-                    </NavLink>
+                    {getProductButtons(pro)}
                   </div>
                 </div>
               </div>
@@ -120,13 +172,12 @@ export default function Products() {
       </>
     );
   };
-
   return (
     <div>
       <div className="container my-5 py-5">
         <div className="row">
           <div className="col-12 mb-5">
-            <h1 className="display-6 text-center fw-bold">Latest Product</h1>
+            <h1 className="display-6 text-center fw-bold">List Product</h1>
             <hr />
           </div>
         </div>
