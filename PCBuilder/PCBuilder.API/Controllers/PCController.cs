@@ -141,9 +141,9 @@ namespace PCBuilder.API.Controllers
         }
 
         [HttpPut("{id}/components")]
-        public async Task<IActionResult> UpdateComponentsOfPC(int id, List<int> componentIds)
+        public async Task<IActionResult> UpdateComponentsOfPC(int id, List<int> componentIds, int quantity)
         {
-            var response = await _IPCServices.UpdateComponentsOfPC(id, componentIds);
+            var response = await _IPCServices.UpdateComponentsOfPC(id, componentIds, quantity);
 
             if (response.Success)
             {
