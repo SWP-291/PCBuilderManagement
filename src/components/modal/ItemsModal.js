@@ -39,7 +39,7 @@ const ItemsModal = ({ closeModel }) => {
             style={{
               height: "40px",
               width: "300px",
-              borderRadius: "8px",
+              borderRadius: "6px",
               textAlign: "center",
             }}
           />

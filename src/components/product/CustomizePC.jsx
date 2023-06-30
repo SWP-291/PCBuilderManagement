@@ -23,6 +23,7 @@ export default function Product() {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [validated, setValidated] = useState(false);
+  const [selectedComponentType, setSelectedComponentType] = useState(null);
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -45,16 +46,18 @@ export default function Product() {
   //   };
   //   getProducts();
   // }, []);
-
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      const response = await fetch(`
-      https://localhost:7262/api/PC/${id}`);
+      const response = await fetch(
+        `https://localhost:7262/api/PC/PCWithComponent/${id}`
+      );
       const responseData = await response.json();
-      setProduct(responseData.data);
+      const pcData = responseData.data;
+      setProduct(pcData);
       setLoading(false);
     };
+
     getProducts();
   }, []);
 
@@ -79,6 +82,10 @@ export default function Product() {
   const descriptionLines = 5;
 
   const ShowProduct = () => {
+    const openComponentModal = (componentType) => {
+      setSelectedComponentType(componentType);
+      setOpenModal(true);
+    };
     return (
       <>
         <div className="col-md-6 pt-4">
@@ -113,121 +120,29 @@ export default function Product() {
               <h1>SELECT YOUR COMPONENTS</h1>
             </div>
           </Row>
-          <Row>
-            <Col>
-              <div className="select">
-                <img src={cpu} alt="CPU" />
-                <p> Select CPU</p>
-              </div>
-              <div className="price">
-                <p></p>
-                <Button
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
-                >
-                  Select
-                </Button>
-                {openModal && <ItemsModal closeModel={setOpenModal} />}
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <div className="select">
-                <img src={ram} alt="RAM" />
-                <p>Select RAM</p>
-              </div>
-              <div className="price">
-                <p></p>
-                <Button
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
-                >
-                  Select
-                </Button>
-                {openModal && <ItemsModal closeModel={setOpenModal} />}
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <div className="select">
-                <img src={gpu} alt="GPU" />
-                <p>Select GPU</p>
-              </div>
-              <div className="price">
-                <p></p>
-                <Button
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
-                >
-                  Select
-                </Button>
-                {openModal && <ItemsModal closeModel={setOpenModal} />}
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <div className="select">
-                <img src={ssd} alt="SSD" />
-                <p>Select SSD</p>
-              </div>
-              <div className="price">
-                <p></p>
-                <Button
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
-                >
-                  Select
-                </Button>
-                {openModal && <ItemsModal closeModel={setOpenModal} />}
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <div className="select">
-                <img src={ssd} alt="SSD" />
-                <p>Select HDD</p>
-              </div>
+          <Row style={{ width: "1150px", height: "200px" }}>
+            {product.components &&
+              product.components.map((component) => (
+                <Col key={component.id}>
+                  <div className="select">
+                    <img src={component.image} alt={component.name} />
+                    <p style={{ width: "500px" }}>{component.name}</p>
+                  </div>
 
-              <div className="price">
-                <p></p>
-                <Button
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
-                >
-                  Select
-                </Button>
-                {openModal && <ItemsModal closeModel={setOpenModal} />}
-              </div>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <div className="select">
-                <img src={cpuheatsink} alt="CPU Heatsink" />
-                <p>Select CPU HEATSINK</p>
-              </div>
-              <div className="price">
-                <p></p>
-                <Button
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
-                >
-                  Select
-                </Button>
-                {openModal && <ItemsModal closeModel={setOpenModal} />}
-              </div>
-            </Col>
+                  <div className="price">
+                    <p style={{ width: "100px" }}>${component.price}</p>
+                    <Button onClick={() => openComponentModal(component.type)}>
+                      Select
+                    </Button>
+                    {openModal && (
+                      <ItemsModal
+                        closeModel={() => setOpenModal(false)}
+                        selectedComponentType={selectedComponentType}
+                      />
+                    )}
+                  </div>
+                </Col>
+              ))}
             <NavLink to="/payment">
               <Button type="submit">Buy Now</Button>
             </NavLink>
