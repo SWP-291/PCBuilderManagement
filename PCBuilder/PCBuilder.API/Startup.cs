@@ -79,7 +79,7 @@ namespace PCBuilder.API
                 app.UseHsts();
             }
             app.UseCors(builder =>
-                builder.WithOrigins("https://localhost:3000")
+                builder.WithOrigins("http://localhost:3000")
                        .AllowAnyHeader()
                        .AllowAnyMethod());
 
