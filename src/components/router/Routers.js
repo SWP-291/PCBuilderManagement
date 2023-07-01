@@ -3,7 +3,6 @@ import Home from "../home/Home";
 import { Route, Routes } from "react-router-dom";
 import Products from "../product/Products";
 import Product from "../product/Product";
-import CustomizePC from "../product/CustomizePC";
 import About from "../about/About";
 import Contact from "../contact/Contact";
 import Login from "../login/Login";
@@ -18,7 +17,7 @@ function Routers() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/PC/:id" element={<Product />} />
-        <Route path="/customize-pc/:id" element={<CustomizePC />} />
+        <Route path="/customize-pc/:id" element={<Customize />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/policy" element={<Policy />} />
         <Route path="/about" element={<About />} />

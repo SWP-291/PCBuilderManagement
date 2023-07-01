@@ -29,3 +29,16 @@
     color: white;
   }
   
+  .small-currency{
+    font-size: 0.75em;
+    position: relative;
+    top: -0.3em;
+  }
+
+  .price{
+    color: #0f8698;
+  }
+  .card-text{
+    color: #0f8698;
+    font-weight: 600;
+  }

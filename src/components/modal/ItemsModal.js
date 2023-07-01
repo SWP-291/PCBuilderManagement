@@ -1,27 +1,132 @@
-import React from "react";
-import Button from "react-bootstrap/esm/Button";
-import Row from "react-bootstrap/esm/Row";
-import Col from "react-bootstrap/esm/Col";
+import React, { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import Pagination from "react-bootstrap/Pagination";
 import Table from "react-bootstrap/Table";
 
 import "./ItemsModal.scss";
-const ItemsModal = ({ closeModel }) => {
-  let active = 1;
+
+const ItemsModal = ({ closeModel, handleComponentSelect }) => {
+  const [components, setComponents] = useState([]);
+  const [filteredComponents, setFilteredComponents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedComponent, setSelectedComponent] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  useEffect(() => {
+    const fetchComponents = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("https://localhost:7262/api/Component");
+        const data = await response.json();
+        console.log("API Response:", data); // Log the response data
+        setComponents(data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching components:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchComponents();
+  }, []);
+
+  useEffect(() => {
+    filterComponents(selectedComponent);
+  }, [selectedComponent]);
+
+  useEffect(() => {
+    setCurrentPage(1); // Reset current page when filtered components change
+  }, [filteredComponents]);
+
+  const filterComponents = (component) => {
+    if (component === "CPU") {
+      setFilteredComponents(components.filter((c) => c.name.includes("CPU")));
+    } else if (component === "Ram") {
+      setFilteredComponents(components.filter((c) => c.name.includes("Ram")));
+    } else if (component === "Mainboard") {
+      setFilteredComponents(
+        components.filter((c) => c.name.includes("Mainboard"))
+      );
+    } else if (component === "VGA") {
+      setFilteredComponents(components.filter((c) => c.name.includes("VGA")));
+    } else if (component === "PSU") {
+      setFilteredComponents(components.filter((c) => c.name.includes("PSU")));
+    } else if (component === "SSD") {
+      setFilteredComponents(components.filter((c) => c.name.includes("SSD")));
+    } else if (component === "HDD") {
+      setFilteredComponents(components.filter((c) => c.name.includes("HDD")));
+    } // else {
+    //   setFilteredComponents(components); // Reset to all components
+    // }
+  };
+
+  // const handleSelectButtonClick = async (componentId) => {
+  //   try {
+  //     const endpoint = `https://localhost:7262/api/PC/${componentId}/components`;
+
+  //     const response = await fetch(endpoint, {
+  //       method: "PUT",
+  //     });
+
+  //     // Check the response status and handle it accordingly
+  //     if (response.ok) {
+  //       console.log("API update successful");
+  //       const selectedComponent = components.find((c) => c.id === componentId);
+  //       setSelectedComponent(selectedComponent);
+  //       handleComponentSelect(selectedComponent);
+  //     } else {
+  //       console.error("API update failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating API:", error);
+  //   }
+  // };
+
+  const handleSelectButtonClick = (componentId) => {
+    const selectedComponent = components.find((c) => c.id === componentId);
+    setSelectedComponent(selectedComponent);
+    handleComponentSelect(selectedComponent);
+    console.log(componentId);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const paginatedComponents = filteredComponents.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  let active = currentPage;
   let items = [];
-  for (let number = 1; number <= 5; number++) {
+  for (
+    let number = 1;
+    number <= Math.ceil(filteredComponents.length / itemsPerPage);
+    number++
+  ) {
     items.push(
-      <Pagination.Item key={number} active={number === active}>
+      <Pagination.Item
+        key={number}
+        active={number === active}
+        onClick={() => handlePageChange(number)}
+      >
         {number}
       </Pagination.Item>
     );
   }
+
   return (
     <Row className="ItemsModal">
       <div className="modelContainer">
-        <Col className="closebtn">
+        <Col className="closebtn d-flex justify-content-between align-items-center">
           <h1>Select</h1>
           <Button
             style={{ backgroundColor: "red", width: "45px", height: "45px" }}
@@ -35,14 +140,28 @@ const ItemsModal = ({ closeModel }) => {
         <Col className="title">
           <input
             type="search"
-            placeholder="Do you want to find items?"
+            placeholder="Search here..."
             style={{
-              height: "40px",
+              height: "30px",
               width: "300px",
               borderRadius: "6px",
               textAlign: "center",
             }}
           />
+          <div className="sort">
+            <DropdownButton
+              title={selectedComponent || "Select Component"}
+              onSelect={(eventKey) => setSelectedComponent(eventKey)}
+            >
+              <Dropdown.Item eventKey="CPU">CPU</Dropdown.Item>
+              <Dropdown.Item eventKey="Ram">Ram</Dropdown.Item>
+              <Dropdown.Item eventKey="Mainboard">Mainboard</Dropdown.Item>
+              <Dropdown.Item eventKey="VGA">VGA</Dropdown.Item>
+              <Dropdown.Item eventKey="PSU">PSU</Dropdown.Item>
+              <Dropdown.Item eventKey="SSD">SSD</Dropdown.Item>
+              <Dropdown.Item eventKey="HDD">HDD</Dropdown.Item>
+            </DropdownButton>
+          </div>
           <div className="sort">
             <h5>Sort by: </h5>
             <DropdownButton title="Featured Items" id="bg-nested-dropdown">
@@ -55,50 +174,49 @@ const ItemsModal = ({ closeModel }) => {
           </div>
         </Col>
         <Col className="body">
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Detail</th>
-                <th>Price</th>
-                <th>Select</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <img src="" alt="" />
-                  <h5>AMD Ryzn 9 5900X Destop Processor</h5>
-                </td>
-                <td>
-                  <p>
-                    mot hai ba bon nam sau bay tam chin muoi mot hai ba bon nam
-                    sau bay tam chin muoi
-                  </p>
-                </td>
-                <td>
-                  <p style={{ color: "red", fontWeight: "600" }}>$123456789</p>
-                </td>
-                <td>
-                  <Button>Select</Button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td colSpan={2}>Larry the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </Table>
+          {loading ? (
+            <p>Loading components...</p>
+          ) : (
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Detail</th>
+                  <th>Price</th>
+                  <th>Select</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedComponents.map((component) => (
+                  <tr key={component.id}>
+                    <td>
+                      <img src={component.image} alt={component.name} />
+                      <h5>{component.name}</h5>
+                    </td>
+                    <td>
+                      <p>{component.description}</p>
+                    </td>
+                    <td>
+                      <p style={{ color: "red", fontWeight: "600" }}>
+                        ${component.price}
+                      </p>
+                    </td>
+                    <td>
+                      <Button
+                        onClick={() => handleSelectButtonClick(component.id)}
+                      >
+                        Select
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
         </Col>
       </div>
     </Row>
   );
 };
+
 export default ItemsModal;

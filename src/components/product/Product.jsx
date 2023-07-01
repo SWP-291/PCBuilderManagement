@@ -92,11 +92,24 @@ export default function Product() {
         <div className="col-md-6 pt-4">
           <h4 className="text-uppercase text-black-50">{product.category}</h4>
           <h1 className="display-5">{product.name}</h1>
+          <p>{product.summary}</p>
           <p className="lead fw-bolder">
             Rating 4.9
             <i className="fa fa-star"></i>
           </p>
-          <h3 className="display-6 fw-bold my-4">${product.price}</h3>
+          <h3 className="display-6 fw-bold my-4 price">
+            {product.price && typeof product.price === "number" ? (
+              <p>
+                {product.price.toLocaleString("vi-VN", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                })}
+                <span className="small-currency">₫</span>
+              </p>
+            ) : (
+              <p>Price not available</p>
+            )}
+          </h3>
           <p
             className="lead"
             style={{

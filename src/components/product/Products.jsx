@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { NavLink } from "react-router-dom";
+import "./product.css";
 
 export default function Products() {
   const [data, setData] = useState([]);
@@ -161,7 +162,13 @@ export default function Products() {
                   />
                   <div className="card-body">
                     <h5 className="card-title mb-0">{pro.name}</h5>
-                    <p className="card-text">${pro.price}</p>
+                    <p className="card-text">
+                      {pro.price.toLocaleString("vi-VN", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
+                      <span className="small-currency">₫</span>
+                    </p>
                     {getProductButtons(pro)}
                   </div>
                 </div>
