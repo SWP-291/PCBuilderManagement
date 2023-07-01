@@ -11,6 +11,8 @@ public partial class Pc
 
     public string Summary { get; set; } = null!;
 
+    public string? Detail { get; set; }
+
     public string? Description { get; set; }
 
     public decimal? Price { get; set; }

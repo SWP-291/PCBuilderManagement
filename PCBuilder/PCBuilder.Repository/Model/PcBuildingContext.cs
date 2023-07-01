@@ -43,7 +43,7 @@ public partial class PcBuildingContext : DbContext
     {
         modelBuilder.Entity<Brand>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Brand__3214EC07D3FAE7F6");
+            entity.HasKey(e => e.Id).HasName("PK__Brand__3214EC07BF19E4E6");
 
             entity.ToTable("Brand");
 
@@ -58,7 +58,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC0724B09E15");
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC0728D76485");
 
             entity.ToTable("Category");
 
@@ -75,7 +75,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Compatibility>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Compatib__3214EC07D2334300");
+            entity.HasKey(e => e.Id).HasName("PK__Compatib__3214EC07F8BA2053");
 
             entity.ToTable("Compatibility");
 
@@ -93,7 +93,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Component>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Componen__3214EC075C576A1D");
+            entity.HasKey(e => e.Id).HasName("PK__Componen__3214EC076FF4B26E");
 
             entity.ToTable("Component");
 
@@ -118,7 +118,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC071B01C386");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07957A5A16");
 
             entity.ToTable("Order");
 
@@ -145,7 +145,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC076F10F767");
+            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC076B4DA7F2");
 
             entity.ToTable("Payment");
 
@@ -161,11 +161,12 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Pc>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PC__3214EC079244C308");
+            entity.HasKey(e => e.Id).HasName("PK__PC__3214EC07DD05A3A4");
 
             entity.ToTable("PC");
 
             entity.Property(e => e.Description).HasMaxLength(4000);
+            entity.Property(e => e.Detail).HasMaxLength(2000);
             entity.Property(e => e.Discount).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Image)
                 .HasMaxLength(250)
@@ -186,7 +187,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<PcComponent>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PC_Compo__3214EC073D653340");
+            entity.HasKey(e => e.Id).HasName("PK__PC_Compo__3214EC070994C8B5");
 
             entity.ToTable("PC_Component");
 
@@ -203,7 +204,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC074A564D65");
+            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC07218804A0");
 
             entity.ToTable("Role");
 
@@ -214,7 +215,7 @@ public partial class PcBuildingContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC07E05DC192");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC07A9E0B13F");
 
             entity.ToTable("User");
 

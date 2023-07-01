@@ -35,6 +35,7 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<PCInformationDTO>> AddComponentsToPC(int pcId, List<int> componentIds, int quantity);
         Task<ServiceResponse<PCInformationDTO>> UpdateComponentsOfPC(int pcId, List<int> componentIds, int quantity);
         Task<ServiceResponse<PCInformationDTO>> CreatePCWithComponentsFromTemplate(int templateId, List<int> componentIds, int quantity);
+        Task<ServiceResponse<bool>> DeletePCWithComponent(int pcId);
     }
 
     public class PCServices : IPCServices
@@ -184,6 +185,7 @@ namespace PCBuilder.Services.Service
                         Id = pcDTO.Id,
                         Name = pcDTO.Name,
                         Summary = pcDTO.Summary,
+                        Detail = pcDTO.Detail,
                         Description = pcDTO.Description,
                         Price = pcDTO.Price,
                         Discount = pcDTO.Discount,
@@ -255,6 +257,7 @@ namespace PCBuilder.Services.Service
                     Id = pcDTO.Id,
                     Name = pcDTO.Name,
                     Summary = pcDTO.Summary,
+                    Detail = pcDTO.Detail,
                     Description = pcDTO.Description,
                     Price = pcDTO.Price,
                     Discount = pcDTO.Discount,
@@ -473,7 +476,6 @@ namespace PCBuilder.Services.Service
                     response.Message = "PC or component not found.";
                     return response;
                 }
-                
                 var newComponents = new List<ComponentDTO>();
                 // Create a PC_Component entity for each existing component
                 int count = listComponents.Count;
@@ -493,12 +495,14 @@ namespace PCBuilder.Services.Service
                     pc.DesignBy = 3;
                     if (index == count - 1)
                     {
-                        pc.Description += component.Name;
+                        pc.Description += component.Description;
                         pc.Summary += component.Summary;
+                        pc.Detail += component.Name;
                     }
                     else { 
-                        pc.Description += component.Name + "|";
+                        pc.Description += component.Description + "|";
                         pc.Summary += component.Summary + "|";
+                        pc.Detail += component.Name + ". ";
                         
                     }
                     index++;
@@ -585,9 +589,12 @@ namespace PCBuilder.Services.Service
                 }
 
                 // Update the PC description and summary
-                var componentNames = newComponents.Select(c => c.Name);
-                pc.Description = string.Join("|", componentNames);
-                pc.Summary = string.Join("|", componentNames);
+                var componentDetails = newComponents.Select(c => c.Name);
+                pc.Detail = string.Join(". ", componentDetails);
+                var componentDecriptions = newComponents.Select(c => c.Description);
+                pc.Description = string.Join("|", componentDecriptions);
+                var componentSummary = newComponents.Select(c => c.Summary);
+                pc.Summary = string.Join("|", componentSummary);
                 pc.IsTemplate = true;
                 pc.DesignBy = 1;
 
@@ -642,6 +649,7 @@ namespace PCBuilder.Services.Service
                 {
                     Name = "New PC",
                     Summary = "",
+                    Detail = "",
                     Description = "",
                     Price = 0,
                     Discount = 0,
@@ -674,7 +682,8 @@ namespace PCBuilder.Services.Service
                     };
 
                     newPC.Price +=(decimal) component.Price;
-
+                    newPC.IsPublic = true;
+                    newPC.IsTemplate = true;
                     
                     await _pcComponentRepository.AddPcComponentsAsync(pcComponent);
                     var componentDTO = new ComponentDTO
@@ -693,8 +702,11 @@ namespace PCBuilder.Services.Service
                 }
 
                 // Update the PC description and summary
-                var componentNames = newComponents.Select(c => c.Name);
-                newPC.Description = string.Join("|", componentNames);
+                
+                var componentDetail = newComponents.Select(c => c.Name);
+                newPC.Detail = string.Join(". ", componentDetail);
+                var componentDecription = newComponents.Select(c => c.Description);
+                newPC.Description = string.Join("|", componentDecription);
                 var componentSummary = newComponents.Select(c => c.Summary);
                 newPC.Summary = string.Join("|", componentSummary);
                 _repository.UpdatePcAsync(newPC);
@@ -722,6 +734,44 @@ namespace PCBuilder.Services.Service
 
 
 
+        public async Task<ServiceResponse<bool>> DeletePCWithComponent(int pcId)
+        {
+            ServiceResponse<bool> response = new ServiceResponse<bool>();
+
+            try
+            {
+                var pc = await _repository.GetPcsByIdAsync(pcId);
+
+                if (pc == null)
+                {
+                    response.Success = false;
+                    response.Message = "PC not found";
+                    return response;
+                }
+
+                // Xóa các bản ghi trong bảng trung gian PCComponent
+                foreach (var pcComponent in pc.PcComponents.ToList())
+                {
+                    _pcComponentRepository.DeletePcComponent(pcComponent);
+                }
+
+                // Xóa PC chính
+                _repository.DeletePcAsync(pcId);
+                await _repository.SaveAsync(); // Lưu các thay đổi vào cơ sở dữ liệu
+
+                response.Success = true;
+                response.Message = "PC and its components deleted successfully";
+                response.Data = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error deleting PC";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
 
     }
 }

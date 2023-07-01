@@ -14,6 +14,7 @@ namespace PCBuilder.Repository.Repository
         Task<List<Component>> GetComponentsByIdsAsync(List<int> componentIds);
         Task<PcComponent> GetPcComponentByIdsAsync(int pcId, int componentId);
         Task RemovePcComponentsByPcIdAsync(int pcId);
+        Task<bool> DeletePcComponent(PcComponent pcComponent);
 
 
     }
@@ -44,9 +45,11 @@ namespace PCBuilder.Repository.Repository
             return await _dataContext.PcComponents.FirstOrDefaultAsync(pcComp => pcComp.PcId == pcId && pcComp.ComponentId == componentId);
         }
 
-        public void DeletePcComponent(PcComponent pcComponent)
+        public async Task<bool> DeletePcComponent(PcComponent pcComponent)
         {
             _dataContext.PcComponents.Remove(pcComponent);
+            await _dataContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task RemovePcComponentsByPcIdAsync(int pcId)
@@ -55,5 +58,7 @@ namespace PCBuilder.Repository.Repository
             _dataContext.PcComponents.RemoveRange(pcComponents);
             await _dataContext.SaveChangesAsync();
         }
+
+        
     }
 }
