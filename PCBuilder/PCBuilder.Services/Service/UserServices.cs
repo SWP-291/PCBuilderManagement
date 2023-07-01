@@ -18,17 +18,20 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<UserDTO>> CreateUserAsync(UserDTO userDTO);
         Task<ServiceResponse<UserDTO>> UpdateUserAsync(int id, UserDTO userDTO);
         Task<ServiceResponse<bool>> DeleteUserAsync(int id);
+        Task<ServiceResponse<UserRoleDTO>> LoginAsync(string email, string password);
     }
 
     public class UserServices : IUserServices
     {
         private readonly IUserRepository _iUserRepository;
+        private readonly IRoleRepository _iRoleRepository;
         private readonly IMapper _mapper;
 
-        public UserServices(IUserRepository iUserRepository, IMapper mapper)
+        public UserServices(IUserRepository iUserRepository, IRoleRepository iRoleRepository,IMapper mapper)
         {
             _iUserRepository = iUserRepository;
             _mapper = mapper;
+            _iRoleRepository = iRoleRepository;
         }
 
         public async Task<ServiceResponse<List<UserDTO>>> GetUsersAsync()
@@ -182,6 +185,48 @@ namespace PCBuilder.Services.Service
             return response;
 
         }
+        public async Task<ServiceResponse<UserRoleDTO>> LoginAsync(string email, string password)
+        {
+            ServiceResponse<UserRoleDTO> response = new ServiceResponse<UserRoleDTO>();
+
+            try
+            {
+                var user = await _iUserRepository.GetUserAndPasswordByUsernameAsync(email, password);
+
+                if (user == null || user.RoleId == null)
+                {
+                    response.Success = false;
+                    response.Message = "Invalid username or password.";
+                    return response;
+                }
+
+                var role = await _iRoleRepository.GetRoleByIdAsync(user.RoleId);
+
+                if (role == null)
+                {
+                    response.Success = false;
+                    response.Message = "Role not found.";
+                    return response;
+                }
+
+                var userDto = _mapper.Map<UserRoleDTO>(user);
+                userDto.Role = _mapper.Map<RoleDTO>(role);
+
+                response.Data = userDto;
+                response.Success = true;
+                response.Message = "Logged in successfully";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
+
 
     }
 }

@@ -61,5 +61,18 @@ namespace PCBuilder.API.Controllers
             }
             return Ok(deletedUser);
         }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(string email, string password)
+        {
+            var response = await _userServices.LoginAsync(email, password);
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+
+            return Ok(response);
+        }
     }
 }

@@ -59,6 +59,7 @@ namespace PCBuilder.API
             services.AddScoped<IOrderServices, OrderServices>();
 
             services.AddScoped<IPcComponentRepository, PcComponentRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -79,7 +80,7 @@ namespace PCBuilder.API
                 app.UseHsts();
             }
             app.UseCors(builder =>
-                builder.WithOrigins("https://localhost:3000")
+                builder.WithOrigins("http://localhost:3000")
                        .AllowAnyHeader()
                        .AllowAnyMethod());
 
