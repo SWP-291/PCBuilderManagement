@@ -165,5 +165,18 @@ namespace PCBuilder.API.Controllers
 
             return Ok(response);
         }
+
+        [HttpDelete("{id}/DeletePCWithComponent")]
+        public async Task<IActionResult> DeletePCWithComponent(int id)
+        {
+            var response = await _IPCServices.DeletePCWithComponent(id);
+
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
+        }
     }
 }
