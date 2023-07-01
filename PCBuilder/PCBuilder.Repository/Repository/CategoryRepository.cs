@@ -38,6 +38,10 @@ namespace PCBuilder.Repository.Repository
 
         public async Task<Category> CreateCategoryAsync(Category category)
         {
+            if(category.ParentId == 0)
+            {
+                category.ParentId = null;
+            }
             _dataContext.Categories.Add(category);
             await _dataContext.SaveChangesAsync();
             return category;

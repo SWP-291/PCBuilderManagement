@@ -59,6 +59,7 @@ namespace PCBuilder.API
             services.AddScoped<IOrderServices, OrderServices>();
 
             services.AddScoped<IPcComponentRepository, PcComponentRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

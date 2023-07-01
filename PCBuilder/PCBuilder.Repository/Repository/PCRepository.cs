@@ -45,6 +45,10 @@ namespace PCBuilder.Repository.Repository
         }
         public async Task<Pc> CreatePcAsync(Pc pc)
         {
+            if(pc.TemplateId == 0)
+            {
+                pc.TemplateId = null;
+            }
             _dataContext.Pcs.Add(pc);
             await _dataContext.SaveChangesAsync();
             return pc;

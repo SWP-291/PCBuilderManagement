@@ -45,7 +45,7 @@ namespace PCBuilder.API.Controllers
                 return BadRequest(createdCategory);
             }
 
-            return CreatedAtAction(nameof(GetCategoryById), new { id = createdCategory.Data.Id }, createdCategory);
+            return Ok(createdCategory);
         }
 
         [HttpPut("{id}")]

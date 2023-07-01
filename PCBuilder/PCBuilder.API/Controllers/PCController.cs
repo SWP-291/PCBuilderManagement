@@ -140,7 +140,7 @@ namespace PCBuilder.API.Controllers
             }
         }
 
-        [HttpPut("{id}/components")]
+        [HttpPut("{id}/UpdateComponentsOfPC")]
         public async Task<IActionResult> UpdateComponentsOfPC(int id, List<int> componentIds, int quantity)
         {
             var response = await _IPCServices.UpdateComponentsOfPC(id, componentIds, quantity);
@@ -152,6 +152,18 @@ namespace PCBuilder.API.Controllers
             }
 
             return BadRequest(response.Message);
+        }
+        [HttpPost(" CreatePCWithComponentsFromTemplate")]
+        public async Task<IActionResult> CreatePCFromTemplate(int templateId, List<int> componentIds, int quantity)
+        {
+            var response = await _IPCServices.CreatePCWithComponentsFromTemplate(templateId, componentIds, quantity);
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
         }
     }
 }

@@ -34,6 +34,7 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<PCInformationDTO>> GetPCComponentByID(int pcId);
         Task<ServiceResponse<PCInformationDTO>> AddComponentsToPC(int pcId, List<int> componentIds, int quantity);
         Task<ServiceResponse<PCInformationDTO>> UpdateComponentsOfPC(int pcId, List<int> componentIds, int quantity);
+        Task<ServiceResponse<PCInformationDTO>> CreatePCWithComponentsFromTemplate(int templateId, List<int> componentIds, int quantity);
     }
 
     public class PCServices : IPCServices
@@ -331,6 +332,7 @@ namespace PCBuilder.Services.Service
             try
             {
                 pcDTO.IsPublic = false;
+                pcDTO.IsTemplate = false;
                 var pc = _mapper.Map<Pc>(pcDTO);
 
 
@@ -461,6 +463,7 @@ namespace PCBuilder.Services.Service
                     response.Message = "PC Not Custom";
                     return response;
                 }
+                
 
                 // Fetch the existing components from the database based on the IDs
                 var listComponents = await _pcComponentRepository.GetComponentsByIdsAsync(componentIds);
@@ -470,6 +473,7 @@ namespace PCBuilder.Services.Service
                     response.Message = "PC or component not found.";
                     return response;
                 }
+                
                 var newComponents = new List<ComponentDTO>();
                 // Create a PC_Component entity for each existing component
                 int count = listComponents.Count;
@@ -483,8 +487,10 @@ namespace PCBuilder.Services.Service
                         Quantity = quantity,
 
                     };
-
+                    pc.IsPublic = true;
+                    pc.IsTemplate = true;
                     pc.Price += component.Price;
+                    pc.DesignBy = 3;
                     if (index == count - 1)
                     {
                         pc.Description += component.Name;
@@ -493,7 +499,7 @@ namespace PCBuilder.Services.Service
                     else { 
                         pc.Description += component.Name + "|";
                         pc.Summary += component.Summary + "|";
-                        pc.IsTemplate = true;
+                        
                     }
                     index++;
                     await _pcComponentRepository.AddPcComponentsAsync(pcComponent);
@@ -562,6 +568,7 @@ namespace PCBuilder.Services.Service
                 }
 
                 // Create and add new PC_Component entities for the new components
+
                 foreach (var component in newComponents)
                 {
                     var pcComponent = new PcComponent
@@ -570,6 +577,7 @@ namespace PCBuilder.Services.Service
                         PcId = pc.Id,
                         Quantity = quantity,
                     };
+                    
 
                     pc.Price += component.Price;
 
@@ -581,6 +589,7 @@ namespace PCBuilder.Services.Service
                 pc.Description = string.Join("|", componentNames);
                 pc.Summary = string.Join("|", componentNames);
                 pc.IsTemplate = true;
+                pc.DesignBy = 1;
 
                 // Update the PC in the database
                 await _repository.UpdatePcAsync(pc);
@@ -613,6 +622,105 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
+        public async Task<ServiceResponse<PCInformationDTO>> CreatePCWithComponentsFromTemplate(int templateId, List<int> componentIds, int quantity)
+        {
+            ServiceResponse<PCInformationDTO> response = new ServiceResponse<PCInformationDTO>();
+
+            try
+            {
+                // Fetch the template PC from the database
+                var templatePC = await _repository.GetPcsByIdAsync(templateId);
+                if (templatePC == null)
+                {
+                    response.Success = false;
+                    response.Message = "Template PC not found";
+                    return response;
+                }
+
+                // Create a new PC based on the template
+                var newPC = new Pc
+                {
+                    Name = "New PC",
+                    Summary = "",
+                    Description = "",
+                    Price = 0,
+                    Discount = 0,
+                    TemplateId = templatePC.Id,
+                    IsPublic = (bool)templatePC.IsPublic,
+                    DesignBy = 1,
+                    Image = templatePC.Image,
+                    IsTemplate = false,
+                };
+                await _repository.CreatePcAsync(newPC);
+
+                // Fetch the components from the database based on the componentIds
+                var newComponents = await _pcComponentRepository.GetComponentsByIdsAsync(componentIds);
+                if (newComponents == null || newComponents.Count != componentIds.Count)
+                {
+                    response.Success = false;
+                    response.Message = "One or more components not found.";
+                    return response;
+                }
+
+                // Create and add new PC_Component entities for the new components
+                var newComponent = new List<ComponentDTO>();
+                foreach (var component in newComponents)
+                {
+                    var pcComponent = new PcComponent
+                    {
+                        ComponentId = component.Id,
+                        PcId = newPC.Id,
+                        Quantity = quantity,
+                    };
+
+                    newPC.Price +=(decimal) component.Price;
+
+                    
+                    await _pcComponentRepository.AddPcComponentsAsync(pcComponent);
+                    var componentDTO = new ComponentDTO
+                    {
+                        Id = component.Id,
+                        Name = component.Name,
+                        Image = component.Image,
+                        Price = (decimal)component.Price,
+                        Summary = component.Summary,
+                        Description = component.Description,
+                        BrandId = component.BrandId,
+                        CategoryId = component.CategoryId
+                    };
+
+                    newComponent.Add(componentDTO);
+                }
+
+                // Update the PC description and summary
+                var componentNames = newComponents.Select(c => c.Name);
+                newPC.Description = string.Join("|", componentNames);
+                var componentSummary = newComponents.Select(c => c.Summary);
+                newPC.Summary = string.Join("|", componentSummary);
+                _repository.UpdatePcAsync(newPC);
+
+                // Save the new PC to the database
+                // Code here to save the new PC to your database
+
+                // Map the new PC to DTO
+                var newPCDTO = _mapper.Map<PCInformationDTO>(newPC);
+                newPCDTO.Components = newComponent;
+                // Update the response with success message and new PC DTO
+                response.Success = true;
+                response.Message = "New PC with components created successfully";
+                response.Data = newPCDTO;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error creating new PC with components";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
+
 
 
     }

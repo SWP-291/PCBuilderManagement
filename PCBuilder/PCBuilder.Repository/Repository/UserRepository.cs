@@ -20,7 +20,7 @@ namespace PCBuilder.Repository.Repository
         Task<User> CreateUserAsync(User user);
         Task<User> UpdateUserAsync(User user);
         Task<bool> DeleteUserAsync(int id);
-        
+        Task<User> GetUserAndPasswordByUsernameAsync(string email, string password);
 
 
     }
@@ -70,5 +70,13 @@ namespace PCBuilder.Repository.Repository
             await _context.SaveChangesAsync();
             return true;
         }
+        public async Task<User> GetUserAndPasswordByUsernameAsync(string email, string password)
+        {
+            
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+
+            return user;
+        }
+
     }
 }
