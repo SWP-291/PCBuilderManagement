@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using PCBuilder.Services.DTO;
 using AutoMapper;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
 
 namespace PCBuilder.Services.Service
 {
@@ -19,6 +23,9 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<UserDTO>> UpdateUserAsync(int id, UserDTO userDTO);
         Task<ServiceResponse<bool>> DeleteUserAsync(int id);
         Task<ServiceResponse<UserRoleDTO>> LoginAsync(string email, string password);
+        Task<ServiceResponse<string>> Login(string email, string password);
+        Task<ServiceResponse<string>> Signup(string email, string password);
+        //Task<ServiceResponse<string>> Logout();
     }
 
     public class UserServices : IUserServices
@@ -26,12 +33,15 @@ namespace PCBuilder.Services.Service
         private readonly IUserRepository _iUserRepository;
         private readonly IRoleRepository _iRoleRepository;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public UserServices(IUserRepository iUserRepository, IRoleRepository iRoleRepository,IMapper mapper)
+
+        public UserServices(IUserRepository iUserRepository, IRoleRepository iRoleRepository, IMapper mapper, IConfiguration configuration)
         {
             _iUserRepository = iUserRepository;
             _mapper = mapper;
             _iRoleRepository = iRoleRepository;
+            _configuration = configuration;
         }
 
         public async Task<ServiceResponse<List<UserDTO>>> GetUsersAsync()
@@ -227,6 +237,61 @@ namespace PCBuilder.Services.Service
         }
 
 
+        public async Task<ServiceResponse<string>> Login(string email, string password)
+        {
+            ServiceResponse<string> response = new ServiceResponse<string>();
+            var user = await _iUserRepository.GetUserByEmailAsync(email);
+            if (user != null && user.Password != password)
+            {
+                response.Success = false;
+                response.Message = "Login failed";
+                return response;
+            }
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:SecretKey"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                new Claim(ClaimTypes.Name, user.Id.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwt = tokenHandler.WriteToken(token);
+
+            response.Success = true;
+            response.Message = "Login successful.";
+            response.Data = jwt;
+
+            return response;
+        }
+
+
+        // can cho form dang ki no la cai gi de con viet tiep
+        public async Task<ServiceResponse<string>> Signup(string email, string password)
+        {
+            ServiceResponse<string> response = new ServiceResponse<string>();
+
+            if (_iUserRepository.GetUserByEmailAsync(email) != null)
+            {
+                response.Success = false;
+                response.Message = "User with email is existed";
+                return response;
+            }
+
+            var user = new User()
+            {
+                Email = email,
+                Password = password
+            };
+            await _iUserRepository.CreateUserAsync(user);
+
+            response.Success = true;
+            response.Data = "Sign up successfully";
+            return response;
+        }
 
     }
 }

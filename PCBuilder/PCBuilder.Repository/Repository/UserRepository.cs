@@ -21,7 +21,7 @@ namespace PCBuilder.Repository.Repository
         Task<User> UpdateUserAsync(User user);
         Task<bool> DeleteUserAsync(int id);
         Task<User> GetUserAndPasswordByUsernameAsync(string email, string password);
-
+        Task<User> GetUserByEmailAsync(string email);
 
     }
     public class UserRepository : IUserRepository
@@ -42,7 +42,7 @@ namespace PCBuilder.Repository.Repository
         {
             return await _context.Users.FindAsync(id);
         }
-        
+
         public async Task<User> CreateUserAsync(User user)
         {
             user.RoleId = 1;
@@ -72,9 +72,16 @@ namespace PCBuilder.Repository.Repository
         }
         public async Task<User> GetUserAndPasswordByUsernameAsync(string email, string password)
         {
-            
+
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
 
+            return user;
+        }
+
+        // check user co email nay ton tai hay khong
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             return user;
         }
 

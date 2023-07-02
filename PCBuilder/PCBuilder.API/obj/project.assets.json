@@ -88,6 +88,25 @@
           }
         }
       },
+      "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.19": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.10.0"
+        },
+        "compile": {
+          "lib/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Microsoft.AspNetCore.Cors/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -1479,6 +1498,21 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.19": {
+      "sha512": "gdSF/N7ETakCeVONpiqHivv1aUY8DYXn/9CAi9UJuauSeRK0l0AM7kG5gB+e2zkl4o9zxrS6oVfkWT4lYLxCZw==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/6.0.19",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
+        "lib/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
+        "microsoft.aspnetcore.authentication.jwtbearer.6.0.19.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Cors/2.2.0": {
@@ -3959,6 +3993,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.19",
       "Microsoft.AspNetCore.Cors >= 2.2.0",
       "Microsoft.EntityFrameworkCore.Design >= 7.0.5",
       "PCBuilder.Repository >= 1.0.0",
@@ -3968,38 +4003,37 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\LENOVO\\.nuget\\packages\\": {}
+    "/Users/thinhtran/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
+      "projectUniqueName": "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.API/PCBuilder.API.csproj",
       "projectName": "PCBuilder.API",
-      "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
-      "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-      "outputPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\obj\\",
+      "projectPath": "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.API/PCBuilder.API.csproj",
+      "packagesPath": "/Users/thinhtran/.nuget/packages/",
+      "outputPath": "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/thinhtran/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+        "/usr/local/share/dotnet/library-packs": {},
+        "/usr/local/share/dotnet/sdk/7.0.302/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
-              "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
+            "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.Repository/PCBuilder.Repository.csproj": {
+              "projectPath": "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.Repository/PCBuilder.Repository.csproj"
             },
-            "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj": {
-              "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj"
+            "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.Services/PCBuilder.Services.csproj": {
+              "projectPath": "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.Services/PCBuilder.Services.csproj"
             }
           }
         }
@@ -4014,6 +4048,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.JwtBearer": {
+            "target": "Package",
+            "version": "[6.0.19, )"
+          },
           "Microsoft.AspNetCore.Cors": {
             "target": "Package",
             "version": "[2.2.0, )"
@@ -4052,7 +4090,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
       }
     }
   }

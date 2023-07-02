@@ -1,27 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {}
+    "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.Repository/PCBuilder.Repository.csproj": {}
   },
   "projects": {
-    "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
+    "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.Repository/PCBuilder.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
+        "projectUniqueName": "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.Repository/PCBuilder.Repository.csproj",
         "projectName": "PCBuilder.Repository",
-        "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\obj\\",
+        "projectPath": "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.Repository/PCBuilder.Repository.csproj",
+        "packagesPath": "/Users/thinhtran/.nuget/packages/",
+        "outputPath": "/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.Repository/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/thinhtran/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -77,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
         }
       }
     }

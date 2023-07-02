@@ -12,6 +12,9 @@ using PCBuilder.Services.Service;
 using PCBuilder.Services.DTO;
 using System.Reflection.PortableExecutable;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace PCBuilder.API
 {
@@ -60,6 +63,29 @@ namespace PCBuilder.API
 
             services.AddScoped<IPcComponentRepository, PcComponentRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+
+            // handle login/sign up with jwt
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false; // Chỉ sử dụng HTTPS trong môi trường thực tế
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["JwtSettings:Issuer"],
+                    ValidAudience = Configuration["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JwtSettings:SecretKey"])),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -86,6 +112,9 @@ namespace PCBuilder.API
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            // xac thuc va phan quyen
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
