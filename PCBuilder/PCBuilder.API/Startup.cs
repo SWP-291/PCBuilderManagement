@@ -64,6 +64,9 @@ namespace PCBuilder.API
             services.AddScoped<IPcComponentRepository, PcComponentRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
 
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IPaymentServices, PaymentServices>();
+
             // handle login/sign up with jwt
             services.AddAuthentication(options =>
             {

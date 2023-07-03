@@ -740,7 +740,7 @@ namespace PCBuilder.Services.Service
 
             try
             {
-                var pc = await _repository.GetPcsByIdAsync(pcId);
+                var pc = await _repository.GetPcsWithComponentByIdAsync(pcId);
 
                 if (pc == null)
                 {
@@ -750,14 +750,10 @@ namespace PCBuilder.Services.Service
                 }
 
                 // Xóa các bản ghi trong bảng trung gian PCComponent
-                foreach (var pcComponent in pc.PcComponents.ToList())
-                {
-                    _pcComponentRepository.DeletePcComponent(pcComponent);
-                }
+                await _pcComponentRepository.DeletePcComponent(pcId);
 
                 // Xóa PC chính
-                _repository.DeletePcAsync(pcId);
-                await _repository.SaveAsync(); // Lưu các thay đổi vào cơ sở dữ liệu
+                await _repository.DeletePcAsync(pcId);
 
                 response.Success = true;
                 response.Message = "PC and its components deleted successfully";

@@ -21,6 +21,7 @@ namespace PCBuilder.Services.DTO
             CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<User, UserRoleDTO>().ReverseMap();
             CreateMap<Role, RoleDTO>().ReverseMap();
+            CreateMap<Payment, PaymentDTO>().ReverseMap();
             CreateMap<Pc, PCInformationDTO>()
                 .ForMember(dto => dto.Components, opt => opt.MapFrom(x => x.PcComponents.Select(y => y.Component)));
 

@@ -40,13 +40,9 @@ namespace PCBuilder.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] OrderDTO orderDTO)
         {
-            var order = new Order
-            {
-                // Map orderDTO properties to Order entity properties
-                // Example: order.Property = orderDTO.Property;
-            };
 
-            var response = await _orderServices.CreateOrder(order);
+
+            var response = await _orderServices.CreateOrder(orderDTO);
 
             if (!response.Success)
             {
@@ -59,19 +55,8 @@ namespace PCBuilder.API.Controllers
         [HttpPut("{orderId}")]
         public async Task<IActionResult> UpdateOrder(int orderId, [FromBody] OrderDTO orderDTO)
         {
-            var existingOrderResponse = await _orderServices.GetOrderById(orderId);
 
-            if (!existingOrderResponse.Success)
-            {
-                return NotFound(existingOrderResponse);
-            }
-
-            var existingOrder = existingOrderResponse.Data;
-
-            // Update existingOrder properties using orderDTO properties
-            // Example: existingOrder.Property = orderDTO.Property;
-
-            var response = await _orderServices.UpdateOrder(existingOrder);
+            var response = await _orderServices.UpdateOrder(orderId, orderDTO);
 
             if (!response.Success)
             {
