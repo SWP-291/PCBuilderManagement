@@ -21,7 +21,7 @@ namespace PCBuilder.Repository.Repository
         }
         public async Task<Role> GetRoleByIdAsync(int roleId)
         {
-            
+
             var role = await _dataContext.Roles.FindAsync(roleId);
 
             return role;

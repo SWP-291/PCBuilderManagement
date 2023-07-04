@@ -26,6 +26,7 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<string>> Login(string email, string password);
         Task<ServiceResponse<string>> Signup(string email, string password);
         //Task<ServiceResponse<string>> Logout();
+        Task<ServiceResponse<string>> SomeAuthorizedMethod(string token);
     }
 
     public class UserServices : IUserServices
@@ -247,23 +248,90 @@ namespace PCBuilder.Services.Service
                 response.Message = "Login failed";
                 return response;
             }
+
+            var role = await _iRoleRepository.GetRoleByIdAsync(user.RoleId);
+            var claims = new List<Claim>{
+                new Claim(ClaimTypes.Email, user.Email.ToString()),
+                new Claim(ClaimTypes.Role, role.Name.ToString())
+            };
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:SecretKey"]);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var jwt = tokenHandler.WriteToken(token);
 
             response.Success = true;
             response.Message = "Login successful.";
             response.Data = jwt;
+
+            return response;
+        }
+        public async Task<ServiceResponse<string>> SomeAuthorizedMethod(string token)
+        {
+            ServiceResponse<string> response = new ServiceResponse<string>();
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:SecretKey"]);
+
+            // Xác minh token
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidIssuer = _configuration["JwtSettings:Issuer"],
+                ValidAudience = _configuration["JwtSettings:Audience"],
+                ValidateIssuer = true,
+                ValidateAudience = true
+            };
+
+            SecurityToken validatedToken;
+            var claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+
+            // Kiểm tra quyền truy cập
+            var roleClaim = claimsPrincipal.FindFirst("Role");
+            if (roleClaim == null)
+            {
+                response.Success = false;
+                response.Message = "Access denied.";
+                return response;
+            }
+
+            var role = roleClaim.Value; // Lấy giá trị của claim "Role"
+
+            // Thực hiện các kiểm tra và xử lý tương ứng dựa trên quyền truy cập
+
+            // Ví dụ: Kiểm tra quyền truy cập "Admin"
+            if (role == "Admin")
+            {
+                // Thực hiện hành động dành cho người dùng có quyền "Admin"
+                response.Success = true;
+                response.Message = "Access granted for Admin.";
+            }
+            else if (role == "Customer")
+            {
+                // Thực hiện hành động dành cho người dùng có quyền "User"
+                response.Success = true;
+                response.Message = "Access granted for User.";
+            }
+            else if (role == "Employee")
+            {
+                response.Success = true;
+                response.Message = "Access granted for Employee.";
+            }
+            else
+            {
+                // Người dùng không có quyền truy cập
+                response.Success = false;
+                response.Message = "Access denied.";
+            }
 
             return response;
         }

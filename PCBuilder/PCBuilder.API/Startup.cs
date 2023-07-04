@@ -88,6 +88,14 @@ namespace PCBuilder.API
                 };
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("EmployeeOnly", policy =>
+                {
+                    policy.RequireClaim("Roles", "Employee");
+                });
+            });
+
 
         }
 
