@@ -22,4 +22,10 @@
     <ProjectReference Include="..\PCBuilder.Services\PCBuilder.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Middlerware\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Middlerware\" />
+  </ItemGroup>
 </Project>

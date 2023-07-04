@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Repository.Model;
 using PCBuilder.Services.DTO;
@@ -15,16 +16,20 @@ namespace PCBuilder.API.Controllers
         {
             _IPCServices = IPCServices;
         }
+
+        [Authorize(Roles = "Customer")]
         [HttpGet("GetListByCustomer")]
         public async Task<IActionResult> GetPCListByCustomer()
         {
             var PCs = await _IPCServices.GetPCListByCustomer();
-            if(PCs == null)
+            if (PCs == null)
             {
                 return NotFound();
             }
             return Ok(PCs);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetListByAdmin")]
         public async Task<IActionResult> GetPCListByAdmin()
         {
@@ -35,6 +40,7 @@ namespace PCBuilder.API.Controllers
             }
             return Ok(PCs);
         }
+
         [HttpGet("PCWithComponent")]
         public async Task<IActionResult> GetPCComponent()
         {
@@ -74,6 +80,8 @@ namespace PCBuilder.API.Controllers
 
             return Ok(pc);
         }
+
+
         [HttpPost]
         public async Task<IActionResult> CreatePC([FromBody] PcDTO pcCreateDTO)
         {
@@ -101,6 +109,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePC(int id)
         {
@@ -114,7 +123,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
         [HttpPost("{PcId}/AddComponents")]
-        public async Task<IActionResult> AddComponentsToPC(int PcId,List<int> componentIds, int quantity)
+        public async Task<IActionResult> AddComponentsToPC(int PcId, List<int> componentIds, int quantity)
         {
             var response = await _IPCServices.AddComponentsToPC(PcId, componentIds, quantity);
 

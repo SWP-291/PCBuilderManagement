@@ -17,6 +17,7 @@ namespace PCBuilder.API.Controllers
             _userServices = userServices;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetUserList()
         {
@@ -35,12 +36,16 @@ namespace PCBuilder.API.Controllers
 
             return Ok(user);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO userDTO)
         {
             var createdUser = await _userServices.CreateUserAsync(userDTO);
             return createdUser.Success ? CreatedAtAction(nameof(GetUserById), new { id = createdUser.Data.Id }, createdUser) : (ActionResult)BadRequest(createdUser);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO userDTO)
         {
@@ -51,6 +56,8 @@ namespace PCBuilder.API.Controllers
             }
             return Ok(updatedUser);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -61,16 +68,6 @@ namespace PCBuilder.API.Controllers
             }
             return Ok(deletedUser);
         }
-        // [HttpPost("login")]
-        // public async Task<IActionResult> Login(string email, string password)
-        // {
-        //     var response = await _userServices.LoginAsync(email, password);
 
-        //     if (!response.Success)
-        //     {
-        //         return BadRequest(response);
-        //     }
-        //     return Ok(response);
-        // }
     }
 }
