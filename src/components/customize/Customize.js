@@ -14,12 +14,11 @@ export default function CustomizePC() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [validated, setValidated] = useState(false);
-  const [componentType, setComponents] = useState([]);
+  const [componentType, setComponentType] = useState([]);
   const [selectedComponentType, setSelectedComponentType] = useState(null);
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [selectedComponents, setSelectedComponents] = useState([]);
   const [filteredComponents, setFilteredComponents] = useState([]);
-  const [cpuList, setCpuList] = useState([]);
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -47,16 +46,6 @@ export default function CustomizePC() {
   }, []);
 
   useEffect(() => {
-    const getCpuList = async () => {
-      const response = await fetch("https://localhost:7262/api/Component");
-      const data = await response.json();
-      setCpuList(data);
-    };
-
-    getCpuList();
-  }, []);
-
-  useEffect(() => {
     if (product.components) {
       const defaultSelectedComponents = product.components.map((component) => ({
         id: component.id,
@@ -67,29 +56,24 @@ export default function CustomizePC() {
   }, [product.components]);
 
   useEffect(() => {
-    if (selectedComponentType && product.components) {
+    if (
+      selectedComponentType &&
+      selectedComponentType !== "" &&
+      product.components
+    ) {
       const filtered = product.components.filter((component) =>
-        component.name.includes("CPU")
+        component.name.includes(selectedComponentType)
       );
       setFilteredComponents(filtered);
-      console.log(filtered);
     } else {
       setFilteredComponents([]);
     }
   }, [selectedComponentType, product.components]);
 
-  console.log(selectedComponentType);
-
-  const openComponentModal = (componentType, component) => {
-    setSelectedComponentType(componentType.name);
-    setSelectedComponent(component);
-    setShowModal(true);
-  };
-
   const handleComponentSelect = (componentType, component) => {
     const updatedSelectedComponents = selectedComponents.map(
       (selectedComponent) => {
-        if (selectedComponent.name === selectedComponentType) {
+        if (selectedComponent.name === componentType) {
           return component;
         }
         return selectedComponent;
@@ -99,6 +83,15 @@ export default function CustomizePC() {
     setSelectedComponents(updatedSelectedComponents);
     setShowModal(false);
     setSelectedComponentType(null);
+    console.log("Selected Components:", updatedSelectedComponents);
+  };
+
+  const openComponentModal = (component, componentType) => {
+    console.log("Selected Component Type:", componentType);
+    console.log("Selected Component:", component);
+    setSelectedComponentType(componentType);
+    setSelectedComponent(component);
+    setShowModal(true);
   };
 
   const Loading = () => {
@@ -275,10 +268,7 @@ export default function CustomizePC() {
                           <div className="btn-select ml-auto">
                             <Button
                               onClick={() =>
-                                openComponentModal(
-                                  component,
-                                  selectedComponents
-                                )
+                                openComponentModal(component, component.name)
                               }
                             >
                               Select
@@ -309,6 +299,7 @@ export default function CustomizePC() {
               closeModel={() => setShowModal(false)}
               handleComponentSelect={handleComponentSelect}
               selectedComponents={selectedComponents}
+              selectedLocation={selectedComponentType}
               componentType={componentType}
               component={selectedComponent}
               filteredComponents={filteredComponents}
