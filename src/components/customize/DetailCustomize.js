@@ -1,17 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Skeleton from "react-loading-skeleton";
-import "./product.css";
+import "./Customize.scss";
 
 // import Col from 'react-bootstrap/Col';
 
 import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 
-export default function Product() {
+export default function DetailCustomize() {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  };
 
   // useEffect(() => {
   //   const getProducts = async () => {

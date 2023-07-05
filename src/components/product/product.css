@@ -42,3 +42,26 @@
     color: #0f8698;
     font-weight: 600;
   }
+
+  .card-image{
+    border-radius: 10px;
+  }
+
+  .lead-type {
+    position: relative;
+    padding-left: 10px;
+    margin: 0 0 2px;
+  }
+  .lead::before {
+    content: "";
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background-image: url(//bizweb.dktcdn.net/100/329/122/themes/897348/assets/check.svg?1688119468676);
+    background-size: contain;
+    margin-right: 5px;
+  
+  }

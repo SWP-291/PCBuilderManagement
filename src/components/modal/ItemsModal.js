@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-bootstrap/Dropdown";
 import Pagination from "react-bootstrap/Pagination";
 import Table from "react-bootstrap/Table";
 
 import "./ItemsModal.scss";
 
-const ItemsModal = ({ closeModel, handleComponentSelect }) => {
+const ItemsModal = ({
+  closeModel,
+  handleComponentSelect,
+  selectedLocation,
+}) => {
   const [components, setComponents] = useState([]);
   const [filteredComponents, setFilteredComponents] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -37,63 +37,52 @@ const ItemsModal = ({ closeModel, handleComponentSelect }) => {
 
   useEffect(() => {
     filterComponents(selectedComponent);
-  }, [selectedComponent]);
+  }, [selectedComponent, selectedLocation]);
 
   useEffect(() => {
     setCurrentPage(1); // Reset current page when filtered components change
   }, [filteredComponents]);
 
-  const filterComponents = (component) => {
-    if (component === "CPU") {
-      setFilteredComponents(components.filter((c) => c.name.includes("CPU")));
-    } else if (component === "Ram") {
-      setFilteredComponents(components.filter((c) => c.name.includes("Ram")));
-    } else if (component === "Mainboard") {
-      setFilteredComponents(
-        components.filter((c) => c.name.includes("Mainboard"))
+  const filterComponents = (categoryName) => {
+    let filtered = [...components]; // Create a new array to hold the filtered components
+    if (categoryName === "CPU") {
+      filtered = filtered.filter((component) => component.name.includes("CPU"));
+    } else if (categoryName === "Mainboard") {
+      filtered = filtered.filter((component) =>
+        component.name.includes("Mainboard")
       );
-    } else if (component === "VGA") {
-      setFilteredComponents(components.filter((c) => c.name.includes("VGA")));
-    } else if (component === "PSU") {
-      setFilteredComponents(components.filter((c) => c.name.includes("PSU")));
-    } else if (component === "SSD") {
-      setFilteredComponents(components.filter((c) => c.name.includes("SSD")));
-    } else if (component === "HDD") {
-      setFilteredComponents(components.filter((c) => c.name.includes("HDD")));
-    } // else {
-    //   setFilteredComponents(components); // Reset to all components
-    // }
+    } else if (categoryName === "VGA") {
+      filtered = filtered.filter((component) => component.name.includes("VGA"));
+    } else if (categoryName === "PSU") {
+      filtered = filtered.filter((component) => component.name.includes("PSU"));
+    } else if (categoryName === "Ram") {
+      filtered = filtered.filter((component) => component.name.includes("Ram"));
+    } else if (categoryName === "SSD") {
+      filtered = filtered.filter((component) => component.name.includes("SSD"));
+    } else if (categoryName === "HDD") {
+      filtered = filtered.filter((component) => component.name.includes("HDD"));
+    }
+
+    if (selectedLocation) {
+      filtered = filtered.filter(
+        (component) => component.location === selectedLocation
+      );
+    }
+    setFilteredComponents(filtered);
   };
 
-  // const handleSelectButtonClick = async (componentId) => {
-  //   try {
-  //     const endpoint = `https://localhost:7262/api/PC/${componentId}/components`;
-
-  //     const response = await fetch(endpoint, {
-  //       method: "PUT",
-  //     });
-
-  //     // Check the response status and handle it accordingly
-  //     if (response.ok) {
-  //       console.log("API update successful");
-  //       const selectedComponent = components.find((c) => c.id === componentId);
-  //       setSelectedComponent(selectedComponent);
-  //       handleComponentSelect(selectedComponent);
-  //     } else {
-  //       console.error("API update failed");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating API:", error);
-  //   }
+  // const handleSelectButtonClick = (componentId) => {
+  //   const selectedComponent = filteredComponents.find(
+  //     (c) => c.id === componentId
+  //   );
+  //   handleComponentSelect(selectedComponent, selectedLocation);
+  //   console.log(componentId);
   // };
 
-  const handleSelectButtonClick = (componentId) => {
-    const selectedComponent = components.find((c) => c.id === componentId);
-    setSelectedComponent(selectedComponent);
-    handleComponentSelect(selectedComponent);
-    console.log(componentId);
+  const handleSelectButtonClick = (component) => {
+    handleComponentSelect(component, selectedLocation);
+    console.log(component);
   };
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -124,9 +113,9 @@ const ItemsModal = ({ closeModel, handleComponentSelect }) => {
   }
 
   return (
-    <Row className="ItemsModal">
-      <div className="modelContainer">
-        <Col className="closebtn d-flex justify-content-between align-items-center">
+    <div className="modal-overlay">
+      <div className="modal-container">
+        <div className="modal-header">
           <h1>Select</h1>
           <Button
             style={{ backgroundColor: "red", width: "45px", height: "45px" }}
@@ -136,44 +125,23 @@ const ItemsModal = ({ closeModel, handleComponentSelect }) => {
           >
             X
           </Button>
-        </Col>
-        <Col className="title">
-          <input
-            type="search"
-            placeholder="Search here..."
-            style={{
-              height: "30px",
-              width: "300px",
-              borderRadius: "6px",
-              textAlign: "center",
-            }}
-          />
-          <div className="sort">
-            <DropdownButton
-              title={selectedComponent || "Select Component"}
-              onSelect={(eventKey) => setSelectedComponent(eventKey)}
-            >
-              <Dropdown.Item eventKey="CPU">CPU</Dropdown.Item>
-              <Dropdown.Item eventKey="Ram">Ram</Dropdown.Item>
-              <Dropdown.Item eventKey="Mainboard">Mainboard</Dropdown.Item>
-              <Dropdown.Item eventKey="VGA">VGA</Dropdown.Item>
-              <Dropdown.Item eventKey="PSU">PSU</Dropdown.Item>
-              <Dropdown.Item eventKey="SSD">SSD</Dropdown.Item>
-              <Dropdown.Item eventKey="HDD">HDD</Dropdown.Item>
-            </DropdownButton>
+        </div>
+        <div className="modal-body">
+          <div className="search">
+            <input
+              type="search"
+              placeholder="Search here..."
+              style={{
+                height: "30px",
+                width: "300px",
+                borderRadius: "6px",
+                textAlign: "center",
+              }}
+            />
           </div>
-          <div className="sort">
-            <h5>Sort by: </h5>
-            <DropdownButton title="Featured Items" id="bg-nested-dropdown">
-              <Dropdown.Item eventKey="1">Increase price</Dropdown.Item>
-              <Dropdown.Item eventKey="2">Decrease price</Dropdown.Item>
-            </DropdownButton>
-          </div>
-          <div className="paging">
+          <div className="pagination">
             <Pagination size="sm">{items}</Pagination>
           </div>
-        </Col>
-        <Col className="body">
           {loading ? (
             <p>Loading components...</p>
           ) : (
@@ -203,7 +171,7 @@ const ItemsModal = ({ closeModel, handleComponentSelect }) => {
                     </td>
                     <td>
                       <Button
-                        onClick={() => handleSelectButtonClick(component.id)}
+                        onClick={() => handleSelectButtonClick(component)}
                       >
                         Select
                       </Button>
@@ -213,9 +181,9 @@ const ItemsModal = ({ closeModel, handleComponentSelect }) => {
               </tbody>
             </Table>
           )}
-        </Col>
+        </div>
       </div>
-    </Row>
+    </div>
   );
 };
 

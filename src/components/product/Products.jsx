@@ -90,7 +90,7 @@ export default function Products() {
         return (
           <>
             <NavLink
-              to={`/PC/${product.id}`}
+              to={`/PCDetail/${product.id}`}
               className="btn btn-outline-primary detail-button"
               onClick={() => handleViewDetail(product.id)}
             >
@@ -109,7 +109,7 @@ export default function Products() {
         return (
           <>
             <NavLink
-              to={`/customize-pc/${product.id}`}
+              to={`/customize-pc-detail/${product.id}`}
               className="btn btn-outline-primary detail-button"
               onClick={() => handleViewDetail(product.id)}
             >

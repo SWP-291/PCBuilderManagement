@@ -4,27 +4,13 @@ import Skeleton from "react-loading-skeleton";
 import "./product.css";
 
 // import Col from 'react-bootstrap/Col';
-
 import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 
-export default function Product() {
+export default function DetailTemplate() {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   const getProducts = async () => {
-  //     setLoading(true);
-  //     const response = await fetch(`
-  //     https://fakestoreapi.com/products?fbclid=IwAR1YHbn0JC-X1bwdexd9rH09-Oc5JZIDlt3VVcgy9q917OzNyWxktCdaem8/${id}`);
-  //     const responseData = await response.json();
-  //     setProduct(responseData.data);
-  //     setLoading(false);
-
-  //   };
-  //   getProducts();
-  // }, []);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -37,6 +23,9 @@ export default function Product() {
     };
     getProducts();
   }, []);
+
+  const detail = product.detail || "";
+  const detailChunks = detail.split(". ");
 
   const Loading = () => {
     return (
@@ -56,7 +45,7 @@ export default function Product() {
       </>
     );
   };
-  const descriptionLines = 6;
+  const descriptionLines = 5;
 
   const ShowProduct = () => {
     return (
@@ -91,14 +80,12 @@ export default function Product() {
               <p>Price not available</p>
             )}
           </h3>
-          <p
-            className="lead"
-            style={{
-              maxHeight: `${descriptionLines * 2}em`,
-              overflow: "auto",
-            }}
-          >
-            {product.description}
+          <p className="lead-type">
+            {detailChunks.map((chunk, index) => (
+              <p key={index} className="lead">
+                {chunk.trim()} {/* Xóa khoảng trắng thừa */}
+              </p>
+            ))}
           </p>
           <NavLink to="/payment">
             <Button type="submit">Buy Now</Button>
