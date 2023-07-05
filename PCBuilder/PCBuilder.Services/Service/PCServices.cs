@@ -673,9 +673,7 @@ namespace PCBuilder.Services.Service
                         Quantity = quantity,
                     };
 
-                    newPC.Price +=(decimal) component.Price;
-                    newPC.IsPublic = true;
-                    newPC.IsTemplate = true;
+                    
                     
                     await _pcComponentRepository.AddPcComponentsAsync(pcComponent);
                     var componentDTO = new ComponentDTO
@@ -694,7 +692,10 @@ namespace PCBuilder.Services.Service
                 }
 
                 // Update the PC description and summary
-                
+                var totalPrice = newComponents.Select(c => c.Price);
+                newPC.Price += totalPrice.Sum();
+                newPC.IsPublic = true;
+                newPC.IsTemplate = true;
                 var componentDetail = newComponents.Select(c => c.Name);
                 newPC.Detail = string.Join(". ", componentDetail);
                 var componentDecription = newComponents.Select(c => c.Description);
