@@ -372,8 +372,8 @@ namespace PCBuilder.Services.Service
                     return _response;
                 }
 
-                _mapper.Map(pcDTO, pc);
-                var updatedPc = await _repository.UpdatePcAsync(pc);
+                var PC = _mapper.Map(pcDTO, pc);
+                var updatedPc = await _repository.UpdatePcAsync(PC);
 
                 var updatedPcDTO = _mapper.Map<PcDTO>(updatedPc);
                 _response.Success = true;
@@ -460,12 +460,12 @@ namespace PCBuilder.Services.Service
                     response.Message = "PC not found";
                     return response;
                 }
-                if (pc.IsTemplate == true)
-                {
-                    response.Success = false;
-                    response.Message = "PC Not Custom";
-                    return response;
-                }
+                //if (pc.IsTemplate == true)
+                //{
+                //    response.Success = false;
+                //    response.Message = "PC Not Custom";
+                //    return response;
+                //}
                 
 
                 // Fetch the existing components from the database based on the IDs
@@ -478,8 +478,7 @@ namespace PCBuilder.Services.Service
                 }
                 var newComponents = new List<ComponentDTO>();
                 // Create a PC_Component entity for each existing component
-                int count = listComponents.Count;
-                int index = 0;
+
                 foreach (var component in listComponents)
                 {
                     var pcComponent = new PcComponent
@@ -489,23 +488,6 @@ namespace PCBuilder.Services.Service
                         Quantity = quantity,
 
                     };
-                    pc.IsPublic = true;
-                    pc.IsTemplate = true;
-                    pc.Price += component.Price;
-                    pc.DesignBy = 3;
-                    if (index == count - 1)
-                    {
-                        pc.Description += component.Description;
-                        pc.Summary += component.Summary;
-                        pc.Detail += component.Name;
-                    }
-                    else { 
-                        pc.Description += component.Description + "|";
-                        pc.Summary += component.Summary + "|";
-                        pc.Detail += component.Name + ". ";
-                        
-                    }
-                    index++;
                     await _pcComponentRepository.AddPcComponentsAsync(pcComponent);
                     var componentDTO = new ComponentDTO
                     {
@@ -521,7 +503,15 @@ namespace PCBuilder.Services.Service
 
                     newComponents.Add(componentDTO);
                 }
+                pc.IsPublic = true;
+                pc.IsTemplate = true;
+                var totalPrice = listComponents.Select(c => c.Price);
+                pc.Price = totalPrice.Sum();
+                pc.DesignBy = 3;
 
+                pc.Description += string.Join("|", listComponents.Select(c => c.Description));
+                pc.Summary += string.Join("|", listComponents.Select(c => c.Summary));
+                pc.Detail += string.Join(". ", listComponents.Select(c => c.Name));
 
                 // Add the PC_Component entities to the database
                 // Update the response with success message and PC DTO
@@ -583,7 +573,7 @@ namespace PCBuilder.Services.Service
                     };
                     
 
-                    pc.Price += component.Price;
+     
 
                     await _pcComponentRepository.AddPcComponentsAsync(pcComponent);
                 }
@@ -595,6 +585,8 @@ namespace PCBuilder.Services.Service
                 pc.Description = string.Join("|", componentDecriptions);
                 var componentSummary = newComponents.Select(c => c.Summary);
                 pc.Summary = string.Join("|", componentSummary);
+                var componentPrice = newComponents.Select(c => c.Price);
+                pc.Price = componentPrice.Sum();
                 pc.IsTemplate = true;
                 pc.DesignBy = 1;
 
