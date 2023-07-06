@@ -17,7 +17,7 @@ namespace PCBuilder.API.Controllers
             _IPCServices = IPCServices;
         }
 
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         [HttpGet("GetListByCustomer")]
         public async Task<IActionResult> GetPCListByCustomer()
         {
@@ -29,7 +29,7 @@ namespace PCBuilder.API.Controllers
             return Ok(PCs);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet("GetListByAdmin")]
         public async Task<IActionResult> GetPCListByAdmin()
         {
@@ -109,7 +109,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePC(int id)
         {
@@ -174,7 +174,7 @@ namespace PCBuilder.API.Controllers
 
             return Ok(response);
         }
-
+        //[Authorize(Roles = "Admin")]
         [HttpDelete("{id}/DeletePCWithComponent")]
         public async Task<IActionResult> DeletePCWithComponent(int id)
         {
