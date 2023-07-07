@@ -7,6 +7,9 @@ import ItemsModal from "../modal/ItemsModal";
 import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Popup from "reactjs-popup";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CustomizePC() {
   const { id } = useParams();
@@ -19,6 +22,8 @@ export default function CustomizePC() {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [selectedComponents, setSelectedComponents] = useState([]);
   const [filteredComponents, setFilteredComponents] = useState([]);
+  const [originalComponents, setOriginalComponents] = useState([]);
+  const [toastProps, setToastProps] = useState({});
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -39,6 +44,8 @@ export default function CustomizePC() {
       const responseData = await response.json();
       const pcData = responseData.data;
       setProduct(pcData);
+
+      setOriginalComponents(pcData.components);
       setLoading(false);
     };
 
@@ -70,7 +77,62 @@ export default function CustomizePC() {
     }
   }, [selectedComponentType, product.components]);
 
-  const handleComponentSelect = (componentType, component) => {
+  // const handleComponentSelect = (componentType, component) => {
+  //   const updatedSelectedComponents = selectedComponents.map(
+  //     (selectedComponent) => {
+  //       if (selectedComponent.name === componentType) {
+  //         return component;
+  //       }
+  //       return selectedComponent;
+  //     }
+  //   );
+
+  //   setSelectedComponents(updatedSelectedComponents);
+  //   setShowModal(false);
+  //   setSelectedComponentType(null);
+  //   console.log("Selected Components:", updatedSelectedComponents);
+  // };
+  // const handleComponentSelect = async (componentType, component) => {
+  //   const updatedSelectedComponents = selectedComponents.map(
+  //     (selectedComponent) => {
+  //       if (selectedComponent.name === componentType) {
+  //         return component;
+  //       }
+  //       return selectedComponent;
+  //     }
+  //   );
+
+  //   try {
+  //     // Gửi yêu cầu API để cập nhật danh sách ban đầu
+  //     await axios.put(
+  //       `https://localhost:7262/api/PC/${id}/UpdateComponentsOfPC`,
+  //       updatedSelectedComponents.map((component) => component.id),
+
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     console.log("Components updated successfully");
+
+  //     // Cập nhật danh sách sản phẩm đã chọn trong React state
+  //     setSelectedComponents(updatedSelectedComponents);
+  //   } catch (error) {
+  //     console.error("Error updating components:", error.response);
+  //     console.error("Error updating components:", error.response.data);
+  //   }
+  // };
+
+  const SuccessToast = ({ closeToast, data }) => (
+    <div>
+      <div>Component updated successfully!</div>
+      <div>Type: {data.type}</div>
+      <div>Name: {data.component.name}</div>
+    </div>
+  );
+
+  const handleComponentSelect = async (componentType, component) => {
     const updatedSelectedComponents = selectedComponents.map(
       (selectedComponent) => {
         if (selectedComponent.name === componentType) {
@@ -80,10 +142,40 @@ export default function CustomizePC() {
       }
     );
 
-    setSelectedComponents(updatedSelectedComponents);
-    setShowModal(false);
-    setSelectedComponentType(null);
-    console.log("Selected Components:", updatedSelectedComponents);
+    const selectedComponentWithType = {
+      type: componentType,
+      component: component,
+    };
+
+    try {
+      // Gửi yêu cầu API để cập nhật danh sách ban đầu
+      const temporarySelectedComponent = updatedSelectedComponents.map(
+        (component) => component.id
+      );
+      await axios.put(
+        `https://localhost:7262/api/PC/${id}/UpdateComponentsOfPC`,
+        temporarySelectedComponent,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Components updated successfully");
+
+      // Cập nhật danh sách sản phẩm đã chọn trong React state
+      setSelectedComponents(updatedSelectedComponents);
+      toast.success(
+        "Components updated successfully",
+        selectedComponentWithType
+      );
+      setToastProps({
+        data: selectedComponentWithType,
+      });
+    } catch (error) {
+      console.error("Error updating components:", error.response);
+      console.error("Error updating components:", error.response.data);
+    }
   };
 
   const openComponentModal = (component, componentType) => {
@@ -294,6 +386,16 @@ export default function CustomizePC() {
       <div className="container">
         <div className="row">
           {loading ? <Loading /> : <ShowProduct />}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar
+            closeOnClick
+            pauseOnHover
+            closeButton={false}
+            className="toast-container"
+            toastClassName="toast-success"
+          />
           {showModal && (
             <ItemsModal
               closeModel={() => setShowModal(false)}

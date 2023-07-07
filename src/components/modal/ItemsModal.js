@@ -8,6 +8,8 @@ import Pagination from "react-bootstrap/Pagination";
 import Table from "react-bootstrap/Table";
 
 import "./ItemsModal.scss";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ItemsModal = ({
   closeModel,
@@ -21,6 +23,7 @@ const ItemsModal = ({
   const [filteredComponents, setFilteredComponents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -82,6 +85,7 @@ const ItemsModal = ({
 
   const handleSelectComponent = (component) => {
     handleComponentSelect(selectedLocation, component);
+    toast.success("Components Updated Successfully!");
   };
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -182,9 +186,19 @@ const ItemsModal = ({
                       <p>{component.description}</p>
                     </td>
                     <td>
-                      <p style={{ color: "red", fontWeight: "600" }}>
-                        ${component.price}
-                      </p>
+                      <span className="d-price fw-bold">
+                        {component.price &&
+                        typeof component.price === "number" ? (
+                          <p>
+                            {component.price.toLocaleString("vi-VN", {
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0,
+                            })}
+                          </p>
+                        ) : (
+                          <p>Price not available</p>
+                        )}
+                      </span>
                     </td>
                     <td>
                       <Button onClick={() => handleSelectComponent(component)}>
@@ -201,5 +215,4 @@ const ItemsModal = ({
     </Row>
   );
 };
-
 export default ItemsModal;
