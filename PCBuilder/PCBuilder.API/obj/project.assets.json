@@ -4003,19 +4003,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\LENOVO\\.nuget\\packages\\": {}
+    "C:\\Users\\Thinh Tran\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
+      "projectUniqueName": "C:\\Users\\Thinh Tran\\Desktop\\SWP\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
       "projectName": "PCBuilder.API",
-      "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
-      "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-      "outputPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\obj\\",
+      "projectPath": "C:\\Users\\Thinh Tran\\Desktop\\SWP\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\PCBuilder.API.csproj",
+      "packagesPath": "C:\\Users\\Thinh Tran\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Thinh Tran\\Desktop\\SWP\\PCBuilderManagement\\PCBuilder\\PCBuilder.API\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Thinh Tran\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4023,18 +4028,18 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
-              "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
+            "C:\\Users\\Thinh Tran\\Desktop\\SWP\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
+              "projectPath": "C:\\Users\\Thinh Tran\\Desktop\\SWP\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
             },
-            "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj": {
-              "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj"
+            "C:\\Users\\Thinh Tran\\Desktop\\SWP\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj": {
+              "projectPath": "C:\\Users\\Thinh Tran\\Desktop\\SWP\\PCBuilderManagement\\PCBuilder\\PCBuilder.Services\\PCBuilder.Services.csproj"
             }
           }
         }
@@ -4091,7 +4096,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

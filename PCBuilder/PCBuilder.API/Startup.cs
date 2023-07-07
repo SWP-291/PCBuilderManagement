@@ -88,15 +88,6 @@ namespace PCBuilder.API
                 };
             });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("EmployeeOnly", policy =>
-                {
-                    policy.RequireClaim("Roles", "Employee");
-                });
-            });
-
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

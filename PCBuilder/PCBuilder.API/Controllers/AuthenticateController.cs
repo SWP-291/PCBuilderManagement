@@ -17,11 +17,11 @@ namespace PCBuilder.API.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class Authenticate : ControllerBase
+    public class AuthenticateController : ControllerBase
     {
         private readonly IUserServices _userServices;
 
-        public Authenticate(IUserServices userServices)
+        public AuthenticateController(IUserServices userServices)
         {
             _userServices = userServices;
         }
