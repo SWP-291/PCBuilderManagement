@@ -24,6 +24,11 @@ export default function CustomizePC() {
   const [filteredComponents, setFilteredComponents] = useState([]);
   const [originalComponents, setOriginalComponents] = useState([]);
   const [toastProps, setToastProps] = useState({});
+  const [initialPrice, setInitialPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [ramQuantity, setRamQuantity] = useState(1);
+  const [hddQuantity, setHddQuantity] = useState(1);
+  const [ssdQuantity, setSsdQuantity] = useState(1);
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -47,6 +52,9 @@ export default function CustomizePC() {
 
       setOriginalComponents(pcData.components);
       setLoading(false);
+
+      const initalPcPrice = calTotalPrice(pcData.components);
+      setInitialPrice(initalPcPrice);
     };
 
     getProducts();
@@ -77,60 +85,15 @@ export default function CustomizePC() {
     }
   }, [selectedComponentType, product.components]);
 
-  // const handleComponentSelect = (componentType, component) => {
-  //   const updatedSelectedComponents = selectedComponents.map(
-  //     (selectedComponent) => {
-  //       if (selectedComponent.name === componentType) {
-  //         return component;
-  //       }
-  //       return selectedComponent;
-  //     }
-  //   );
-
-  //   setSelectedComponents(updatedSelectedComponents);
-  //   setShowModal(false);
-  //   setSelectedComponentType(null);
-  //   console.log("Selected Components:", updatedSelectedComponents);
-  // };
-  // const handleComponentSelect = async (componentType, component) => {
-  //   const updatedSelectedComponents = selectedComponents.map(
-  //     (selectedComponent) => {
-  //       if (selectedComponent.name === componentType) {
-  //         return component;
-  //       }
-  //       return selectedComponent;
-  //     }
-  //   );
-
-  //   try {
-  //     // Gửi yêu cầu API để cập nhật danh sách ban đầu
-  //     await axios.put(
-  //       `https://localhost:7262/api/PC/${id}/UpdateComponentsOfPC`,
-  //       updatedSelectedComponents.map((component) => component.id),
-
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     console.log("Components updated successfully");
-
-  //     // Cập nhật danh sách sản phẩm đã chọn trong React state
-  //     setSelectedComponents(updatedSelectedComponents);
-  //   } catch (error) {
-  //     console.error("Error updating components:", error.response);
-  //     console.error("Error updating components:", error.response.data);
-  //   }
-  // };
-
-  const SuccessToast = ({ closeToast, data }) => (
-    <div>
-      <div>Component updated successfully!</div>
-      <div>Type: {data.type}</div>
-      <div>Name: {data.component.name}</div>
-    </div>
-  );
+  const calTotalPrice = (components) => {
+    let totalPrice = 0;
+    components.forEach((component) => {
+      if (component.price && typeof component.price === "number") {
+        totalPrice += component.price;
+      }
+    });
+    return totalPrice;
+  };
 
   const handleComponentSelect = async (componentType, component) => {
     const updatedSelectedComponents = selectedComponents.map(
@@ -165,6 +128,8 @@ export default function CustomizePC() {
 
       // Cập nhật danh sách sản phẩm đã chọn trong React state
       setSelectedComponents(updatedSelectedComponents);
+      setShowModal(false);
+      setSelectedComponentType(null);
       toast.success(
         "Components updated successfully",
         selectedComponentWithType
@@ -172,18 +137,25 @@ export default function CustomizePC() {
       setToastProps({
         data: selectedComponentWithType,
       });
+      const newUpdatedPrice = calTotalPrice(selectedComponents);
+      setTotalPrice(newUpdatedPrice);
     } catch (error) {
       console.error("Error updating components:", error.response);
       console.error("Error updating components:", error.response.data);
     }
   };
 
-  const openComponentModal = (component, componentType) => {
-    console.log("Selected Component Type:", componentType);
-    console.log("Selected Component:", component);
-    setSelectedComponentType(componentType);
-    setSelectedComponent(component);
-    setShowModal(true);
+  const openComponentModal = (component, componentType, index) => {
+    if (index === 1 && componentType === "CPU") {
+      setSelectedComponentType(componentType);
+      setSelectedComponent(component);
+      setShowModal(true);
+    }
+    // console.log("Selected Component Type:", componentType);
+    // console.log("Selected Component:", component);
+    // setSelectedComponentType(componentType);
+    // setSelectedComponent(component);
+    // setShowModal(true);
   };
 
   const Loading = () => {
@@ -209,6 +181,7 @@ export default function CustomizePC() {
   const detailChunks = detail.split(". ");
 
   const ShowProduct = () => {
+    const totalPrice = calTotalPrice(selectedComponents);
     return (
       <>
         <div className="col-md-6 pt-4 image-main">
@@ -332,14 +305,60 @@ export default function CustomizePC() {
                                 )}
                               </span>
                               <span className="price-separator">x</span>
-                              <input
-                                className="count-p"
-                                type="number"
-                                min="1"
-                                max="50"
-                              />
+                              {component.name.includes("Ram") && (
+                                <input
+                                  className="count-p"
+                                  type="number"
+                                  min="1"
+                                  max="50"
+                                  value={ramQuantity}
+                                  onChange={(e) => {
+                                    setRamQuantity(e.target.value);
+                                    e.preventDefault();
+                                  }}
+                                />
+                              )}
+                              {component.name.includes("HDD") && (
+                                <input
+                                  className="count-p"
+                                  type="number"
+                                  min="1"
+                                  max="50"
+                                  value={hddQuantity}
+                                  onChange={(e) => {
+                                    setHddQuantity(e.target.value);
+                                  }}
+                                />
+                              )}
+                              {component.name.includes("SSD") && (
+                                <input
+                                  className="count-p"
+                                  type="number"
+                                  min="1"
+                                  max="50"
+                                  value={ssdQuantity}
+                                  onChange={(e) => {
+                                    setSsdQuantity(e.target.value);
+                                  }}
+                                />
+                              )}
                               <span className="price-separator">=</span>
-                              <span className="sum-price">Sum display</span>
+                              <span className="sum-price">
+                                {component.price &&
+                                typeof component.price === "number"
+                                  ? (
+                                      component.price *
+                                      (component.name.includes("Ram")
+                                        ? ramQuantity
+                                        : component.name.includes("HDD")
+                                        ? hddQuantity
+                                        : ssdQuantity)
+                                    ).toLocaleString("vi-VN", {
+                                      minimumFractionDigits: 0,
+                                      maximumFractionDigits: 0,
+                                    })
+                                  : "Price not available"}
+                              </span>
                             </div>
                           ) : (
                             <span className="d-price fw-bold">
@@ -376,6 +395,11 @@ export default function CustomizePC() {
               <p>No components available</p>
             )}
           </div>
+          <div className="initalPrice">Initial Price: {initialPrice}</div>
+          <div className="updatePrice">Updated Price: {totalPrice}</div>
+          <NavLink to="/payment">
+            <Button type="submit">Buy Now</Button>
+          </NavLink>
         </div>
       </>
     );
