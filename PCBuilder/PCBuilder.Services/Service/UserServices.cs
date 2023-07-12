@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography;
 
 namespace PCBuilder.Services.Service
 {
@@ -23,8 +24,9 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<UserDTO>> UpdateUserAsync(int id, UserDTO userDTO);
         Task<ServiceResponse<bool>> DeleteUserAsync(int id);
         Task<ServiceResponse<UserRoleDTO>> LoginAsync(string email, string password);
-        Task<ServiceResponse<string>> Login(string email, string password);
+        Task<ServiceResponse<AuthResponseDTO>> Login(string email, string password);
         Task<ServiceResponse<string>> Signup(string email, string password);
+
         //Task<ServiceResponse<string>> Logout();
         Task<ServiceResponse<string>> SomeAuthorizedMethod(string token);
     }
@@ -36,8 +38,12 @@ namespace PCBuilder.Services.Service
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
-
-        public UserServices(IUserRepository iUserRepository, IRoleRepository iRoleRepository, IMapper mapper, IConfiguration configuration)
+        public UserServices(
+            IUserRepository iUserRepository,
+            IRoleRepository iRoleRepository,
+            IMapper mapper,
+            IConfiguration configuration
+        )
         {
             _iUserRepository = iUserRepository;
             _mapper = mapper;
@@ -51,7 +57,6 @@ namespace PCBuilder.Services.Service
 
             try
             {
-
                 var UsersList = await _iUserRepository.GetAllUsersAsync();
 
                 var UserListDto = new List<UserDTO>();
@@ -66,7 +71,6 @@ namespace PCBuilder.Services.Service
                 _response.Success = true;
                 _response.Message = "User retrieved successfully";
                 _response.Data = UserListDto;
-
             }
             catch (Exception ex)
             {
@@ -109,6 +113,7 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
+
         public async Task<ServiceResponse<UserDTO>> CreateUserAsync(UserDTO userDTO)
         {
             ServiceResponse<UserDTO> response = new ServiceResponse<UserDTO>();
@@ -132,6 +137,7 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
+
         public async Task<ServiceResponse<UserDTO>> UpdateUserAsync(int id, UserDTO userDTO)
         {
             ServiceResponse<UserDTO> response = new ServiceResponse<UserDTO>();
@@ -166,6 +172,7 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
+
         public async Task<ServiceResponse<bool>> DeleteUserAsync(int id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
@@ -194,15 +201,18 @@ namespace PCBuilder.Services.Service
             }
 
             return response;
-
         }
+
         public async Task<ServiceResponse<UserRoleDTO>> LoginAsync(string email, string password)
         {
             ServiceResponse<UserRoleDTO> response = new ServiceResponse<UserRoleDTO>();
 
             try
             {
-                var user = await _iUserRepository.GetUserAndPasswordByUsernameAsync(email, password);
+                var user = await _iUserRepository.GetUserAndPasswordByUsernameAsync(
+                    email,
+                    password
+                );
 
                 if (user == null || user.RoleId == null)
                 {
@@ -237,10 +247,9 @@ namespace PCBuilder.Services.Service
             return response;
         }
 
-
-        public async Task<ServiceResponse<string>> Login(string email, string password)
+        public async Task<ServiceResponse<AuthResponseDTO>> Login(string email, string password)
         {
-            ServiceResponse<string> response = new ServiceResponse<string>();
+            ServiceResponse<AuthResponseDTO> response = new ServiceResponse<AuthResponseDTO>();
             var user = await _iUserRepository.GetUserByEmailAsync(email);
             if (user == null || user.Password != password)
             {
@@ -250,15 +259,17 @@ namespace PCBuilder.Services.Service
             }
 
             var role = await _iRoleRepository.GetRoleByIdAsync(user.RoleId);
-            var claims = new List<Claim>{
-                new Claim(ClaimTypes.Email, user.Email.ToString()),
-                new Claim(ClaimTypes.Role, role.Name.ToString()),
-                new Claim(ClaimTypes.GivenName, user.Fullname),
-                new Claim(ClaimTypes.MobilePhone, user.Phone),
-                new Claim(ClaimTypes.Country, user.Country),
-                new Claim(ClaimTypes.Gender, user.Gender),
-                new Claim(ClaimTypes.StreetAddress, user.Address),
-                new Claim(ClaimTypes.Uri, user.Avatar)
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(ClaimTypes.Role, role.Name),
+                new Claim("fullName", user.Fullname),
+                new Claim("phone", user.Phone),
+                new Claim("country", user.Country.ToString()),
+                new Claim("gender", user.Gender.ToString()),
+                new Claim("address", user.Address),
+                new Claim("avatar", user.Avatar)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -268,18 +279,42 @@ namespace PCBuilder.Services.Service
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature
+                )
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var jwt = tokenHandler.WriteToken(token);
 
+            var refreshToken = GenerateRefreshToken();
+            var refreshTokenExpiration = DateTime.UtcNow.AddDays(30); // Thời gian hết hạn của RefreshToken
+
+            var authResponse = new AuthResponseDTO
+            {
+                Token = jwt,
+                RefreshToken = refreshToken,
+                ExpiresIn = tokenDescriptor.Expires ?? DateTime.UtcNow.AddDays(7)
+            };
+
             response.Success = true;
             response.Message = "Login successful.";
-            response.Data = jwt;
+            response.Data = authResponse;
 
             return response;
         }
+
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
+
         public async Task<ServiceResponse<string>> SomeAuthorizedMethod(string token)
         {
             ServiceResponse<string> response = new ServiceResponse<string>();
@@ -299,7 +334,11 @@ namespace PCBuilder.Services.Service
             };
 
             SecurityToken validatedToken;
-            var claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+            var claimsPrincipal = tokenHandler.ValidateToken(
+                token,
+                validationParameters,
+                out validatedToken
+            );
 
             // Kiểm tra quyền truy cập
             var roleClaim = claimsPrincipal.FindFirst("Role");
@@ -342,7 +381,6 @@ namespace PCBuilder.Services.Service
             return response;
         }
 
-
         // can cho form dang ki no la cai gi de con viet tiep
         public async Task<ServiceResponse<string>> Signup(string email, string password)
         {
@@ -355,17 +393,12 @@ namespace PCBuilder.Services.Service
                 return response;
             }
 
-            var user = new User()
-            {
-                Email = email,
-                Password = password
-            };
+            var user = new User() { Email = email, Password = password };
             await _iUserRepository.CreateUserAsync(user);
 
             response.Success = true;
             response.Data = "Sign up successfully";
             return response;
         }
-
     }
 }
