@@ -32,9 +32,9 @@ namespace PCBuilder.API.Controllers
             var response = await _userServices.Login(loginRequest.Email, loginRequest.Password);
             if (!response.Success)
             {
-                return Unauthorized(new { message = response.Message });
+                return Unauthorized(new { success = response.Success, message = response.Message });
             }
-            return Ok(new { token = response.Data });
+            return Ok(new { success = response.Success, message = response.Message, token = response.Data });
         }
 
         [HttpPost("signup")]

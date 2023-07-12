@@ -242,17 +242,23 @@ namespace PCBuilder.Services.Service
         {
             ServiceResponse<string> response = new ServiceResponse<string>();
             var user = await _iUserRepository.GetUserByEmailAsync(email);
-            if (user != null && user.Password != password)
+            if (user == null || user.Password != password)
             {
                 response.Success = false;
-                response.Message = "Login failed";
+                response.Message = "Invalid username or password";
                 return response;
             }
 
             var role = await _iRoleRepository.GetRoleByIdAsync(user.RoleId);
             var claims = new List<Claim>{
                 new Claim(ClaimTypes.Email, user.Email.ToString()),
-                new Claim(ClaimTypes.Role, role.Name.ToString())
+                new Claim(ClaimTypes.Role, role.Name.ToString()),
+                new Claim(ClaimTypes.GivenName, user.Fullname),
+                new Claim(ClaimTypes.MobilePhone, user.Phone),
+                new Claim(ClaimTypes.Country, user.Country),
+                new Claim(ClaimTypes.Gender, user.Gender),
+                new Claim(ClaimTypes.StreetAddress, user.Address),
+                new Claim(ClaimTypes.Uri, user.Avatar)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
