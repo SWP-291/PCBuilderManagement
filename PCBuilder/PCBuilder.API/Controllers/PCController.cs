@@ -17,7 +17,7 @@ namespace PCBuilder.API.Controllers
             _IPCServices = IPCServices;
         }
 
-        //[Authorize(Roles = "Customer")]
+        [Authorize(Policy = "CustomerOnly")]
         [HttpGet("GetListByCustomer")]
         public async Task<IActionResult> GetPCListByCustomer()
         {

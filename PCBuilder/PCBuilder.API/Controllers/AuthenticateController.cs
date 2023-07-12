@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Repository.Model;
 using PCBuilder.Services.Service;
 
@@ -34,7 +29,14 @@ namespace PCBuilder.API.Controllers
             {
                 return Unauthorized(new { success = response.Success, message = response.Message });
             }
-            return Ok(new { success = response.Success, message = response.Message, token = response.Data });
+            return Ok(
+                new
+                {
+                    success = response.Success,
+                    message = response.Message,
+                    token = response.Data
+                }
+            );
         }
 
         [HttpPost("signup")]
