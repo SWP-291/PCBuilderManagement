@@ -40,7 +40,8 @@ namespace PCBuilder.Repository.Repository
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            //return await _context.Users.FindAsync(id);
+            return await _context.Users.FirstOrDefaultAsync(p => p.Id == id && p.IsActive == true);
         }
 
         public async Task<User> CreateUserAsync(User user)
