@@ -80,16 +80,18 @@ export default function DetailTemplate() {
               <p>Price not available</p>
             )}
           </h3>
-          <p className="lead-type">
-            {detailChunks.map((chunk, index) => (
-              <p key={index} className="lead">
-                {chunk.trim()} {/* Xóa khoảng trắng thừa */}
-              </p>
-            ))}
-          </p>
-          <NavLink to="/payment">
-            <Button type="submit">Buy Now</Button>
-          </NavLink>
+          <div>
+            <p className="lead-type">
+              {detailChunks.map((chunk, index) => (
+                <p key={index} className="lead">
+                  {chunk.trim()}
+                </p>
+              ))}
+            </p>
+            <NavLink to="/payment">
+              <Button type="submit">Buy Now</Button>
+            </NavLink>
+          </div>
         </div>
       </>
     );

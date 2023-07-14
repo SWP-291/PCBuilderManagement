@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./product.css";
 
 export default function Products() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   let componentMounted = true;
 
   // useEffect(() => {
@@ -64,10 +65,10 @@ export default function Products() {
     );
   };
 
-  const filterProduct = (isTemplate) => {
-    const updatedList = data.filter((x) => x.isTemplate === isTemplate);
-    setFilter(updatedList);
-  };
+  // const filterProduct = (isTemplate) => {
+  //   const updatedList = data.filter((x) => x.isTemplate === isTemplate);
+  //   setFilter(updatedList);
+  // };
 
   const ShowProducts = () => {
     const handleViewDetail = (productId) => {
@@ -75,9 +76,14 @@ export default function Products() {
       console.log(`View detail for product ${productId}`);
     };
 
-    const handleBuyNow = (productId) => {
+    const handleBuyNow = (product) => {
       // Handle the buy now action
-      console.log(`Buy now for product ${productId}`);
+      console.log("Product:", product);
+      navigate(
+        `/payment?url=${product.url}&price=${product.price}&image=${
+          product.image
+        }&name=${encodeURIComponent(product.name)}`
+      );
     };
 
     const handleCustomizePC = (productId) => {
@@ -96,13 +102,12 @@ export default function Products() {
             >
               Detail
             </NavLink>
-            <NavLink
-              to={`/PC/${product.id}`}
+            <button
               className="btn btn-outline-primary buy-button"
-              onClick={() => handleBuyNow(product.id)}
+              onClick={() => handleBuyNow(product)}
             >
               Buy Now
-            </NavLink>
+            </button>
           </>
         );
       } else {
@@ -129,7 +134,7 @@ export default function Products() {
 
     return (
       <>
-        <div className="buttons d-flex justify-content-center mb-3 pb-3">
+        {/* <div className="buttons d-flex justify-content-center mb-3 pb-3">
           <button
             className="btn btn-outline-dark me-2"
             onClick={() => setFilter(data)}
@@ -148,7 +153,7 @@ export default function Products() {
           >
             Customize PC
           </button>
-        </div>
+        </div> */}
         <div className="row">
           {filter.map((pro) => {
             return (
