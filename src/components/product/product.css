@@ -84,3 +84,11 @@
   max-width: 32rem;
   padding: 2rem 1.75rem 1.75rem;
 }
+
+.positive-change {
+  color: green;
+}
+
+.negative-change {
+  color: red;
+}

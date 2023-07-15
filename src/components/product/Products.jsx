@@ -114,19 +114,18 @@ export default function Products() {
         return (
           <>
             <NavLink
-              to={`/customize-pc-detail/${product.id}`}
+              to={`/PCDetail/${product.id}`}
               className="btn btn-outline-primary detail-button"
               onClick={() => handleViewDetail(product.id)}
             >
               Detail
             </NavLink>
-            <NavLink
-              to={`/customize-pc/${product.id}`}
+            <button
               className="btn btn-outline-primary buy-button"
-              onClick={() => handleCustomizePC(product.id)}
+              onClick={() => handleBuyNow(product)}
             >
-              Customize PC & Buy
-            </NavLink>
+              Buy Now
+            </button>
           </>
         );
       }

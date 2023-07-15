@@ -23,9 +23,11 @@ export default function Product() {
   const [selectedComponents, setSelectedComponents] = useState([]);
   const [originalComponents, setOriginalComponents] = useState([]);
   const [toastProps, setToastProps] = useState({});
-  const [ramQuantity, setRamQuantity] = useState("1");
-  const [hddQuantity, setHddQuantity] = useState("1");
-  const [ssdQuantity, setSsdQuantity] = useState("1");
+  const [ramQuantity, setRamQuantity] = useState(1);
+  const [hddQuantity, setHddQuantity] = useState(1);
+  const [ssdQuantity, setSsdQuantity] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [showTotalPrice, setShowTotalPrice] = useState(false);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -49,10 +51,25 @@ export default function Product() {
       const defaultSelectedComponents = product.components.map((component) => ({
         id: component.id,
         name: component.name,
+        price: component.price || 0,
       }));
       setSelectedComponents(defaultSelectedComponents);
     }
   }, [product.components]);
+
+  useEffect(() => {
+    if (selectedComponents.length > 0) {
+      calculateTotalPrice(selectedComponents);
+    }
+  }, [selectedComponents]);
+
+  const calculateTotalPrice = (components) => {
+    const totalPrice = components.reduce((total, component) => {
+      return total + (component.price || 0);
+    }, 0);
+    setTotalPrice(totalPrice);
+    setShowTotalPrice(false);
+  };
 
   const handleComponentSelect = async (componentType, component) => {
     // Create a new array with the updated component
@@ -80,7 +97,18 @@ export default function Product() {
         "updated components saved successfully",
         updatedSelectedComponents
       );
+
+      setProduct((prevProduct) => ({
+        ...prevProduct,
+        components: updatedSelectedComponents,
+      }));
+
       setShowModal(false);
+      // setSelectedComponents(updatedSelectedComponents);
+      calculateTotalPrice(updatedSelectedComponents);
+      setTimeout(() => {
+        setShowTotalPrice(true);
+      }, 1000);
       setSelectedComponentType(null);
     } catch (error) {
       console.error("Error updating components:", error.response);
@@ -129,7 +157,7 @@ export default function Product() {
     } else if (component.name.includes("PSU")) {
       componentType = "PSU";
     } else if (component.name.includes("Ram")) {
-      componentType = "RAM";
+      componentType = "Ram";
     } else if (component.name.includes("SSD")) {
       componentType = "SSD";
     } else if (component.name.includes("HDD")) {
@@ -137,6 +165,9 @@ export default function Product() {
     }
 
     setSelectedComponentType(componentType);
+    const updatedComponent = product.components.find(
+      (comp) => comp.id === component.id
+    );
     setSelectedComponent(component);
     setShowModal(true);
   };
@@ -164,7 +195,8 @@ export default function Product() {
   const detailChunks = detail.split(". ");
 
   const descrip = product.description || "";
-  const descripChunks = descrip.split(".|").join("|").split("|");
+  // const descripChunks = descrip.split(".|").join("|").split("|");
+  const descripChunks = descrip.split(".");
 
   const ShowProduct = () => {
     return (
@@ -292,66 +324,6 @@ export default function Product() {
                                       <p>Price not available</p>
                                     )}
                                   </span>
-                                  <span className="price-separator">x</span>
-                                  {component.name.includes("Ram") && (
-                                    <input
-                                      className="count-p"
-                                      type="number"
-                                      min="1"
-                                      max="50"
-                                      value={ramQuantity}
-                                      onChange={(e) => {
-                                        setRamQuantity(
-                                          parseInt(e.target.value)
-                                        );
-                                      }}
-                                    />
-                                  )}
-                                  {component.name.includes("HDD") && (
-                                    <input
-                                      className="count-p"
-                                      type="number"
-                                      min="1"
-                                      max="50"
-                                      value={hddQuantity}
-                                      onChange={(e) => {
-                                        setHddQuantity(
-                                          parseInt(e.target.value)
-                                        );
-                                      }}
-                                    />
-                                  )}
-                                  {component.name.includes("SSD") && (
-                                    <input
-                                      className="count-p"
-                                      type="number"
-                                      min="1"
-                                      max="50"
-                                      value={ssdQuantity}
-                                      onChange={(e) => {
-                                        setSsdQuantity(
-                                          parseInt(e.target.value)
-                                        );
-                                      }}
-                                    />
-                                  )}
-                                  <span className="price-separator">=</span>
-                                  <span className="sum-price">
-                                    {component.price &&
-                                    typeof component.price === "number"
-                                      ? (
-                                          component.price *
-                                          (component.name.includes("Ram")
-                                            ? ramQuantity
-                                            : component.name.includes("HDD")
-                                            ? hddQuantity
-                                            : ssdQuantity)
-                                        ).toLocaleString("vi-VN", {
-                                          minimumFractionDigits: 0,
-                                          maximumFractionDigits: 0,
-                                        })
-                                      : "Price not available"}
-                                  </span>
                                 </div>
                               ) : (
                                 <span className="d-price fw-bold">
@@ -402,6 +374,23 @@ export default function Product() {
               </div>
             </div>
           </div>
+          {showTotalPrice && (
+            <div onClick={handleComponentSelect}>
+              Total Price Change:{" "}
+              <span
+                className={
+                  totalPrice > 0 ? "positive-change" : "negative-change"
+                }
+              >
+                {totalPrice.toLocaleString("vi-VN", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                })}
+              </span>
+              <span className="small-currency">₫</span>
+            </div>
+          )}
+
           <NavLink to="/payment">
             <Button type="submit" onClick={handleBuyNow}>
               Buy Now

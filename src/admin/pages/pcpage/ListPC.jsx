@@ -3,7 +3,6 @@ import DashboardHeader from "../../components/DashboardHeader/Header";
 import "./listPC.css";
 import { Link } from "react-router-dom";
 import { getPcAPI, editPcAPI, deletePcAPI } from "../../utils/api/PcAPI";
-import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
 
 const ListPC = () => {

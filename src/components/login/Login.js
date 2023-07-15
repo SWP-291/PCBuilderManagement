@@ -133,7 +133,7 @@
 // export default Login;
 
 import React, { useState } from "react";
-import "./login.scss";
+import "./Login.scss";
 import { Button } from "react-bootstrap";
 import { BiLogoGmail } from "react-icons/bi";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
