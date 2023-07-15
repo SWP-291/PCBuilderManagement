@@ -377,11 +377,7 @@ export default function Product() {
           {showTotalPrice && (
             <div onClick={handleComponentSelect}>
               Total Price Change:{" "}
-              <span
-                className={
-                  totalPrice > 0 ? "positive-change" : "negative-change"
-                }
-              >
+              <span>
                 {totalPrice.toLocaleString("vi-VN", {
                   minimumFractionDigits: 0,
                   maximumFractionDigits: 0,
