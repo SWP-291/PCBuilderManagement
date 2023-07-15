@@ -27,7 +27,7 @@ namespace PCBuilder.API
             {
                 options.UseSqlServer(
                     Configuration.GetConnectionString(
-                        "Data Source=trongps-server.database.windows.net;Initial Catalog=PcBuilding;Persist Security Info=True;User ID=swp;Password=GNBUbgCAZ857m2;TrustServerCertificate=True"
+                        "Data Source=trongps-swp.database.windows.net;Initial Catalog=PcBuilding;Persist Security Info=True;User ID=swp;Password=GNBUbgCAZ857m2;TrustServerCertificate=True"
                     )
                 );
             });
