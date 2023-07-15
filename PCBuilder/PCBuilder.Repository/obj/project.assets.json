@@ -3511,19 +3511,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\LENOVO\\.nuget\\packages\\": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
+      "projectUniqueName": "T:\\LearnSpace\\Git Manager\\BE-PC\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
       "projectName": "PCBuilder.Repository",
-      "projectPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
-      "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-      "outputPath": "D:\\FreeCourseOnline\\freecourse-webapi-net5\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\obj\\",
+      "projectPath": "T:\\LearnSpace\\Git Manager\\BE-PC\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "T:\\LearnSpace\\Git Manager\\BE-PC\\PCBuilderManagement\\PCBuilder\\PCBuilder.Repository\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
