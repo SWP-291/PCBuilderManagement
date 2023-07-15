@@ -23,9 +23,9 @@ export default function Product() {
   const [selectedComponents, setSelectedComponents] = useState([]);
   const [originalComponents, setOriginalComponents] = useState([]);
   const [toastProps, setToastProps] = useState({});
-  const [ramQuantity, setRamQuantity] = useState(1);
-  const [hddQuantity, setHddQuantity] = useState(1);
-  const [ssdQuantity, setSsdQuantity] = useState(1);
+  const [ramQuantity, setRamQuantity] = useState("1");
+  const [hddQuantity, setHddQuantity] = useState("1");
+  const [ssdQuantity, setSsdQuantity] = useState("1");
 
   useEffect(() => {
     const getProducts = async () => {
@@ -167,11 +167,6 @@ export default function Product() {
   const descripChunks = descrip.split(".|").join("|").split("|");
 
   const ShowProduct = () => {
-    const getSelectedComponent = (componentType) => {
-      return selectedComponents.find(
-        (component) => component.name === componentType
-      );
-    };
     return (
       <>
         <div className="col-md-6 pt-4 image-main">
@@ -207,7 +202,7 @@ export default function Product() {
           <p className="lead-type">
             {detailChunks.map((chunk, index) => (
               <p key={index} className="lead">
-                {chunk.trim()} {/* Remove extra whitespace */}
+                {chunk.trim()}
               </p>
             ))}
           </p>
@@ -306,8 +301,9 @@ export default function Product() {
                                       max="50"
                                       value={ramQuantity}
                                       onChange={(e) => {
-                                        setRamQuantity(e.target.value);
-                                        e.preventDefault();
+                                        setRamQuantity(
+                                          parseInt(e.target.value)
+                                        );
                                       }}
                                     />
                                   )}
@@ -319,7 +315,9 @@ export default function Product() {
                                       max="50"
                                       value={hddQuantity}
                                       onChange={(e) => {
-                                        setHddQuantity(e.target.value);
+                                        setHddQuantity(
+                                          parseInt(e.target.value)
+                                        );
                                       }}
                                     />
                                   )}
@@ -331,7 +329,9 @@ export default function Product() {
                                       max="50"
                                       value={ssdQuantity}
                                       onChange={(e) => {
-                                        setSsdQuantity(e.target.value);
+                                        setSsdQuantity(
+                                          parseInt(e.target.value)
+                                        );
                                       }}
                                     />
                                   )}
@@ -388,16 +388,13 @@ export default function Product() {
               </div>
             </div>
             <div className="col-md-4 configure-descip-container">
-              {/* <div className="title">
-                <h1>DESCRIPTION</h1>
-              </div> */}
               <div className="configure-descip-sticky">
                 <div className="configure-descrip">
                   <h2 className="title">Description</h2>
                   <p className="description">
                     {descripChunks.map((chunk, index) => (
                       <p key={index} className="description-container">
-                        {chunk.trim()} {/* Remove extra whitespace */}
+                        {chunk.trim()}
                       </p>
                     ))}
                   </p>
@@ -405,9 +402,6 @@ export default function Product() {
               </div>
             </div>
           </div>
-          {/* <NavLink to="#" onClick={handleBuyNow}>
-            <Button type="submit">Buy Now</Button>
-          </NavLink> */}
           <NavLink to="/payment">
             <Button type="submit" onClick={handleBuyNow}>
               Buy Now
