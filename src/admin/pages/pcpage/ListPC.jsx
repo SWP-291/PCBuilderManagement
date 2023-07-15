@@ -1,32 +1,23 @@
-import React, { useEffect, useState } from "react";
-import DashboardHeader from "../../components/DashboardHeader/Header";
+import React, { useEffect, useSelector, useDispatch } from "react";
 import "./listPC.css";
 import { Link } from "react-router-dom";
-import { getPcAPI, editPcAPI, deletePcAPI } from "../../utils/api/PcAPI";
+import { getAllPc, editPcAPI, deletePcAPI } from "../../../redux/apiRequest";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
 
 const ListPC = () => {
-  const [pc, setPC] = useState([]);
-
+  // const [pc, setPC] = useState([]);
+  const data = useSelector((state) => state.admin.pcs.pc.data);
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetchProducts();
+    getAllPc(dispatch);
   }, []);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await getPcAPI();
-      setPC(response.data);
-    } catch (error) {
-      console.error("Error fetching pc data:", error);
-    }
-  };
 
   const handleDeleteClick = async (id) => {
     if (window.confirm("Are you sure you want to delete this order?")) {
       try {
-        await deletePcAPI(id); // Call the API to delete the order
-        const updatedData = pc.filter((item) => item.id !== id);
-        setPC(updatedData); // Update the data state
+        // await deletePcAPI(id); // Call the API to delete the order
+        const updatedData = data.filter((item) => item.id !== id);
+        // setPC(updatedData); // Update the data state
       } catch (error) {
         console.error("Error deleting order:", error);
         // Set an error state or display an error message to the user
@@ -36,7 +27,6 @@ const ListPC = () => {
 
   return (
     <section className="pc-section">
-      <DashboardHeader btnText="New PC" />
       <h2 className="title">
         PCs List
         <Link to="/newPC">
@@ -45,7 +35,7 @@ const ListPC = () => {
       </h2>
 
       <div className="pc-list">
-        {pc.map((item) => (
+        {data.map((item) => (
           <div key={item.id} className="pc-box">
             <h3 className="pc-name">{item.name}</h3>
             <p>ID: {item.id}</p>

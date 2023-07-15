@@ -375,15 +375,15 @@ export default function Product() {
             </div>
           </div>
           {showTotalPrice && (
-            <div onClick={handleComponentSelect}>
-              Total Price Change:{" "}
-              <span>
+            <div className="price-changed" onClick={handleComponentSelect}>
+              Total Price Changed:{" "}
+              <span className="positive-change">
                 {totalPrice.toLocaleString("vi-VN", {
                   minimumFractionDigits: 0,
                   maximumFractionDigits: 0,
                 })}
               </span>
-              <span className="small-currency">₫</span>
+              <span className="small-currency positive-change">₫</span>
             </div>
           )}
 

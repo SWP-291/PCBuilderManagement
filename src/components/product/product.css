@@ -86,9 +86,10 @@
 }
 
 .positive-change {
-  color: green;
+  color: #00abc6;
+  font-weight: 600;
 }
 
-.negative-change {
-  color: red;
+.price-changed{
+  font-weight: 600;
 }

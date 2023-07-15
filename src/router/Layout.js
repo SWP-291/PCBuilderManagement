@@ -36,13 +36,33 @@ import Component from "../admin/pages/componentpage/Components";
 import NewComponent from "../admin/pages/componentpage/NewComponent";
 import Category from "../admin/pages/categorypage/Categories";
 import NewCategory from "../admin/pages/categorypage/NewCategory";
-
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 const Layout = () => {
   const user = useSelector(state => state.auth.login.currentUser);
   if ( user && user.role === 'Admin' ) {
     return (
-
-      <div className="dashboard-container">
+      <Row>
+        <Col sm={2}>
+        <Sidebar menu={sidebar_menu} />
+        </Col>
+        <Col sm={10}>
+        <Routes>
+            <Route path="/brands" element={<Brands />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/newOrder" element={<NewOrder />} />
+            <Route path="/newBrand" element={<NewBrand />} />
+            <Route path="/newPc" element={<NewPC />} />
+            <Route path="/" element={<PC />} />
+            <Route path="/newUser" element={<NewUser />} />
+            <Route path="/users" element={<User />} />
+            <Route path="/newComponent" element={<NewComponent />} />
+            <Route path="/components" element={<Component />} />
+            <Route path="/newCategory" element={<NewCategory />} />
+            <Route path="/category" element={<Category />} />
+          </Routes>
+        </Col>
+        {/* <div className="dashboard" >
         <Sidebar menu={sidebar_menu} />
         <div className="dashboard-body">
           <Routes>
@@ -60,7 +80,8 @@ const Layout = () => {
             <Route path="/category" element={<Category />} />
           </Routes>
         </div>
-      </div>
+      </div> */}
+      </Row>
     )
   }
   else {

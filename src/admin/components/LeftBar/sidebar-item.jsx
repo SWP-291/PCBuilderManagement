@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import { Link } from 'react-router-dom';
 
-import './styles.css';
+import './Sidebar.scss';
 
 const SideBarItem = ({ item, active }) => {
     const [hover, setHover] = useState(false);
     return (
         <Link 
             to={item.path} 
-            className={active ? 'sidebar-item-active' : 'sidebar-item'} >
+            className="items" >
                 <img 
                     src={item.icon}
                     alt={`icon-${item.icon}`}
