@@ -23,15 +23,11 @@
 }
 
 .navbar-nav .nav-item {
-  /* Add your custom styles here */
-  /* Example styles */
   margin-right: 20px;
   font-weight: bold;
 }
 
 .navbar {
-  /* Add your custom styles here */
-  /* Example styles */
   background-color: rgb(248, 245, 245);
   padding: 10px;
 }
@@ -39,4 +35,28 @@
 .buttons {
   display: flex;
   gap: 10px;
+  .user{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    .avatar{
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid black;
+      margin-right: 10px;
+      img{
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+    #dropdown-basic-button{
+      background-color: #F8F5F5;
+      border: none;
+      color: #000000A6;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
 }
