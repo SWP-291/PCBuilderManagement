@@ -1,70 +1,60 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import DashboardHeader from "../../components/DashboardHeader/Header";
 import { Link } from "react-router-dom";
-import {
-  getOrderAPI,
-  editOrderAPI,
-  deleteOrderAPI,
-} from "../../utils/api/OrderAPI";
+// import {
+//   getOrderAPI,
+//   editOrderAPI,
+//   deleteOrderAPI,
+// } from "../../utils/api/OrderAPI";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-
+import { getAllOrder } from "../../../redux/apiRequest";
+import { useDispatch, useSelector } from "react-redux";
 const OrderTable = () => {
-  const [data, setData] = useState([]);
   const [editingRow, setEditingRow] = useState(null);
-
+  const data = useSelector(state => state.admin.orders.order.data);
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetchData();
+    getAllOrder(dispatch);
   }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await getOrderAPI();
-      setData(response.data);
-    } catch (error) {
-      console.error("Error fetching order data:", error);
-      // Set an error state or display an error message to the user
-    }
-  };
 
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
     const updatedData = data.map((item) =>
       item.id === id ? { ...item, [field]: value } : item
     );
-    setData(updatedData);
+    // setData(updatedData);
   };
 
-  const handleUpdateClick = async (id) => {
-    const row = data.find((item) => item.id === id);
+  // const handleUpdateClick = async (id) => {
+  //   const row = data.find((item) => item.id === id);
 
-    if (row) {
-      if (window.confirm("Are you sure you want to update this order?")) {
-        try {
-          await editOrderAPI(id, row); // Pass the updated data to the API
-          await fetchData(); // Fetch the updated data
-        } catch (error) {
-          console.error("Error updating order data:", error);
-          // Set an error state or display an error message to the user
-        }
-      }
-    }
-  };
+  //   if (row) {
+  //     if (window.confirm("Are you sure you want to update this order?")) {
+  //       try {
+  //         await editOrderAPI(id, row); // Pass the updated data to the API
+  //         await fetchData(); // Fetch the updated data
+  //       } catch (error) {
+  //         console.error("Error updating order data:", error);
+  //         // Set an error state or display an error message to the user
+  //       }
+  //     }
+  //   }
+  // };
 
-  const handleDeleteClick = async (id) => {
-    if (window.confirm("Are you sure you want to delete this order?")) {
-      try {
-        await deleteOrderAPI(id); // Call the API to delete the order
-        const updatedData = data.filter((item) => item.id !== id);
-        setData(updatedData); // Update the data state
-      } catch (error) {
-        console.error("Error deleting order:", error);
-        // Set an error state or display an error message to the user
-      }
-    }
-  };
+  // const handleDeleteClick = async (id) => {
+  //   if (window.confirm("Are you sure you want to delete this order?")) {
+  //     try {
+  //       await deleteOrderAPI(id); // Call the API to delete the order
+  //       const updatedData = data.filter((item) => item.id !== id);
+  //       setData(updatedData); // Update the data state
+  //     } catch (error) {
+  //       console.error("Error deleting order:", error);
+  //       // Set an error state or display an error message to the user
+  //     }
+  //   }
+  // };
 
   const columns = [
     { field: "id", headerName: "ID", width: 90, editable: false },
@@ -100,10 +90,16 @@ const OrderTable = () => {
 
         return (
           <>
-            <button onClick={() => handleUpdateClick(id)}>
+            {/* <button onClick={() => handleUpdateClick(id)}>
               <AiOutlineEdit />
             </button>
             <button onClick={() => handleDeleteClick(id)}>
+              <AiOutlineDelete />
+            </button> */}
+            <button>
+              <AiOutlineEdit />
+            </button>
+            <button>
               <AiOutlineDelete />
             </button>
           </>
@@ -114,7 +110,6 @@ const OrderTable = () => {
 
   return (
     <div>
-      <DashboardHeader btnText="New Order" />
 
       <h2 className="title">
         Orders List

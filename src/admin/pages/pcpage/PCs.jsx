@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import DashboardHeader from "../../components/DashboardHeader/Header";
 import { Link } from "react-router-dom";
 import { getPcAPI, editPcAPI, deletePcAPI } from "../../src/utils/api/PcAPI";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
@@ -128,7 +127,6 @@ const Pcs = () => {
 
   return (
     <div>
-      <DashboardHeader btnText="New PC" />
 
       <h2 className="title">
         Pcs List
