@@ -9,7 +9,7 @@ const sidebar_menu = [
   {
     id: 1,
     icon: PcIcon,
-    path: "/",
+    path: "/pc",
     title: "PCs",
   },
 

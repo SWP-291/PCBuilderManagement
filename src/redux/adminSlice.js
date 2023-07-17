@@ -13,8 +13,8 @@ const adminSlice = createSlice ({
             isFetching: false,
             error: false
         },
-        catergories: {
-            catergory: null,
+        categories: {
+            category: null,
             isFetching: false,
             error: false
         },
@@ -60,17 +60,17 @@ const adminSlice = createSlice ({
             state.components.isFetching = false;
             state.components.error = true;
         },
-        getAllCatergoryStart: (state) =>{
-            state.catergories.isFetching = true;
+        getAllCategoryStart: (state) =>{
+            state.categories.isFetching = true;
         },
-        getAllCatergorySuccess: (state, action) =>{
-            state.catergories.isFetching = false;
-            state.catergories.catergory = action.payload;
-            state.catergories.error = false;
+        getAllCategorySuccess: (state, action) =>{
+            state.categories.isFetching = false;
+            state.categories.category = action.payload;
+            state.categories.error = false;
         },
-        getAllCatergoryFailed: (state) => {
-            state.catergories.isFetching = false;
-            state.catergories.error = true;
+        getAllCategoryFailed: (state) => {
+            state.categories.isFetching = false;
+            state.categories.error = true;
         },
         getAllUsersStart: (state) =>{
             state.users.isFetching = true;
@@ -84,22 +84,22 @@ const adminSlice = createSlice ({
             state.users.isFetching = false;
             state.users.error = true;
         },
-        getAllBrandStart: (state) =>{
+        getAllBrandsStart: (state) =>{
             state.brands.isFetching = true;
         },
-        getAllBrandSuccess: (state, action) =>{
+        getAllBrandsSuccess: (state, action) =>{
             state.brands.isFetching = false;
             state.brands.brand = action.payload;
             state.brands.error = false;
         },
-        getAllBrandFailed: (state) => {
+        getAllBrandsFailed: (state) => {
             state.brands.isFetching = false;
             state.brands.error = true;
         },
-        getAllOrderStart: (state) =>{
+        getAllOrdersStart: (state) =>{
             state.orders.isFetching = true;
         },
-        getAllOrderSuccess: (state, action) =>{
+        getAllOrdersSuccess: (state, action) =>{
             state.orders.isFetching = false;
             state.orders.order = action.payload;
             state.orders.error = false;
@@ -114,9 +114,9 @@ const adminSlice = createSlice ({
 export const {
     getAllPcStart, getAllPcSuccess, getAllPcFailed,
     getAllComponentsStart, getAllComponentsSuccess , getAllComponentsFailed,
-    getAllCatergoryStart, getAllCatergorySuccess, getAllCatergoryFailed, 
+    getAllCategoryStart, getAllCategorySuccess, getAllCategoryFailed, 
     getAllUsersStart, getAllUsersSuccess, getAllUsersFailed,
-    getAllBrandStart, getAllBrandSuccess, getAllBrandFailed,
-    getAllOrderStart, getAllOrderSuccess, getAllOrderFailed
+    getAllBrandsStart, getAllBrandsSuccess, getAllBrandsFailed,
+    getAllOrdersStart, getAllOrdersSuccess, getAllOrdersFailed
 } = adminSlice.actions;
 export default adminSlice.reducer;

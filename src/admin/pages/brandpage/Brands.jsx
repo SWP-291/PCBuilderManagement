@@ -12,14 +12,15 @@ import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
 // import Container from 'react-bootstrap/Container';
 // import Row from 'react-bootstrap/Row';
 // import Col from 'react-bootstrap/Col';
-import { getAllBrand } from "../../../redux/apiRequest";
+import {  getAllBrands } from "../../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 const OrderTable = () => {
   const [editingRow, setEditingRow] = useState(null);
-  const data = useSelector(state => state.admin.catergories.catergory.data);
+  const data = useSelector(state => state.admin.brands.brand.data);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    getAllBrand(dispatch);
+    getAllBrands(dispatch);
   }, []);
 
   const handleEditCellChange = (params) => {
@@ -60,15 +61,15 @@ const OrderTable = () => {
   // };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90, editable: false },
+    { field: "id", headerName: "ID", width: 50, editable: false },
     {
       field: "name",
       headerName: "Name",
       width: 150,
       editable: true,
     },
-    { field: "logo", headerName: "Logo", width: 150, editable: true },
-    { field: "origin", headerName: "Origin", width: 150, editable: true },
+    { field: "logo", headerName: "Logo", width: 400, editable: true },
+    { field: "origin", headerName: "Origin", width: 300, editable: true },
 
     {
       field: "status",
@@ -107,7 +108,7 @@ const OrderTable = () => {
   ];
 
   return (
-    <div className="container">
+    <div className="container py-5">
       <h2 className="title">
         Brands List
         <Link to="/newBrand">
@@ -130,7 +131,7 @@ const OrderTable = () => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 8,
+                pageSize: 10,
               },
             },
           }}

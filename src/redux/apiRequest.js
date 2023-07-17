@@ -9,10 +9,10 @@ from "./userSlice";
 import {
     getAllPcStart, getAllPcSuccess, getAllPcFailed,
     getAllComponentsStart, getAllComponentsSuccess , getAllComponentsFailed,
-    getAllCatergoryStart, getAllCatergorySuccess, getAllCatergoryFailed, 
+    getAllCategoryStart, getAllCategorySuccess, getAllCategoryFailed, 
     getAllUsersStart, getAllUsersSuccess, getAllUsersFailed,
-    getAllBrandStart, getAllBrandSuccess, getAllBrandFailed,
-    getAllOrderStart, getAllOrderSuccess, getAllOrderFailed
+    getAllBrandsStart, getAllBrandsSuccess, getAllBrandsFailed,
+    getAllOrdersStart, getAllOrdersSuccess, getAllOrdersFailed
 } from "./adminSlice";
 import jwt from 'jwt-decode' // import dependency
 import { toast } from 'react-toastify';
@@ -32,18 +32,20 @@ export const loginUser = async (user, dispatch, navigate) =>{
         
         dispatch(loginSuccess(user));
         
-        toast.success(response.data.message);
+        
         if (user.role === 'Admin') {
+            toast.success(response.data.message);
             getAllPc(dispatch);
             getAllComponents(dispatch);
-            getAllCatergory(dispatch);
+            getAllCategories(dispatch);
             getAllUsers(dispatch);
-            getAllBrand(dispatch);
-            getAllOrder(dispatch);
-            navigate("/");
+            getAllBrands(dispatch);
+            getAllOrders(dispatch);
+            navigate("/pc");
         }
 
-        else if (user.role === 'User') {
+        else if (user.role === 'Customer') {
+            toast.success(response.data.message);
             dispatch(getDataSuccess(user))
             navigate("/");
         }
@@ -86,7 +88,7 @@ export const getAllPc= async (dispatch) => {
     .catch (function (error) {
         dispatch(getAllPcFailed());
     })
-}
+} 
 
 export const getAllComponents = async (dispatch) => {
     dispatch(getAllComponentsStart());
@@ -100,15 +102,15 @@ export const getAllComponents = async (dispatch) => {
     })
 }
 
-export const getAllCatergory = async (dispatch) => {
-    dispatch(getAllCatergoryStart());
+export const getAllCategories = async (dispatch) => {
+    dispatch(getAllCategoryStart());
     axios.get(`https://localhost:7262/api/Category`)
     .then(function (response){
-        dispatch(getAllCatergorySuccess(response.data));
+        dispatch(getAllCategorySuccess(response.data));
         console.log(response.data)
     }) 
     .catch (function (error) {
-        dispatch(getAllCatergoryFailed());
+        dispatch(getAllCategoryFailed());
     })
 }
 
@@ -124,30 +126,29 @@ export const getAllUsers = async (dispatch) => {
     })
 }
 
-export const getAllBrand = async (dispatch) => {
-    dispatch(getAllBrandStart());
+export const getAllBrands = async (dispatch) => {
+    dispatch(getAllBrandsStart());
     axios.get(`https://localhost:7262/api/Brand`)
     .then(function (response){
-        dispatch(getAllBrandSuccess(response.data));
+        dispatch(getAllBrandsSuccess(response.data));
         console.log(response.data)
     }) 
     .catch (function (error) {
-        dispatch(getAllBrandFailed());
+        dispatch(getAllBrandsFailed());
     })
 }
 
-export const getAllOrder = async (dispatch) => {
-    dispatch(getAllOrderStart());
+export const getAllOrders = async (dispatch) => {
+    dispatch(getAllOrdersStart());
     axios.get(`https://localhost:7262/api/Order`)
     .then(function (response){
-        dispatch(getAllOrderSuccess(response.data));
+        dispatch(getAllOrdersSuccess(response.data));
         console.log(response.data)
     }) 
     .catch (function (error) {
-        dispatch(getAllOrderFailed());
+        dispatch(getAllOrdersFailed());
     })
 }
-
 export const updateProfileUsers = async (id, dispatch, updateInfo) => {
     dispatch(updateStart());
     dispatch(loginSuccess(updateInfo));

@@ -58,12 +58,12 @@ const Users = () => {
   // };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90, editable: false },
-    { field: "fullname", headerName: "Full Name", width: 100, editable: true },
+    { field: "id", headerName: "ID", width: 50, editable: false },
+    { field: "fullname", headerName: "Full Name", width: 150, editable: true },
     {
       field: "email",
       headerName: "Email",
-      width: 100,
+      width: 210,
       editable: true,
     },
     {
@@ -73,23 +73,23 @@ const Users = () => {
       width: 130,
       editable: true,
     },
-    { field: "country", headerName: "Country", width: 120, editable: true },
+    { field: "country", headerName: "Country", width: 100, editable: true },
     {
       field: "gender",
       headerName: "Gender",
-      width: 120,
+      width: 80,
       editable: true,
     },
     {
       field: "password",
       headerName: "Password",
-      width: 120,
+      width: 100,
       editable: true,
     },
     {
       field: "address",
       headerName: "Address",
-      width: 120,
+      width: 180,
       editable: true,
     },
     {
@@ -127,7 +127,7 @@ const Users = () => {
   ];
 
   return (
-    <div>
+    <div className="container py-5">
       <h2 className="title">
         Users List
         <Link to="/newUser">
@@ -150,7 +150,7 @@ const Users = () => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 8,
+                pageSize: 10,
               },
             },
           }}
@@ -166,3 +166,99 @@ const Users = () => {
 };
 
 export default Users;
+// import React, { useEffect } from "react";
+// import Box from "@mui/material/Box";
+// import { DataGrid } from "@mui/x-data-grid";
+// import { Link } from "react-router-dom";
+// import { AiOutlineEdit } from "react-icons/ai";
+// import { AiOutlineDelete } from "react-icons/ai";
+// import { getAllUsers } from "../../../redux/apiRequest";
+// import { useDispatch, useSelector } from "react-redux";
+
+// const Users = () => {
+//   const data = useSelector((state) => state.admin.users.user.data);
+//   const dispatch = useDispatch();
+
+//   useEffect(() => {
+//     dispatch(getAllUsers());
+//   }, [dispatch]);
+
+//   const handleEditCellChange = (params) => {
+//     const { id, field, value } = params;
+//     const updatedData = data.map((item) =>
+//       item.id === id ? { ...item, [field]: value } : item
+//     );
+//     // Update data in Redux store if needed
+//   };
+
+//   const columns = [
+//     { field: "id", headerName: "ID", width: 50, editable: false },
+//     { field: "fullname", headerName: "Full Name", width: 150, editable: true },
+//     { field: "email", headerName: "Email", width: 100, editable: true },
+//     {
+//       field: "phone",
+//       headerName: "Phone",
+//       type: "number",
+//       width: 130,
+//       editable: true,
+//     },
+//     { field: "country", headerName: "Country", width: 120, editable: true },
+//     { field: "gender", headerName: "Gender", width: 120, editable: true },
+//     { field: "password", headerName: "Password", width: 120, editable: true },
+//     { field: "address", headerName: "Address", width: 120, editable: true },
+//     { field: "avatar", headerName: "Avatar", width: 120, editable: true },
+//     {
+//       field: "actions",
+//       headerName: "Actions",
+//       width: 120,
+//       renderCell: (params) => {
+//         const { id } = params.row;
+
+//         return (
+//           <>
+//             <button>
+//               <AiOutlineEdit />
+//             </button>
+//             <button>
+//               <AiOutlineDelete />
+//             </button>
+//           </>
+//         );
+//       },
+//     },
+//   ];
+
+//   return (
+//     <div className="container py-5">
+//       <h2 className="title">
+//         Users List
+//         <Link to="/newUser">
+//           <button className="btn-create">Create User</button>
+//         </Link>
+//       </h2>
+
+//       <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
+//         <div
+//           className="dashboard-content"
+//           style={{
+//             display: "flex",
+//             justifyContent: "center",
+//             alignItems: "center",
+//           }}
+//         ></div>
+//         <DataGrid
+//           rows={data}
+//           columns={columns}
+//           pagination
+//           pageSize={10}
+//           checkboxSelection
+//           disableSelectionOnClick
+//           editMode="cell"
+//           onEditCellChange={handleEditCellChange}
+//         />
+//       </Box>
+//     </div>
+//   );
+// };
+
+// export default Users;

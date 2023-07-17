@@ -9,14 +9,14 @@ import { Link } from "react-router-dom";
 // } from "../../utils/api/CategoryAPI";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-import { getAllCatergory } from "../../../redux/apiRequest";
+import { getAllCategories } from "../../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 const Component = () => {
   const [editingRow, setEditingRow] = useState(null);
-  const data = useSelector(state => state.admin.catergories.catergory.data);
+  const data = useSelector(state => state.admin.categories.category.data);
   const dispatch = useDispatch();
   useEffect(() => {
-    getAllCatergory(dispatch);
+    getAllCategories(dispatch);
   }, []);
 
   const handleEditCellChange = (params) => {
@@ -57,11 +57,11 @@ const Component = () => {
   // };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90, editable: false },
+    { field: "id", headerName: "ID", width: 50, editable: false },
     {
       field: "name",
       headerName: "Name",
-      width: 150,
+      width: 300,
       editable: true,
     },
     { field: "parentId", headerName: "Parent ID", width: 150, editable: true },
@@ -95,7 +95,7 @@ const Component = () => {
   ];
 
   return (
-    <div>
+    <div className="container py-5">
       
       <h2 className="title">
         Categories List
@@ -119,7 +119,7 @@ const Component = () => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 8,
+                pageSize: 10,
               },
             },
           }}

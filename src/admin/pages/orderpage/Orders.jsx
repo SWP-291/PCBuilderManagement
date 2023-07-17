@@ -9,16 +9,16 @@ import { Link } from "react-router-dom";
 // } from "../../utils/api/OrderAPI";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-import { getAllOrder } from "../../../redux/apiRequest";
+import { getAllOrders } from "../../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 const OrderTable = () => {
   const [editingRow, setEditingRow] = useState(null);
   const data = useSelector(state => state.admin.orders.order.data);
   const dispatch = useDispatch();
   useEffect(() => {
-    getAllOrder(dispatch);
+    getAllOrders(dispatch);
   }, []);
-
+  
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
     const updatedData = data.map((item) =>
@@ -57,11 +57,11 @@ const OrderTable = () => {
   // };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90, editable: false },
+    { field: "id", headerName: "ID", width: 50, editable: false },
     {
       field: "orderDate",
       headerName: "Order Date",
-      width: 150,
+      width: 300,
       editable: true,
     },
     { field: "pcId", headerName: "PC ID", width: 100, editable: true },
@@ -109,7 +109,7 @@ const OrderTable = () => {
   ];
 
   return (
-    <div>
+    <div className="container py-5">
 
       <h2 className="title">
         Orders List
@@ -127,13 +127,21 @@ const OrderTable = () => {
             alignItems: "center",
           }}
         ></div>
-        <DataGrid
+          <DataGrid
           rows={data}
           columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
+            },
+          }}
+          pageSizeOptions={[6]}
+          checkboxSelection
+          disableRowSelectionOnClick
           editMode="cell"
           onEditCellChange={handleEditCellChange}
-          disableSelectionOnClick
-          pageSize={8}
         />
       </Box>
     </div>
