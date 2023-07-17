@@ -141,6 +141,9 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 // import { userService } from "../services";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../redux/apiRequest";
+
 function Login() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -148,6 +151,7 @@ function Login() {
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleOnChangeEmail = (event) => {
     setEmail(event.target.value);
   };
@@ -156,29 +160,11 @@ function Login() {
   };
   const handleLogin = (e) => {
     // e.preventDefault();
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+    const user = {
+      email: email,
+      password: password,
     };
-    axios
-      .get(
-        "https://localhost:7262/api/User",
-        {
-          email: email,
-          password: password,
-        },
-        config
-      )
-      .then((response) => {
-        setMessage("You're logged in");
-        navigate("/"); // điều hướng user sang trang home.
-      })
-      .catch((error) => {
-        console.log(error);
-        setErrorMessage("Login failed");
-      });
+    loginUser(user, dispatch, navigate, setErrorMessage);
   };
 
   const handleShowHidePassword = (event) => {
@@ -221,19 +207,6 @@ function Login() {
           <div className="col-12">
             <Button className="btn-login" onClick={() => handleLogin()}>
               Login
-            </Button>
-          </div>
-
-          <div className="col-12 form-group text-foget">
-            <a href="#">Forget your password ?</a>
-          </div>
-          <div className="col-12 form-group text-otherlogin">
-            <label>Or login with</label>
-          </div>
-          <div className="col-12">
-            <Button className="btn-gmail">
-              <BiLogoGmail />
-              Gmail
             </Button>
           </div>
         </div>

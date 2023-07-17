@@ -38,7 +38,6 @@ export default function Product() {
       const responseData = await response.json();
       const pcData = responseData.data;
       setProduct(pcData);
-
       setOriginalComponents(pcData.components);
       setLoading(false);
     };
@@ -51,6 +50,7 @@ export default function Product() {
       const defaultSelectedComponents = product.components.map((component) => ({
         id: component.id,
         name: component.name,
+        image: component.image,
         price: component.price || 0,
       }));
       setSelectedComponents(defaultSelectedComponents);

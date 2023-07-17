@@ -2,7 +2,7 @@ import Navbar from "../components/navbar/Navbar";
 import Home from "../components/home/Home";
 import { Route, Routes, Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 // page of user and guest
 import Products from "../components/product/Products";
@@ -12,7 +12,6 @@ import About from "../components/about/About";
 import Contact from "../components/contact/Contact";
 import Login from "../components/login/Login";
 import Payment from "../components/payment/Payment";
-import Customize from "../components/customize/Customize";
 import DetailCustomize from "../components/customize/DetailCustomize";
 import Policy from "../components/policy/Policy";
 import Profile from "../components/profile/Profile";
@@ -36,18 +35,18 @@ import Component from "../admin/pages/componentpage/Components";
 import NewComponent from "../admin/pages/componentpage/NewComponent";
 import Category from "../admin/pages/categorypage/Categories";
 import NewCategory from "../admin/pages/categorypage/NewCategory";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 const Layout = () => {
-  const user = useSelector(state => state.auth.login.currentUser);
-  if ( user && user.role === 'Admin' ) {
+  const user = useSelector((state) => state.auth.login.currentUser);
+  if (user && user.role === "Admin") {
     return (
       <Row>
         <Col sm={2}>
-        <Sidebar menu={sidebar_menu} />
+          <Sidebar menu={sidebar_menu} />
         </Col>
         <Col sm={10}>
-        <Routes>
+          <Routes>
             <Route path="/brands" element={<Brands />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/newOrder" element={<NewOrder />} />
@@ -82,33 +81,34 @@ const Layout = () => {
         </div>
       </div> */}
       </Row>
-    )
-  }
-  else {
+    );
+  } else {
     return (
       <>
-      <Navbar />
-      <ToastContainer position="top-center" autoClose={1000} />
-      <Routes>
-        <Route path="/user" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/PCDetail/:id" element={<Product />} />
-        <Route path="/PC/:id" element={<DetailTemplate />} />
-        <Route path="/customize-pc/:id" element={<Customize />} />
-        <Route path="/customize-pc-detail/:id" element={<DetailCustomize />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/policy" element={<Policy />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/customize" element={<Customize />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile/>}/>
-        <Route path="/history" element={<History/>}/>
-        <Route path="/orderdetail" element={<OrderDetail/>}/>
-      </Routes>
-    </>
-    )
+        <Navbar />
+        <ToastContainer position="top-center" autoClose={1000} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/user" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/PCDetail/:id" element={<Product />} />
+          <Route path="/PC/:id" element={<DetailTemplate />} />
+          <Route
+            path="/customize-pc-detail/:id"
+            element={<DetailCustomize />}
+          />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/policy" element={<Policy />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/orderdetail" element={<OrderDetail />} />
+        </Routes>
+      </>
+    );
   }
-}
+};
 
 export default Layout;

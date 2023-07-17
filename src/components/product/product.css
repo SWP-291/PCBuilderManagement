@@ -1,31 +1,28 @@
-.button{
+.btn{
     display: flex;
 }
-
-.button {
-    display: flex;
+  
+  .btn.detail-button {
+    color: 0f8698;
+    border: 0.5px solid black; 
+    padding: 8px 12px;
+    
   }
   
-  .button .btn {
-    margin-right: 10px;
-    /* Add other desired styles */
+  .btn.buy-button {
+    color: 0f8698;
+    border: 0.5px solid black; 
+    padding: 8px 12px;
+    margin: 3px;
   }
   
-  .button .btn.detail-button {
-    color: #00abc6;
-  }
-  
-  .button .btn.buy-button {
-    color: #00abc6;
-  }
-  
-  .button .btn.detail-button:hover {
-    background-color: #016170;
+  .btn.detail-button:hover {
+    background-color: #00abc6;
     color: white;
   }
   
-  .button .btn.buy-button:hover {
-    background-color: #016170;
+  .btn.buy-button:hover {
+    background-color: #00abc6;
     color: white;
   }
   
@@ -86,7 +83,7 @@
 }
 
 .positive-change {
-  color: #00abc6;
+  color: #0f8698;
   font-weight: 600;
 }
 

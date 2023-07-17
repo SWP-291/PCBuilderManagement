@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./product.css";
+import axios from "axios";
 
 export default function Products() {
   const [data, setData] = useState([]);
@@ -10,40 +11,30 @@ export default function Products() {
   const navigate = useNavigate();
   let componentMounted = true;
 
-  // useEffect(() => {
-  //   const getProducts = async () => {
-  //     setLoading(true);
-  //     const response = await fetch("https://fakestoreapi.com/products");
-  //     if (componentMounted) {
-  //       setData(await response.clone().json());
-  //       setFilter(await response.json());
-  //       setLoading(false);
-  //       console.log(filter);
-  //     }
-  //     return () => {
-  //       componentMounted = false;
-  //     };
-  //   };
-
-  //   getProducts();
-  // }, []);
-
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      const response = await fetch(
-        "https://localhost:7262/api/PC/GetListByCustomer"
-      );
+      try {
+        const response = await axios.get(
+          "https://localhost:7262/api/PC/GetListByCustomer",
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("currentUser")}`,
+            },
+          }
+        );
+        console.log(localStorage.getItem("currentUser"));
 
-      if (componentMounted) {
-        const responseData = await response.json();
-        setData(responseData.data);
-        setFilter(responseData.data);
-        setLoading(false);
+        if (componentMounted) {
+          setData(response.data);
+          console.log(response.data);
+          setFilter(response.data);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
       }
-      return () => {
-        componentMounted = false;
-      };
     };
 
     getProducts();
@@ -65,19 +56,12 @@ export default function Products() {
     );
   };
 
-  // const filterProduct = (isTemplate) => {
-  //   const updatedList = data.filter((x) => x.isTemplate === isTemplate);
-  //   setFilter(updatedList);
-  // };
-
   const ShowProducts = () => {
     const handleViewDetail = (productId) => {
-      // Handle the view detail action
       console.log(`View detail for product ${productId}`);
     };
 
     const handleBuyNow = (product) => {
-      // Handle the buy now action
       console.log("Product:", product);
       navigate(
         `/payment?url=${product.url}&price=${product.price}&image=${
@@ -86,46 +70,25 @@ export default function Products() {
       );
     };
 
-    const handleCustomizePC = (productId) => {
-      // Handle the customize PC action
-      console.log(`Customize PC for product ${productId}`);
-    };
-
     const getProductButtons = (product) => {
       if (product.isTemplate) {
         return (
           <>
-            <NavLink
-              to={`/PCDetail/${product.id}`}
-              className="btn btn-outline-primary detail-button"
-              onClick={() => handleViewDetail(product.id)}
-            >
-              Detail
-            </NavLink>
-            <button
-              className="btn btn-outline-primary buy-button"
-              onClick={() => handleBuyNow(product)}
-            >
-              Buy Now
-            </button>
-          </>
-        );
-      } else {
-        return (
-          <>
-            <NavLink
-              to={`/PCDetail/${product.id}`}
-              className="btn btn-outline-primary detail-button"
-              onClick={() => handleViewDetail(product.id)}
-            >
-              Detail
-            </NavLink>
-            <button
-              className="btn btn-outline-primary buy-button"
-              onClick={() => handleBuyNow(product)}
-            >
-              Buy Now
-            </button>
+            <div className="button container">
+              <NavLink
+                to={`/PCDetail/${product.id}`}
+                className="btn detail-button"
+                onClick={() => handleViewDetail(product.id)}
+              >
+                View Details
+              </NavLink>
+              <button
+                className="btn buy-button"
+                onClick={() => handleBuyNow(product)}
+              >
+                Buy Now
+              </button>
+            </div>
           </>
         );
       }
@@ -133,48 +96,34 @@ export default function Products() {
 
     return (
       <>
-        {/* <div className="buttons d-flex justify-content-center mb-3 pb-3">
-          <button
-            className="btn btn-outline-dark me-2"
-            onClick={() => setFilter(data)}
-          >
-            All
-          </button>
-          <button
-            className="btn btn-outline-dark me-2"
-            onClick={() => filterProduct(true)}
-          >
-            PC Template
-          </button>
-          <button
-            className="btn btn-outline-dark me-2"
-            onClick={() => filterProduct(false)}
-          >
-            Customize PC
-          </button>
-        </div> */}
         <div className="row">
           {filter.map((pro) => {
             return (
-              <div className="col-md-3" key={pro.id}>
-                <div className="card h-100 text-center p-4">
-                  <img
-                    src={pro.image}
-                    className="card-img-top"
-                    alt={pro.name}
-                    height="250px"
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title mb-0">{pro.name}</h5>
-                    <p className="card-text">
-                      {pro.price.toLocaleString("vi-VN", {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0,
-                      })}
-                      <span className="small-currency">₫</span>
-                    </p>
-                    {getProductButtons(pro)}
-                  </div>
+              <div className="col-md-3 mb-4" key={pro.id}>
+                <div className="card h-100 text-center p-2">
+                  <NavLink
+                    to={`/PCDetail/${pro.id}`}
+                    className="btn"
+                    onClick={() => handleViewDetail(pro.id)}
+                  >
+                    <img
+                      src={pro.image}
+                      className="card-img-top"
+                      alt={pro.name}
+                      height="250px"
+                    />
+                    <div className="card-body">
+                      <h5 className="card-title mb-0">{pro.name}</h5>
+                      <p className="card-text">
+                        {pro.price.toLocaleString("vi-VN", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        })}
+                        <span className="small-currency">₫</span>
+                      </p>
+                      {getProductButtons(pro)}
+                    </div>
+                  </NavLink>
                 </div>
               </div>
             );
@@ -183,16 +132,32 @@ export default function Products() {
       </>
     );
   };
+
   return (
     <div>
-      <div className="container my-5 py-5">
-        <div className="row">
-          <div className="col-12 mb-5">
-            <h1 className="display-6 text-center fw-bold">List Product</h1>
-            <hr />
+      <div className="hero">
+        <div className="container my-5 py-5">
+          <div className="row">
+            <div className="col-12 mb-5">
+              <h1 className="display-6 text-center fw-bold animated-text">
+                Begin With Your Choices
+              </h1>
+              <p
+                className="mb-4 animated-text1"
+                style={{
+                  margin: "0 150px",
+                  textAlign: "center",
+                  fontSize: "24px",
+                }}
+              >
+                Choose the service that suits your needs. We offer a range of
+                options, including 24/7 on-demand troubleshooting support and
+                personalized PC consultation for customizing your PC.
+              </p>
+            </div>
           </div>
+          {loading ? <Loading /> : <ShowProducts />}
         </div>
-        {loading ? <Loading /> : <ShowProducts />}
       </div>
     </div>
   );
