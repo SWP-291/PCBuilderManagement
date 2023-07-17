@@ -89,7 +89,7 @@ const Layout = () => {
         <ToastContainer position="top-center" autoClose={1000} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/user" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/PCDetail/:id" element={<Product />} />
           <Route path="/PC/:id" element={<DetailTemplate />} />

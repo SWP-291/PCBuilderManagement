@@ -45,18 +45,18 @@ export const loginUser = async (user, dispatch, navigate) => {
   axios
     .post(`https://localhost:7262/api/Authenticate/login`, user)
     .then(function (response) {
-      const decodedUser = jwt(response.data.token.token);
+      const user = jwt(response.data.token.token);
       const refreshToken = response.data.token.refreshToken;
       const expriresIn = response.data.token.expriresIn;
 
-      localStorage.setItem("currentUser", JSON.stringify(decodedUser));
-      localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("expriresIn", expriresIn);
+      localStorage.setItem("currentUser: ", user);
+      localStorage.setItem("refreshToken: ", refreshToken);
+      localStorage.setItem("expriresIn: ", expriresIn);
 
-      dispatch(loginSuccess(decodedUser));
+      dispatch(loginSuccess(user));
 
       toast.success(response.data.message);
-      if (decodedUser.role === "Admin") {
+      if (user.role === "Admin") {
         getAllPc(dispatch);
         getAllComponents(dispatch);
         getAllCatergory(dispatch);
@@ -64,8 +64,8 @@ export const loginUser = async (user, dispatch, navigate) => {
         getAllBrand(dispatch);
         getAllOrder(dispatch);
         navigate("/");
-      } else if (decodedUser.role === "Customer") {
-        dispatch(getDataSuccess(decodedUser));
+      } else if (user.role === "Customer") {
+        dispatch(getDataSuccess(user));
         getAllListPc(dispatch);
         navigate("/");
       }

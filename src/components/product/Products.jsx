@@ -14,31 +14,55 @@ export default function Products() {
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      try {
-        const response = await axios.get(
-          "https://localhost:7262/api/PC/GetListByCustomer",
-          {
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("currentUser")}`,
-            },
-          }
-        );
-        console.log(localStorage.getItem("currentUser"));
+      const response = await fetch(
+        "https://localhost:7262/api/PC/GetListByCustomer"
+      );
 
-        if (componentMounted) {
-          setData(response.data);
-          console.log(response.data);
-          setFilter(response.data);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.log(error);
+      if (componentMounted) {
+        const responseData = await response.json();
+        setData(responseData.data);
+        setFilter(responseData.data.filter((product) => product.isTemplate));
+        setLoading(false);
       }
+      return () => {
+        componentMounted = false;
+      };
     };
 
     getProducts();
   }, []);
+
+  // useEffect(() => {
+  //   const getProducts = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  //       console.log("currentUser:", currentUser);
+  //       const token = currentUser.token;
+  //       const response = await axios.get(
+  //         "https://localhost:7262/api/PC/GetListByCustomer",
+  //         {
+  //           headers: {
+  //             Accept: "application/json",
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       console.log(localStorage.getItem("currentUser"));
+
+  //       if (componentMounted) {
+  //         setData(response.data);
+  //         console.log(response.data);
+  //         setFilter(response.data);
+  //         setLoading(false);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  //   getProducts();
+  // }, []);
 
   const Loading = () => {
     return (
