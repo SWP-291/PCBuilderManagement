@@ -36,28 +36,28 @@ export default function Products() {
   //   const getProducts = async () => {
   //     setLoading(true);
   //     try {
-  //       const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  //       console.log("currentUser:", currentUser);
-  //       const token = currentUser.token;
-  //       const response = await axios.get(
-  //         "https://localhost:7262/api/PC/GetListByCustomer",
-  //         {
-  //           headers: {
-  //             Accept: "application/json",
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-  //       console.log(localStorage.getItem("currentUser"));
-
-  //       if (componentMounted) {
+  //       const token = localStorage.getItem("currentUser");
+  //       if (token) {
+  //         console.log("token", token);
+  //         const response = await axios.get(
+  //           "https://localhost:7262/api/PC/GetListByCustomer",
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${token}`,
+  //             },
+  //           }
+  //         );
   //         setData(response.data);
-  //         console.log(response.data);
-  //         setFilter(response.data);
+  //         // setFilter(response.data.filter((product) => product.isTemplate));
   //         setLoading(false);
   //       }
   //     } catch (error) {
-  //       console.log(error);
+  //       if (error.response && error.response.status === 401) {
+  //         console.log("Unauthorized access error (401)");
+  //       } else {
+  //         console.log(error);
+  //       }
+  //       setLoading(false);
   //     }
   //   };
 

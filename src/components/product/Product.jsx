@@ -201,6 +201,7 @@ export default function Product() {
   const ShowProduct = () => {
     return (
       <>
+        <div className="hero"></div>
         <div className="col-md-6 pt-4 image-main">
           <img
             src={product.image}

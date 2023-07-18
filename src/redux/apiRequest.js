@@ -45,18 +45,23 @@ export const loginUser = async (user, dispatch, navigate) => {
   axios
     .post(`https://localhost:7262/api/Authenticate/login`, user)
     .then(function (response) {
-      const user = jwt(response.data.token.token);
+      const decodedUser = jwt(response.data.token.token);
+      // const decodedUser = response.data.token.token;
+      // const tokenUser = response.data.token.token;
+      console.log(decodedUser);
       const refreshToken = response.data.token.refreshToken;
       const expriresIn = response.data.token.expriresIn;
 
-      localStorage.setItem("currentUser: ", user);
-      localStorage.setItem("refreshToken: ", refreshToken);
-      localStorage.setItem("expriresIn: ", expriresIn);
+      localStorage.setItem("currentUser", JSON.stringify(decodedUser));
+      // localStorage.setItem("currentUser", decodedUser);
+      // localStorage.setItem("tokenUser", tokenUser);
+      localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("expriresIn", expriresIn);
 
-      dispatch(loginSuccess(user));
+      dispatch(loginSuccess(decodedUser));
 
       toast.success(response.data.message);
-      if (user.role === "Admin") {
+      if (decodedUser.role === "Admin") {
         getAllPc(dispatch);
         getAllComponents(dispatch);
         getAllCatergory(dispatch);
@@ -64,10 +69,12 @@ export const loginUser = async (user, dispatch, navigate) => {
         getAllBrand(dispatch);
         getAllOrder(dispatch);
         navigate("/");
-      } else if (user.role === "Customer") {
-        dispatch(getDataSuccess(user));
+      } else if (decodedUser.role === "Customer") {
         getAllListPc(dispatch);
+        dispatch(getDataSuccess(decodedUser));
         navigate("/");
+      } else {
+        toast.error("Unauthorized access");
       }
       // else toast.error(error.response.data.message)
     })
@@ -101,10 +108,11 @@ export const loginUser = async (user, dispatch, navigate) => {
 
 export const getAllListPc = async (dispatch) => {
   dispatch(getAllListPcStart());
+  const token = localStorage.getItem("tokenUser");
   axios
     .get(`https://localhost:7262/api/PC/GetListByCustomer`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("currentUser")}`,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then(function (response) {
