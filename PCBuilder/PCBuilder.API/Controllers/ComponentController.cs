@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Services.DTO;
 using PCBuilder.Services.Service;
@@ -15,7 +16,6 @@ namespace PCBuilder.API.Controllers
         {
             _componentServices = componentServices;
         }
-
         [HttpGet]
         public async Task<IActionResult> GetAllComponents()
         {
@@ -29,6 +29,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetComponentById(int id)
         {
@@ -42,6 +43,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         public async Task<IActionResult> CreateComponent([FromBody] ComponentDTO componentDTO)
         {
@@ -55,6 +57,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateComponent(int id, [FromBody] ComponentDTO componentDTO)
         {
@@ -79,6 +82,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComponent(int id)
         {

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Repository.Model;
 using PCBuilder.Services.DTO;
 using PCBuilder.Services.Service;
+using System.Data;
 
 namespace PCBuilder.API.Controllers
 {
@@ -52,6 +54,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         [HttpPut("{orderId}")]
         public async Task<IActionResult> UpdateOrder(int orderId, [FromBody] OrderDTO orderDTO)
         {
@@ -66,6 +69,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         [HttpDelete("{orderId}")]
         public async Task<IActionResult> DeleteOrder(int orderId)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Services.DTO;
 using PCBuilder.Services.Service;
@@ -38,7 +39,7 @@ namespace PCBuilder.API.Controllers
             return Ok(brand);
         }
 
-        // POST: api/Brand
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateBrand(BrandDTO brandDTO)
         {
@@ -52,7 +53,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
-        // PUT: api/Brand/{id}
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBrand(int id, BrandDTO brandDTO)
         {
@@ -71,7 +72,7 @@ namespace PCBuilder.API.Controllers
             return BadRequest(response.Message);
         }
 
-        // DELETE: api/Brand/{id}
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBrand(int id)
         {

@@ -32,9 +32,9 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<List<PcDTO>>> SearchPCsByName(String name);
         Task<ServiceResponse<List<PCInformationDTO>>> GetPCComponent();
         Task<ServiceResponse<PCInformationDTO>> GetPCComponentByID(int pcId);
-        Task<ServiceResponse<PCInformationDTO>> AddComponentsToPC(int pcId, List<int> componentIds, int quantity);
-        Task<ServiceResponse<PCInformationDTO>> UpdateComponentsOfPC(int pcId, List<int> componentIds, int quantity);
-        Task<ServiceResponse<PCInformationDTO>> CreatePCWithComponentsFromTemplate(int templateId, List<int> componentIds, int quantity);
+        Task<ServiceResponse<PCInformationDTO>> AddComponentsToPC(int pcId, List<int> componentIds);
+        Task<ServiceResponse<PCInformationDTO>> UpdateComponentsOfPC(int pcId, List<int> componentIds);
+        Task<ServiceResponse<PCInformationDTO>> CreatePCWithComponentsFromTemplate(int templateId, List<int> componentIds);
         Task<ServiceResponse<bool>> DeletePCWithComponent(int pcId);
     }
 
@@ -137,7 +137,7 @@ namespace PCBuilder.Services.Service
 
                 foreach (var item in PCList)
                 {
-                    if (item.IsPublic == true)
+                    if (item.IsPublic == true && item.IsTemplate == true)
                     {
                         PcListDTO.Add(_mapper.Map<PcDTO>(item));
                     }
@@ -445,7 +445,7 @@ namespace PCBuilder.Services.Service
             return _response;
         }
 
-        public async Task<ServiceResponse<PCInformationDTO>> AddComponentsToPC(int pcId, List<int> componentIds, int quantity)
+        public async Task<ServiceResponse<PCInformationDTO>> AddComponentsToPC(int pcId, List<int> componentIds)
         {
             ServiceResponse<PCInformationDTO> response = new ServiceResponse<PCInformationDTO>();
 
@@ -485,7 +485,7 @@ namespace PCBuilder.Services.Service
                     {
                         ComponentId = component.Id,
                         PcId = pc.Id,
-                        Quantity = quantity,
+                        Quantity = 1,
 
                     };
                     await _pcComponentRepository.AddPcComponentsAsync(pcComponent);
@@ -533,7 +533,7 @@ namespace PCBuilder.Services.Service
             return response;
         }
 
-        public async Task<ServiceResponse<PCInformationDTO>> UpdateComponentsOfPC(int pcId, List<int> componentIds, int quantity)
+        public async Task<ServiceResponse<PCInformationDTO>> UpdateComponentsOfPC(int pcId, List<int> componentIds)
         {
             ServiceResponse<PCInformationDTO> response = new ServiceResponse<PCInformationDTO>();
 
@@ -569,7 +569,7 @@ namespace PCBuilder.Services.Service
                     {
                         ComponentId = component.Id,
                         PcId = pc.Id,
-                        Quantity = quantity,
+                        Quantity = 1,
                     };
                     
 
@@ -621,7 +621,7 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
-        public async Task<ServiceResponse<PCInformationDTO>> CreatePCWithComponentsFromTemplate(int templateId, List<int> componentIds, int quantity)
+        public async Task<ServiceResponse<PCInformationDTO>> CreatePCWithComponentsFromTemplate(int templateId, List<int> componentIds)
         {
             ServiceResponse<PCInformationDTO> response = new ServiceResponse<PCInformationDTO>();
 
@@ -670,7 +670,7 @@ namespace PCBuilder.Services.Service
                     {
                         ComponentId = component.Id,
                         PcId = newPC.Id,
-                        Quantity = quantity,
+                        Quantity = 1,
                     };
 
                     
@@ -695,7 +695,7 @@ namespace PCBuilder.Services.Service
                 var totalPrice = newComponents.Select(c => c.Price);
                 newPC.Price += totalPrice.Sum();
                 newPC.IsPublic = true;
-                newPC.IsTemplate = true;
+                newPC.IsTemplate = false;
                 var componentDetail = newComponents.Select(c => c.Name);
                 newPC.Detail = string.Join(". ", componentDetail);
                 var componentDecription = newComponents.Select(c => c.Description);
