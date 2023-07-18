@@ -12,14 +12,16 @@ const Categories = () => {
   // const [data, setData] = useState([]);
   const [editingRow, setEditingRow] = useState(null);
   const data = useSelector(state => state.admin.components.component.data);
+  // const [data, setData] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     getAllComponents(dispatch);
+    // setData(getAllComponents(dispatch));
   }, []);
 
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
-    const updatedData = data.map((item) =>
+    data.map((item) =>
       item.id === id ? { ...item, [field]: value } : item
     );
     // setData(updatedData);
@@ -55,32 +57,32 @@ const Categories = () => {
   // };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90, editable: false },
+    { field: "id", headerName: "ID", width: 50, editable: false },
     {
       field: "name",
       headerName: "Name",
-      width: 150,
+      width: 200,
       editable: true,
     },
-    { field: "image", headerName: "Image", width: 150, editable: true },
-    { field: "price", headerName: "Price", width: 150, editable: true },
+    { field: "image", headerName: "Image", width: 250, editable: true },
+    { field: "price", headerName: "Price", width: 100, editable: true },
 
     {
       field: "description",
       headerName: "Description",
-      width: 150,
+      width: 250,
       editable: true,
     },
     {
       field: "brandId",
       headerName: "Brand ID",
-      width: 120,
+      width: 90,
       editable: true,
     },
     {
       field: "categoryId",
       headerName: "Category ID",
-      width: 120,
+      width: 90,
       editable: true,
     },
     {
@@ -113,7 +115,7 @@ const Categories = () => {
   ];
 
   return (
-    <div>
+    <div className="container py-5">
       <h2 className="title">
         Components List
         <Link to="/newComponent">
@@ -135,7 +137,7 @@ const Categories = () => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 8,
+                pageSize: 10,
               },
             },
           }}

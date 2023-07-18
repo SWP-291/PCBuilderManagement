@@ -38,7 +38,7 @@ export default function Navbar() {
               <NavLink
                 className="nav-link active"
                 aria-current="page"
-                to="/user"
+                to="/home"
               >
                 Home
               </NavLink>

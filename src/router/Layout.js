@@ -1,6 +1,6 @@
 import Navbar from "../components/navbar/Navbar";
 import Home from "../components/home/Home";
-import { Route, Routes, Router } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -52,7 +52,7 @@ const Layout = () => {
             <Route path="/newOrder" element={<NewOrder />} />
             <Route path="/newBrand" element={<NewBrand />} />
             <Route path="/newPc" element={<NewPC />} />
-            <Route path="/" element={<PC />} />
+            <Route path="/pc" element={<PC />} />
             <Route path="/newUser" element={<NewUser />} />
             <Route path="/users" element={<User />} />
             <Route path="/newComponent" element={<NewComponent />} />
@@ -61,25 +61,6 @@ const Layout = () => {
             <Route path="/category" element={<Category />} />
           </Routes>
         </Col>
-        {/* <div className="dashboard" >
-        <Sidebar menu={sidebar_menu} />
-        <div className="dashboard-body">
-          <Routes>
-            <Route path="/brands" element={<Brands />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/newOrder" element={<NewOrder />} />
-            <Route path="/newBrand" element={<NewBrand />} />
-            <Route path="/newPc" element={<NewPC />} />
-            <Route path="/admin" element={<PC />} />
-            <Route path="/newUser" element={<NewUser />} />
-            <Route path="/users" element={<User />} />
-            <Route path="/newComponent" element={<NewComponent />} />
-            <Route path="/components" element={<Component />} />
-            <Route path="/newCategory" element={<NewCategory />} />
-            <Route path="/category" element={<Category />} />
-          </Routes>
-        </div>
-      </div> */}
       </Row>
     );
   } else {
