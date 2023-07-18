@@ -123,9 +123,9 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
         [HttpPost("{PcId}/AddComponents")]
-        public async Task<IActionResult> AddComponentsToPC(int PcId, List<int> componentIds, int quantity)
+        public async Task<IActionResult> AddComponentsToPC(int PcId, List<int> componentIds)
         {
-            var response = await _IPCServices.AddComponentsToPC(PcId, componentIds, quantity);
+            var response = await _IPCServices.AddComponentsToPC(PcId, componentIds);
 
             if (!response.Success)
             {
@@ -150,9 +150,9 @@ namespace PCBuilder.API.Controllers
         }
 
         [HttpPut("{id}/UpdateComponentsOfPC")]
-        public async Task<IActionResult> UpdateComponentsOfPC(int id, List<int> componentIds, int quantity)
+        public async Task<IActionResult> UpdateComponentsOfPC(int id, List<int> componentIds)
         {
-            var response = await _IPCServices.UpdateComponentsOfPC(id, componentIds, quantity);
+            var response = await _IPCServices.UpdateComponentsOfPC(id, componentIds);
 
             if (response.Success)
             {
@@ -163,9 +163,9 @@ namespace PCBuilder.API.Controllers
             return BadRequest(response.Message);
         }
         [HttpPost("CreatePCWithComponentsFromTemplate")]
-        public async Task<IActionResult> CreatePCFromTemplate(int templateId, List<int> componentIds, int quantity)
+        public async Task<IActionResult> CreatePCFromTemplate(int templateId, List<int> componentIds)
         {
-            var response = await _IPCServices.CreatePCWithComponentsFromTemplate(templateId, componentIds, quantity);
+            var response = await _IPCServices.CreatePCWithComponentsFromTemplate(templateId, componentIds);
 
             if (!response.Success)
             {
