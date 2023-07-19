@@ -16,10 +16,12 @@ namespace PCBuilder.API.Controllers
     public class AuthenticateController : ControllerBase
     {
         private readonly IUserServices _userServices;
+        private readonly IGoogleServices _googleServices;
 
-        public AuthenticateController(IUserServices userServices)
+        public AuthenticateController(IUserServices userServices, IGoogleServices googleServices)
         {
             _userServices = userServices;
+            _googleServices = googleServices;
         }
 
         [HttpPost("login")]
@@ -51,6 +53,23 @@ namespace PCBuilder.API.Controllers
             return Ok(new { message = response.Data });
         }
 
+        [HttpPost("google")]
+        public async Task<IActionResult> LoginWithGoogle([FromBody] GoogleLoginRequestDTO request)
+        {
+            var response = await _googleServices.LoginWithGoogle(request.IdToken);
 
+            if (!response.Success)
+            {
+                return BadRequest(new { message = response.Message });
+            }
+
+            return Ok(
+                new
+                {
+                    success = response.Success,
+                    message = response.Message,
+                    token = response.Data
+                });
+        }
     }
 }

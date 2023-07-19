@@ -724,3 +724,9 @@ T:/LearnSpace/Git Manager/BE-PC/PCBuilderManagement/PCBuilder/PCBuilder.API/obj/
 T:/LearnSpace/Git Manager/BE-PC/PCBuilderManagement/PCBuilder/PCBuilder.API/obj/Debug/net6.0/PCBuilder.API.pdb
 T:/LearnSpace/Git Manager/BE-PC/PCBuilderManagement/PCBuilder/PCBuilder.API/obj/Debug/net6.0/PCBuilder.API.genruntimeconfig.cache
 T:/LearnSpace/Git Manager/BE-PC/PCBuilderManagement/PCBuilder/PCBuilder.API/obj/Debug/net6.0/ref/PCBuilder.API.dll
+/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.API/bin/Debug/net6.0/Google.Apis.dll
+/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.API/bin/Debug/net6.0/Google.Apis.Auth.PlatformServices.dll
+/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.API/bin/Debug/net6.0/Google.Apis.Auth.dll
+/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.API/bin/Debug/net6.0/Google.Apis.Core.dll
+/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.Google.dll
+/Users/thinhtran/Desktop/PCBuilder-BE/PCBuilderManagement/PCBuilder/PCBuilder.API/bin/Debug/net6.0/Newtonsoft.Json.dll

@@ -25,9 +25,7 @@ namespace PCBuilder.API
             //Add DbContext
             services.AddDbContext<PcBuildingContext>(options =>
             {
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("ConnectionString")
-                );
+                options.UseSqlServer(Configuration.GetConnectionString("ConnectionString"));
             });
 
             //Add Automapper
@@ -57,6 +55,8 @@ namespace PCBuilder.API
             services.AddScoped<IPcComponentRepository, PcComponentRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
 
+            services.AddScoped<IGoogleServices, GoogleServices>();
+
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IPaymentServices, PaymentServices>();
 
@@ -83,14 +83,12 @@ namespace PCBuilder.API
                         ),
                         ClockSkew = TimeSpan.Zero
                     };
-                });
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("CustomerOnly", policy => policy.RequireRole("Customer"));
-                options.AddPolicy("EmployeeOnly", policy => policy.RequireRole("Employee"));
-            });
+                })
+                 .AddGoogle(options =>
+                 {
+                     options.ClientId = "YourGoogleClientId";
+                     options.ClientSecret = "YourGoogleClientSecret";
+                 });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
