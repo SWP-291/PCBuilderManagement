@@ -13,6 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
+using System.Data.Common;
 
 namespace PCBuilder.Services.Service
 {
@@ -23,9 +24,9 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<UserDTO>> CreateUserAsync(UserDTO userDTO);
         Task<ServiceResponse<UserDTO>> UpdateUserAsync(int id, UserDTO userDTO);
         Task<ServiceResponse<bool>> DeleteUserAsync(int id);
-        Task<ServiceResponse<UserRoleDTO>> LoginAsync(string email, string password);
+
         Task<ServiceResponse<AuthResponseDTO>> Login(string email, string password);
-        Task<ServiceResponse<string>> Signup(string email, string password);
+        Task<ServiceResponse<UserDTO>> Signup(UserDTO userDTO);
     }
 
     public class UserServices : IUserServices
@@ -113,7 +114,7 @@ namespace PCBuilder.Services.Service
 
         public async Task<ServiceResponse<UserDTO>> CreateUserAsync(UserDTO userDTO)
         {
-            ServiceResponse<UserDTO> response = new ServiceResponse<UserDTO>();
+            var response = new ServiceResponse<UserDTO>();
 
             try
             {
@@ -124,6 +125,12 @@ namespace PCBuilder.Services.Service
                 response.Data = createdUserDto;
                 response.Success = true;
                 response.Message = "User created successfully.";
+            }
+            catch (DbException ex)
+            {
+                response.Success = false;
+                response.Message = "Database error occurred.";
+                response.ErrorMessages = new List<string> { ex.Message };
             }
             catch (Exception ex)
             {
@@ -200,49 +207,6 @@ namespace PCBuilder.Services.Service
             return response;
         }
 
-        public async Task<ServiceResponse<UserRoleDTO>> LoginAsync(string email, string password)
-        {
-            ServiceResponse<UserRoleDTO> response = new ServiceResponse<UserRoleDTO>();
-
-            try
-            {
-                var user = await _iUserRepository.GetUserAndPasswordByUsernameAsync(
-                    email,
-                    password
-                );
-
-                if (user == null || user.RoleId == null)
-                {
-                    response.Success = false;
-                    response.Message = "Invalid username or password.";
-                    return response;
-                }
-
-                var role = await _iRoleRepository.GetRoleByIdAsync(user.RoleId);
-
-                if (role == null)
-                {
-                    response.Success = false;
-                    response.Message = "Role not found.";
-                    return response;
-                }
-
-                var userDto = _mapper.Map<UserRoleDTO>(user);
-                userDto.Role = _mapper.Map<RoleDTO>(role);
-
-                response.Data = userDto;
-                response.Success = true;
-                response.Message = "Logged in successfully";
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = "Error";
-                response.ErrorMessages = new List<string> { ex.Message };
-            }
-
-            return response;
-        }
 
         public async Task<ServiceResponse<AuthResponseDTO>> Login(string email, string password)
         {
@@ -316,24 +280,42 @@ namespace PCBuilder.Services.Service
             }
         }
 
-        // can cho form dang ki no la cai gi de con viet tiep
-        public async Task<ServiceResponse<string>> Signup(string email, string password)
+        public async Task<ServiceResponse<UserDTO>> Signup(UserDTO userDTO)
         {
-            ServiceResponse<string> response = new ServiceResponse<string>();
+            ServiceResponse<UserDTO> response = new ServiceResponse<UserDTO>();
 
-            if (_iUserRepository.GetUserByEmailAsync(email) != null)
+            try
+            {
+                // Kiểm tra xem email đã tồn tại trong hệ thống hay chưa
+                var existingUser = await _iUserRepository.GetUserByEmailAsync(userDTO.Email);
+                if (existingUser != null)
+                {
+                    response.Success = false;
+                    response.Message = "Email is already taken.";
+                    return response;
+                }
+
+                // Tạo một đối tượng User mới từ dữ liệu được gửi lên
+                var newUser = _mapper.Map<User>(userDTO);
+
+                // Thực hiện logic lưu trữ hoặc xác thực tài khoản người dùng
+                var createdUser = await _iUserRepository.CreateUserAsync(newUser);
+                var createdUserDto = _mapper.Map<UserDTO>(createdUser);
+
+                response.Data = createdUserDto;
+                response.Success = true;
+                response.Message = "User sign up successfully.";
+            }
+            catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = "User with email is existed";
-                return response;
+                response.Message = "User sign up failed.";
+                response.ErrorMessages = new List<string> { ex.Message };
             }
 
-            var user = new User() { Email = email, Password = password };
-            await _iUserRepository.CreateUserAsync(user);
-
-            response.Success = true;
-            response.Data = "Sign up successfully";
             return response;
         }
+
+
     }
 }

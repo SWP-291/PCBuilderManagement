@@ -42,7 +42,15 @@ namespace PCBuilder.API.Controllers
         public async Task<IActionResult> CreateUser([FromBody] UserDTO userDTO)
         {
             var createdUser = await _userServices.CreateUserAsync(userDTO);
-            return createdUser.Success ? CreatedAtAction(nameof(GetUserById), new { id = createdUser.Data.Id }, createdUser) : (ActionResult)BadRequest(createdUser);
+
+            if (createdUser.Success)
+            {
+                return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Data.Id }, createdUser);
+            }
+            else
+            {
+                return BadRequest(new { message = createdUser.Message, errors = createdUser.ErrorMessages });
+            }
         }
 
         [Authorize(Roles = "Admin")]

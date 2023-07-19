@@ -47,6 +47,7 @@ namespace PCBuilder.Repository.Repository
         public async Task<User> CreateUserAsync(User user)
         {
             user.RoleId = 1;
+            user.IsActive = true;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user;

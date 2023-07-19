@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Repository.Model;
+using PCBuilder.Services.DTO;
 using PCBuilder.Services.Service;
 
 namespace PCBuilder.API.Controllers
@@ -40,22 +41,16 @@ namespace PCBuilder.API.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<IActionResult> SignUp(User user)
+        public async Task<IActionResult> SignUp([FromBody] UserDTO userDTO)
         {
-            var response = await _userServices.Signup(user.Email, user.Password);
+            var response = await _userServices.Signup(userDTO);
             if (!response.Success)
             {
-                return BadRequest(new { message = response.Message });
+                return BadRequest(new { message = response.Message, error = response.ErrorMessages });
             }
             return Ok(new { message = response.Data });
         }
 
-        //[HttpPost("logout")]
-        //[Authorize]
-        //public async Task<IActionResult> Logout()
-        //{
-        //    await _userServices.Logout();
-        //    return Ok(new { message = "Đã đăng xuất" });
-        //}
+
     }
 }

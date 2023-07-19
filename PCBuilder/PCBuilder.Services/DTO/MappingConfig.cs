@@ -9,7 +9,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PCBuilder.Services.DTO
 {
-    public class MappingConfig: Profile
+    public class MappingConfig : Profile
     {
         public MappingConfig()
         {
@@ -23,8 +23,10 @@ namespace PCBuilder.Services.DTO
             CreateMap<Role, RoleDTO>().ReverseMap();
             CreateMap<Payment, PaymentDTO>().ReverseMap();
             CreateMap<Pc, PCInformationDTO>()
-                .ForMember(dto => dto.Components, opt => opt.MapFrom(x => x.PcComponents.Select(y => y.Component)));
-
+                .ForMember(
+                    dto => dto.Components,
+                    opt => opt.MapFrom(x => x.PcComponents.Select(y => y.Component))
+                );
         }
     }
 }
