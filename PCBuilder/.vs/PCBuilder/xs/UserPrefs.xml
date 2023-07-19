@@ -1,37 +1,38 @@
 ﻿<Properties StartupConfiguration="{FA3CEBA2-02CD-4A34-883D-BEF0EDBA23B4}|Default">
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.PCBuilder.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PCBuilder.Services/DTO/AuthResponseDTO.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PCBuilder.API/Controllers/ProfileController.cs">
     <Files>
-      <File FileName="PCBuilder.API/Startup.cs" Line="1" Column="1" />
+      <File FileName="PCBuilder.API/Startup.cs" />
       <File FileName="PCBuilder.API/appsettings.json" />
       <File FileName="PCBuilder.API/Program.cs" />
       <File FileName="PCBuilder.Services/Service/UserServices.cs" />
       <File FileName="PCBuilder.Services/Service/ServiceResponse.cs" />
       <File FileName="PCBuilder.API/Controllers/BrandController.cs" />
-      <File FileName="PCBuilder.API/Controllers/UserController.cs" />
+      <File FileName="PCBuilder.API/Controllers/UserController.cs" Line="32" Column="31" />
       <File FileName="PCBuilder.Services/DTO/AuthResponseDTO.cs" Line="1" Column="1" />
+      <File FileName="PCBuilder.API/Controllers/ProfileController.cs" Line="31" Column="48" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="PCBuilder" expanded="True">
-            <Node name="PCBuilder.API" expanded="True">
-              <Node name="Controllers" expanded="True" />
+          <Node name="PCBuilder">
+            <Node name="PCBuilder.API">
+              <Node name="Controllers">
+                <Node name="ProfileController.cs" selected="True" />
+              </Node>
             </Node>
             <Node name="PCBuilder.Repository" expanded="True">
               <Node name="Repository" expanded="True" />
             </Node>
             <Node name="PCBuilder.Services" expanded="True">
               <Node name="Dependencies" expanded="True" />
-              <Node name="DTO" expanded="True">
-                <Node name="AuthResponseDTO.cs" selected="True" />
-              </Node>
+              <Node name="DTO" expanded="True" />
               <Node name="Service" expanded="True" />
             </Node>
           </Node>

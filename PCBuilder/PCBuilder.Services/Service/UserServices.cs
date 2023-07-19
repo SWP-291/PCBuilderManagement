@@ -26,9 +26,6 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<UserRoleDTO>> LoginAsync(string email, string password);
         Task<ServiceResponse<AuthResponseDTO>> Login(string email, string password);
         Task<ServiceResponse<string>> Signup(string email, string password);
-
-        //Task<ServiceResponse<string>> Logout();
-        Task<ServiceResponse<string>> SomeAuthorizedMethod(string token);
     }
 
     public class UserServices : IUserServices
@@ -262,8 +259,8 @@ namespace PCBuilder.Services.Service
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(ClaimTypes.Role, role.Name),
+                new Claim("id", user.Id.ToString()),
                 new Claim("fullName", user.Fullname),
                 new Claim("phone", user.Phone),
                 new Claim("country", user.Country.ToString()),
@@ -317,72 +314,6 @@ namespace PCBuilder.Services.Service
                 rng.GetBytes(randomNumber);
                 return Convert.ToBase64String(randomNumber);
             }
-        }
-
-        public async Task<ServiceResponse<string>> SomeAuthorizedMethod(string token)
-        {
-            ServiceResponse<string> response = new ServiceResponse<string>();
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:SecretKey"]);
-
-            // Xác minh token
-            var validationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidIssuer = _configuration["JwtSettings:Issuer"],
-                ValidAudience = _configuration["JwtSettings:Audience"],
-                ValidateIssuer = true,
-                ValidateAudience = true
-            };
-
-            SecurityToken validatedToken;
-            var claimsPrincipal = tokenHandler.ValidateToken(
-                token,
-                validationParameters,
-                out validatedToken
-            );
-
-            // Kiểm tra quyền truy cập
-            var roleClaim = claimsPrincipal.FindFirst("Role");
-            if (roleClaim == null)
-            {
-                response.Success = false;
-                response.Message = "Access denied.";
-                return response;
-            }
-
-            var role = roleClaim.Value; // Lấy giá trị của claim "Role"
-
-            // Thực hiện các kiểm tra và xử lý tương ứng dựa trên quyền truy cập
-
-            // Ví dụ: Kiểm tra quyền truy cập "Admin"
-            if (role == "Admin")
-            {
-                // Thực hiện hành động dành cho người dùng có quyền "Admin"
-                response.Success = true;
-                response.Message = "Access granted for Admin.";
-            }
-            else if (role == "Customer")
-            {
-                // Thực hiện hành động dành cho người dùng có quyền "User"
-                response.Success = true;
-                response.Message = "Access granted for User.";
-            }
-            else if (role == "Employee")
-            {
-                response.Success = true;
-                response.Message = "Access granted for Employee.";
-            }
-            else
-            {
-                // Người dùng không có quyền truy cập
-                response.Success = false;
-                response.Message = "Access denied.";
-            }
-
-            return response;
         }
 
         // can cho form dang ki no la cai gi de con viet tiep
