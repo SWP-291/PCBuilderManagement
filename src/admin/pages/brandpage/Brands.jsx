@@ -2,63 +2,37 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-// import {
-//   getBrandAPI,
-//   editBrandAPI,
-//   deleteBrandAPI,
-// } from "../../utils/api/BrandAPI";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-// import Container from 'react-bootstrap/Container';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
 import {  getAllBrands } from "../../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import axios from "axios";
 const OrderTable = () => {
-  const [editingRow, setEditingRow] = useState(null);
-  const data = useSelector(state => state.admin.brands.brand.data);
+  const data = useSelector(state => state.admin.brands.brand?.data);
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     getAllBrands(dispatch);
   }, []);
 
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
-    const updatedData = data.map((item) =>
+    data?.map((item) =>
       item.id === id ? { ...item, [field]: value } : item
     );
-    // setData(updatedData);
+  }; 
+  const handleDeleteClick = async (id) => {
+    if (window.confirm("Are you sure you want to delete this order?")) {
+      try {
+          await axios.delete(`https://localhost:7262/api/Brand/${id}`,id);
+          getAllBrands(dispatch);
+          toast.success("Deleted Successfully ~");
+      } catch (error) {
+          toast.error("Delete: Error!");
+      }
+    }
   };
-
-  // const handleUpdateClick = async (id) => {
-  //   const row = data.find((item) => item.id === id);
-
-  //   if (row) {
-  //     if (window.confirm("Are you sure you want to update this order?")) {
-  //       try {
-  //         await editBrandAPI(id, row); // Pass the updated data to the API
-  //         await fetchData(); // Fetch the updated data
-  //       } catch (error) {
-  //         console.error("Error updating order data:", error);
-  //         // Set an error state or display an error message to the user
-  //       }
-  //     }
-  //   }
-  // };
-
-  // const handleDeleteClick = async (id) => {
-  //   if (window.confirm("Are you sure you want to delete this order?")) {
-  //     try {
-  //       await deleteBrandAPI(id); // Call the API to delete the order
-  //       const updatedData = data.filter((item) => item.id !== id);
-  //       setData(updatedData); // Update the data state
-  //     } catch (error) {
-  //       console.error("Error deleting order:", error);
-  //       // Set an error state or display an error message to the user
-  //     }
-  //   }
-  // };
 
   const columns = [
     { field: "id", headerName: "ID", width: 50, editable: false },
@@ -74,7 +48,7 @@ const OrderTable = () => {
     {
       field: "status",
       headerName: "Status",
-      width: 150,
+      width: 100,
       type: Boolean,
       editable: true,
     },
@@ -84,22 +58,14 @@ const OrderTable = () => {
       width: 150,
       renderCell: (params) => {
         const { id } = params.row;
-        const isEditing = id === editingRow;
 
         return (
           <>
-            {/* <button onClick={() => handleUpdateClick(id)}>
-              <AiOutlineEdit />
-            </button>
+            <Link to={`/editBrand/${id}`}>
+            <button><AiOutlineEdit /> Edit</button>
+            </Link>
             <button onClick={() => handleDeleteClick(id)}>
-              <AiOutlineDelete />
-            </button> */}
-
-            <button>
-              <AiOutlineEdit />
-            </button>
-            <button>
-              <AiOutlineDelete />
+              <AiOutlineDelete /> Delete
             </button>
           </>
         );
@@ -111,10 +77,10 @@ const OrderTable = () => {
     <div className="container py-5">
       <h2 className="title">
         Brands List
-        <Link to="/newBrand">
-          <button className="btn-create">Create Brand</button>
-        </Link>
       </h2>
+      <Link to="/addBrand/">
+        <button className="btn-create">Create Brand</button>
+      </Link>
 
       <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
         <div

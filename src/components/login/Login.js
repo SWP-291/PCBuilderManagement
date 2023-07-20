@@ -8,8 +8,6 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { loginUser } from "../../redux/apiRequest";
 import { useDispatch } from "react-redux";
-
-
 const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -18,8 +16,6 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-
   const validateEmail = (email) => {
       return String(email)
       .toLowerCase()
@@ -41,6 +37,7 @@ const Login = () => {
         password: password
       };
       loginUser(newUser, dispatch, navigate);
+      localStorage.getItem("currentUser");
     }  
     
   }

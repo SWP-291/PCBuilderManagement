@@ -21,31 +21,31 @@ export const loginUser = async (user, dispatch, navigate) =>{
     dispatch(loginStart());
     axios.post(`https://localhost:7262/api/Authenticate/login`, user)
     .then(function (response) {
-        
+        // localStorage.setItem(response.data.token.token);
         const user = jwt(response.data.token.token); 
         const refreshToken = response.data.token.refreshToken;
         const expriresIn = response.data.token.expriresIn;
-
-        localStorage.setItem("currentUser: ",user);
-        localStorage.setItem("refreshToken: ",refreshToken);
-        localStorage.setItem("expriresIn: ",expriresIn);
+        
+        localStorage.setItem("currentUser",user);
+        localStorage.setItem("refreshToken",refreshToken);
+        localStorage.setItem("expriresIn",expriresIn);
         
         dispatch(loginSuccess(user));
         
-        
+        toast.success(response.data.message);
         if (user.role === 'Admin') {
-            toast.success(response.data.message);
             getAllPc(dispatch);
             getAllComponents(dispatch);
             getAllCategories(dispatch);
             getAllUsers(dispatch);
             getAllBrands(dispatch);
             getAllOrders(dispatch);
-            navigate("/pc");
+            // window.location.href = '/pc';
+            navigate("/note");
         }
 
         else if (user.role === 'Customer') {
-            toast.success(response.data.message);
+            // toast.success(response.data.message);
             dispatch(getDataSuccess(user))
             navigate("/");
         }

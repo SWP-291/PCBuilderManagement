@@ -36,30 +36,45 @@ import Component from "../admin/pages/componentpage/Components";
 import NewComponent from "../admin/pages/componentpage/NewComponent";
 import Category from "../admin/pages/categorypage/Categories";
 import NewCategory from "../admin/pages/categorypage/NewCategory";
+import Note from "../admin/pages/Note";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useState } from "react";
 const Layout = () => {
+  // const [token, setToken] = useState();
+  // if (!token){
+  //   return <Login setToken= {setToken}/>
+  // }
   const user = useSelector(state => state.auth.login.currentUser);
+  
   if ( user && user.role === 'Admin' ) {
     return (
       <Row>
-        <Col sm={2}>
+        <ToastContainer position="top-right" autoClose={1000} />
+        <Col sm={2} style={{padding: '0px'}}>
         <Sidebar menu={sidebar_menu} />
         </Col>
-        <Col sm={10}>
+        <Col sm={10} style={{padding: '0px'}}>
         <Routes>
+            <Route path="/note" element={<Note/>}/>
             <Route path="/brands" element={<Brands />} />
             <Route path="/orders" element={<Orders />} />
-            <Route path="/newOrder" element={<NewOrder />} />
-            <Route path="/newBrand" element={<NewBrand />} />
-            <Route path="/newPc" element={<NewPC />} />
+            {/* <Route path="/newOrder" element={<NewOrder />} /> */}
+            <Route path="/addBrand" element={<NewBrand />} />
+            <Route path="/editBrand/:id" element={<NewBrand />} />
+            <Route path="/addPc" element={<NewPC/>} />
+            <Route path="/editPc/:id" element={<NewPC/>} />
             <Route path="/pc" element={<PC/>} />
-            <Route path="/newUser" element={<NewUser />} />
+            <Route path="/addUser" element={<NewUser />} />
+            <Route path="/editUser/:id" element={<NewUser />} />
             <Route path="/users" element={<User />} />
-            <Route path="/newComponent" element={<NewComponent />} />
+            <Route path="/addComponent" element={<NewComponent />} />
+            <Route path="/editComponent/:id" element={<NewComponent />} />
             <Route path="/components" element={<Component />} />
-            <Route path="/newCategory" element={<NewCategory />} />
+            <Route path="/addCategory" element={<NewCategory />} />
+            <Route path="/editCategory/:id" element={<NewCategory />} />
             <Route path="/category" element={<Category />} />
+            <Route path="*" element={<div> Not Found or You do not have permission.</div>}/>
           </Routes>
         </Col>
       </Row>
