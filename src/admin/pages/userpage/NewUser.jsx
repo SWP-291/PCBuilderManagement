@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import "./newUser.scss";
+import "./newUser.scss";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';

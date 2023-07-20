@@ -64,7 +64,7 @@ const Users = () => {
   ];
 
   return (
-    <div className="container py-5 newUser">
+    <div className="container py-5">
       <h2 className="title">
         Users List
       </h2>
