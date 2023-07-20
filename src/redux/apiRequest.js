@@ -24,9 +24,9 @@ import {
   getAllComponentsStart,
   getAllComponentsSuccess,
   getAllComponentsFailed,
-  getAllCatergoryStart,
-  getAllCatergorySuccess,
-  getAllCatergoryFailed,
+  getAllCategoryStart,
+  getAllCategorySuccess,
+  getAllCategoryFailed,
   getAllUsersStart,
   getAllUsersSuccess,
   getAllUsersFailed,
@@ -45,18 +45,16 @@ export const loginUser = async (user, dispatch, navigate) => {
   axios
     .post(`https://localhost:7262/api/Authenticate/login`, user)
     .then(function (response) {
-      const decodedUser = jwt(response.data.token.token);
-      // const decodedUser = response.data.token.token;
-      // const tokenUser = response.data.token.token;
+      const token = response.data.token.token;
+      const decodedUser = jwt(token); // Decode the token
       console.log(decodedUser);
       const refreshToken = response.data.token.refreshToken;
-      const expriresIn = response.data.token.expriresIn;
+      const expiresIn = response.data.token.expiresIn;
 
       localStorage.setItem("currentUser", JSON.stringify(decodedUser));
-      // localStorage.setItem("currentUser", decodedUser);
-      // localStorage.setItem("tokenUser", tokenUser);
+      localStorage.setItem("tokenUser", token);
       localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("expriresIn", expriresIn);
+      localStorage.setItem("expiresIn", expiresIn);
 
       dispatch(loginSuccess(decodedUser));
 
@@ -64,7 +62,7 @@ export const loginUser = async (user, dispatch, navigate) => {
       if (decodedUser.role === "Admin") {
         getAllPc(dispatch);
         getAllComponents(dispatch);
-        getAllCatergory(dispatch);
+        getAllCategory(dispatch);
         getAllUsers(dispatch);
         getAllBrand(dispatch);
         getAllOrder(dispatch);
@@ -76,13 +74,30 @@ export const loginUser = async (user, dispatch, navigate) => {
       } else {
         toast.error("Unauthorized access");
       }
-      // else toast.error(error.response.data.message)
     })
     .catch(function (error) {
       toast.error(error.response.data.message);
       dispatch(loginFailed());
     });
 };
+export const logoutUser = async (dispatch, navigate) => {
+  try {
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("tokenUser");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("expriresIn");
+
+    dispatch(logoutSuccess());
+
+    toast.success("Logged out successfully.");
+  } catch (error) {
+    dispatch(logoutFailed(error));
+    toast.error("Logout failed. Please try again.");
+  }
+};
+
+// Update the loginUser function to handle logout
+
 // export const getUsers = async (dispatch) => {
 //     dispatch(getUsersStart());
 //     axios.get(`https://localhost:7262/api/User`)
@@ -150,16 +165,16 @@ export const getAllComponents = async (dispatch) => {
     });
 };
 
-export const getAllCatergory = async (dispatch) => {
-  dispatch(getAllCatergoryStart());
+export const getAllCategory = async (dispatch) => {
+  dispatch(getAllCategoryStart());
   axios
     .get(`https://localhost:7262/api/Category`)
     .then(function (response) {
-      dispatch(getAllCatergorySuccess(response.data));
+      dispatch(getAllCategorySuccess(response.data));
       console.log(response.data);
     })
     .catch(function (error) {
-      dispatch(getAllCatergoryFailed());
+      dispatch(getAllCategoryFailed());
     });
 };
 

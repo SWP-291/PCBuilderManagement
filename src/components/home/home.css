@@ -58,8 +58,16 @@
 
   .hero{
     background: hsl(177, 97%, 85%);  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #acdbe5, #d0f7f5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #48bed6, #c9faf8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ 
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero1{
+    background: hsl(177, 97%, 85%);  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #acdbe5, #B2FEFA);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #48bed6, #B2FEFA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ 
+    background: linear-gradient(to right, #b1ebf6, #B2FEFA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ 
     position: relative;
     overflow: hidden;
   }

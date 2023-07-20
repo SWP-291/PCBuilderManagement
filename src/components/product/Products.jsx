@@ -136,8 +136,10 @@ export default function Products() {
                       alt={pro.name}
                       height="250px"
                     />
-                    <div className="card-body">
+
+                    <div className="card-body d-flex flex-column">
                       <h5 className="card-title mb-0">{pro.name}</h5>
+                      <p className="card-summary">{pro.summary}</p>
                       <p className="card-text">
                         {pro.price.toLocaleString("vi-VN", {
                           minimumFractionDigits: 0,
@@ -145,9 +147,9 @@ export default function Products() {
                         })}
                         <span className="small-currency">₫</span>
                       </p>
-                      {getProductButtons(pro)}
                     </div>
                   </NavLink>
+                  {getProductButtons(pro)}
                 </div>
               </div>
             );

@@ -12,15 +12,15 @@ import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
 // import Container from 'react-bootstrap/Container';
 // import Row from 'react-bootstrap/Row';
 // import Col from 'react-bootstrap/Col';
-import {  getAllBrands } from "../../../redux/apiRequest";
+import { getAllBrand } from "../../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 const OrderTable = () => {
   const [editingRow, setEditingRow] = useState(null);
-  const data = useSelector(state => state.admin.brands.brand.data);
+  const data = useSelector((state) => state.admin.brands.brand.data);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getAllBrands(dispatch);
+    getAllBrand(dispatch);
   }, []);
 
   const handleEditCellChange = (params) => {

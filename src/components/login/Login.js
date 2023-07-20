@@ -8,8 +8,9 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import { loginUser } from "../../redux/apiRequest";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
-const Login = () => {
+const Login = ({}) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -101,7 +102,7 @@ const Login = () => {
             placement="bottom"
             overlay={popover}
           >
-            <a href="#">Forget your password ?</a>
+            <a href="#">Forget your password?</a>
           </OverlayTrigger>
         </form>
       </div>

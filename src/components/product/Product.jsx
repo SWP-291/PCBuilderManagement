@@ -10,6 +10,8 @@ import Popup from "reactjs-popup";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Product() {
   const { id } = useParams();
@@ -23,11 +25,14 @@ export default function Product() {
   const [selectedComponents, setSelectedComponents] = useState([]);
   const [originalComponents, setOriginalComponents] = useState([]);
   const [toastProps, setToastProps] = useState({});
-  const [ramQuantity, setRamQuantity] = useState(1);
-  const [hddQuantity, setHddQuantity] = useState(1);
-  const [ssdQuantity, setSsdQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showTotalPrice, setShowTotalPrice] = useState(false);
+  const navigate = useNavigate();
+  const [toggleState, setToggleState] = useState(0);
+
+  const toggleTab = (index) => {
+    setToggleState(index);
+  };
 
   useEffect(() => {
     const getProducts = async () => {
@@ -116,7 +121,7 @@ export default function Product() {
     }
   };
 
-  const handleBuyNow = async () => {
+  const handleBuyNow = async (image, name, totalPrice) => {
     try {
       const temporarySelectedComponents = localStorage.getItem(
         "temporarySelectedComponents"
@@ -125,8 +130,9 @@ export default function Product() {
       const parsedSelectedComponents = temporarySelectedComponents
         ? JSON.parse(temporarySelectedComponents)
         : [];
+      console.log(parsedSelectedComponents);
 
-      const response = await axios.post(
+      await axios.post(
         `https://localhost:7262/api/PC/CreatePCWithComponentsFromTemplate?templateId=${id}`,
         parsedSelectedComponents,
         {
@@ -139,7 +145,11 @@ export default function Product() {
       console.log("API Call conducted successfully");
 
       localStorage.removeItem("temporarySelectedComponents");
-      window.location.href = "/payment";
+      navigate(
+        `/payment?url=${encodeURIComponent(image)}&price=${encodeURIComponent(
+          totalPrice
+        )}&name=${encodeURIComponent(name)}`
+      );
     } catch (error) {
       console.error("Error conducting API call:", error.response);
       console.error("Error conducting API call:", error.response.data);
@@ -201,7 +211,6 @@ export default function Product() {
   const ShowProduct = () => {
     return (
       <>
-        <div className="hero"></div>
         <div className="col-md-6 pt-4 image-main">
           <img
             src={product.image}
@@ -240,93 +249,105 @@ export default function Product() {
             ))}
           </p>
         </div>
-        <div className="container py-5 fluid customize">
-          <div className="row">
-            <div className="col-md-8">
-              <div className="title">
-                <h1>SELECT YOUR COMPONENTS</h1>
-              </div>
+        <div className="container">
+          <div className="bloc-tabs">
+            <button
+              className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
+              onClick={() => toggleTab(1)}
+            >
+              Description
+            </button>
+            <button
+              className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
+              onClick={() => toggleTab(2)}
+            >
+              Select Your Components
+            </button>
+          </div>
+        </div>
+        {toggleState === 1 && (
+          <div className="content active-content">
+            <div className="title">
+              <h1>DESCRIPTION</h1>
+            </div>
+            <div className="col-md-12 configure-descip-container">
+              <p className="description">
+                {descripChunks.map((chunk, index) => (
+                  <p key={index} className="description-container">
+                    {chunk.trim()}
+                  </p>
+                ))}
+              </p>
+            </div>
+          </div>
+        )}
+        {toggleState === 2 && (
+          <div className="container py-5 fluid customize">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="title">
+                  <h1>SELECT YOUR COMPONENTS</h1>
+                </div>
 
-              <div className="box-table">
-                {product.components && product.components.length > 0 ? (
-                  <table className="ae-table">
-                    <tbody>
-                      {product.components.map((component, index) => (
-                        <tr key={index}>
-                          <td className="category-name">
-                            {index === 0
-                              ? "1. CPU"
-                              : index === 1
-                              ? "2. Main"
-                              : index === 2
-                              ? "3. VGA"
-                              : index === 3
-                              ? "4. PSU"
-                              : index === 4
-                              ? "5. Ram"
-                              : index === 5
-                              ? "6. SSD"
-                              : index === 6
-                              ? "7.HDD"
-                              : ""}
-                          </td>
-                          <td style={{ width: "30%" }}>
-                            <div className="item-drive">
-                              <div className="contain-item-drive">
-                                <div className="flex image-category">
-                                  {component.name.includes("CPU") && (
-                                    <img src={component.image} alt="CPU" />
-                                  )}
-                                  {component.name.includes("Mainboard") && (
-                                    <img
-                                      src={component.image}
-                                      alt="Mainboard"
-                                    />
-                                  )}
-                                  {component.name.includes("VGA") && (
-                                    <img src={component.image} alt="VGA" />
-                                  )}
-                                  {component.name.includes("PSU") && (
-                                    <img src={component.image} alt="PSU" />
-                                  )}
-                                  {component.name.includes("Ram") && (
-                                    <img src={component.image} alt="Ram" />
-                                  )}
-                                  {component.name.includes("SSD") && (
-                                    <img src={component.image} alt="SSD" />
-                                  )}
-                                  {component.name.includes("HDD") && (
-                                    <img src={component.image} alt="HDD" />
-                                  )}
-                                  {component.name}
+                <div className="box-table">
+                  {product.components && product.components.length > 0 ? (
+                    <table className="ae-table">
+                      <tbody>
+                        {product.components.map((component, index) => (
+                          <tr key={index}>
+                            <td className="category-name">
+                              {index === 0
+                                ? "1. CPU"
+                                : index === 1
+                                ? "2. Main"
+                                : index === 2
+                                ? "3. VGA"
+                                : index === 3
+                                ? "4. PSU"
+                                : index === 4
+                                ? "5. Ram"
+                                : index === 5
+                                ? "6. SSD"
+                                : index === 6
+                                ? "7.HDD"
+                                : ""}
+                            </td>
+                            <td style={{ width: "30%", background: "white" }}>
+                              <div className="item-drive">
+                                <div className="contain-item-drive">
+                                  <div className="flex image-category">
+                                    {component.name.includes("CPU") && (
+                                      <img src={component.image} alt="CPU" />
+                                    )}
+                                    {component.name.includes("Mainboard") && (
+                                      <img
+                                        src={component.image}
+                                        alt="Mainboard"
+                                      />
+                                    )}
+                                    {component.name.includes("VGA") && (
+                                      <img src={component.image} alt="VGA" />
+                                    )}
+                                    {component.name.includes("PSU") && (
+                                      <img src={component.image} alt="PSU" />
+                                    )}
+                                    {component.name.includes("Ram") && (
+                                      <img src={component.image} alt="Ram" />
+                                    )}
+                                    {component.name.includes("SSD") && (
+                                      <img src={component.image} alt="SSD" />
+                                    )}
+                                    {component.name.includes("HDD") && (
+                                      <img src={component.image} alt="HDD" />
+                                    )}
+                                    {component.name}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="component-price">
-                            <div className="price-wrapper">
-                              {component.name.includes("Ram") ||
-                              component.name.includes("HDD") ||
-                              component.name.includes("SSD") ? (
-                                <div className="d-flex d-flex-center box-price">
-                                  <span className="d-price fw-bold">
-                                    {component.price &&
-                                    typeof component.price === "number" ? (
-                                      <p>
-                                        {component.price.toLocaleString(
-                                          "vi-VN",
-                                          {
-                                            minimumFractionDigits: 0,
-                                            maximumFractionDigits: 0,
-                                          }
-                                        )}
-                                      </p>
-                                    ) : (
-                                      <p>Price not available</p>
-                                    )}
-                                  </span>
-                                </div>
-                              ) : (
+                            </td>
+
+                            <td className="component-price">
+                              <div className="d-flex d-flex-center box-price">
                                 <span className="d-price fw-bold">
                                   {component.price &&
                                   typeof component.price === "number" ? (
@@ -340,89 +361,107 @@ export default function Product() {
                                     <p>Price not available</p>
                                   )}
                                 </span>
-                              )}
 
-                              <div className="btn-select ml-auto">
-                                <Button
-                                  onClick={() => openComponentModal(component)}
-                                >
-                                  Select
-                                </Button>
+                                <div className="btn-select ml-auto">
+                                  <Button
+                                    onClick={() =>
+                                      openComponentModal(component)
+                                    }
+                                  >
+                                    Select
+                                  </Button>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <p>No components available</p>
-                )}
-              </div>
-            </div>
-            <div className="col-md-4 configure-descip-container">
-              <div className="configure-descip-sticky">
-                <div className="configure-descrip">
-                  <h2 className="title">Description</h2>
-                  <p className="description">
-                    {descripChunks.map((chunk, index) => (
-                      <p key={index} className="description-container">
-                        {chunk.trim()}
-                      </p>
-                    ))}
-                  </p>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p>No components available</p>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
-          {showTotalPrice && (
-            <div className="price-changed" onClick={handleComponentSelect}>
-              Total Price Changed:{" "}
-              <span className="positive-change">
-                {totalPrice.toLocaleString("vi-VN", {
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
-                })}
-              </span>
-              <span className="small-currency positive-change">₫</span>
-            </div>
-          )}
+            {showTotalPrice && (
+              <div>
+                {" "}
+                <div>
+                  <div
+                    className="price-changed"
+                    onClick={handleComponentSelect}
+                  >
+                    Total Price:{" "}
+                    <span className="price-text">
+                      {product.price.toLocaleString("vi-VN", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
+                    </span>
+                    <span className="small-currency price-text">₫</span>
+                  </div>
+                </div>
+                <div className="price-changed" onClick={handleComponentSelect}>
+                  Total Price Changed:{" "}
+                  <span className="positive-change">
+                    {totalPrice.toLocaleString("vi-VN", {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    })}
+                  </span>
+                  <span className="small-currency positive-change">₫</span>
+                </div>
+              </div>
+            )}
 
-          <NavLink to="/payment">
-            <Button type="submit" onClick={handleBuyNow}>
-              Buy Now
-            </Button>
-          </NavLink>
-        </div>
+            {/* <NavLink to="/payment">
+          <Button type="submit" onClick={handleBuyNow}>
+            Buy Now
+          </Button>
+        </NavLink> */}
+            <div>
+              <Button
+                type="submit"
+                onClick={() => {
+                  handleBuyNow(product.image, product.name, totalPrice);
+                }}
+              >
+                Buy Now
+              </Button>
+            </div>
+          </div>
+        )}
       </>
     );
   };
 
   return (
     <div>
-      <div className="container">
-        <div className="row">
-          {loading ? <Loading /> : <ShowProduct />}
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar
-            closeOnClick
-            pauseOnHover
-            closeButton={false}
-            className="toast-container"
-            toastClassName="toast-success"
-          />
-          {showModal && (
-            <ItemsModal
-              closeModel={() => setShowModal(false)}
-              handleComponentSelect={handleComponentSelect}
-              selectedComponents={selectedComponents}
-              selectedLocation={selectedComponentType}
-              componentType={componentType}
-              component={selectedComponent}
+      <div className="hero1">
+        <div className="container">
+          <div className="row">
+            {loading ? <Loading /> : <ShowProduct />}
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar
+              closeOnClick
+              pauseOnHover
+              closeButton={false}
+              className="toast-container"
+              toastClassName="toast-success"
             />
-          )}
+            {showModal && (
+              <ItemsModal
+                closeModel={() => setShowModal(false)}
+                handleComponentSelect={handleComponentSelect}
+                selectedComponents={selectedComponents}
+                selectedLocation={selectedComponentType}
+                componentType={componentType}
+                component={selectedComponent}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

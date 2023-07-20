@@ -9,14 +9,14 @@ import { Link } from "react-router-dom";
 // } from "../../utils/api/CategoryAPI";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-import { getAllCategories } from "../../../redux/apiRequest";
+import { getAllCategory } from "../../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 const Component = () => {
   const [editingRow, setEditingRow] = useState(null);
-  const data = useSelector(state => state.admin.categories.category.data);
+  const data = useSelector((state) => state.admin.categories.category.data);
   const dispatch = useDispatch();
   useEffect(() => {
-    getAllCategories(dispatch);
+    getAllCategory(dispatch);
   }, []);
 
   const handleEditCellChange = (params) => {
@@ -82,7 +82,7 @@ const Component = () => {
             <button onClick={() => handleDeleteClick(id)}>
               <AiOutlineDelete />
             </button> */}
-            <button >
+            <button>
               <AiOutlineEdit />
             </button>
             <button>
@@ -96,7 +96,6 @@ const Component = () => {
 
   return (
     <div className="container py-5">
-      
       <h2 className="title">
         Categories List
         <Link to="/newCategory">

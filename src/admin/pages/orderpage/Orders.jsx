@@ -9,16 +9,16 @@ import { Link } from "react-router-dom";
 // } from "../../utils/api/OrderAPI";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-import { getAllOrders } from "../../../redux/apiRequest";
+import { getAllOrder } from "../../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 const OrderTable = () => {
   const [editingRow, setEditingRow] = useState(null);
-  const data = useSelector(state => state.admin.orders.order.data);
+  const data = useSelector((state) => state.admin.orders.order.data);
   const dispatch = useDispatch();
   useEffect(() => {
-    getAllOrders(dispatch);
+    getAllOrder(dispatch);
   }, []);
-  
+
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
     const updatedData = data.map((item) =>
@@ -110,7 +110,6 @@ const OrderTable = () => {
 
   return (
     <div className="container py-5">
-
       <h2 className="title">
         Orders List
         <Link to="/newOrder">
@@ -127,7 +126,7 @@ const OrderTable = () => {
             alignItems: "center",
           }}
         ></div>
-          <DataGrid
+        <DataGrid
           rows={data}
           columns={columns}
           initialState={{

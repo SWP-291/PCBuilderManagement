@@ -13,8 +13,8 @@ const adminSlice = createSlice({
       isFetching: false,
       error: false,
     },
-    catergories: {
-      catergory: null,
+    categories: {
+      category: null,
       isFetching: false,
       error: false,
     },
@@ -60,17 +60,17 @@ const adminSlice = createSlice({
       state.components.isFetching = false;
       state.components.error = true;
     },
-    getAllCatergoryStart: (state) => {
-      state.catergories.isFetching = true;
+    getAllCategoryStart: (state) => {
+      state.categories.isFetching = true;
     },
-    getAllCatergorySuccess: (state, action) => {
-      state.catergories.isFetching = false;
-      state.catergories.catergory = action.payload;
-      state.catergories.error = false;
+    getAllCategorySuccess: (state, action) => {
+      state.categories.isFetching = false;
+      state.categories.catergory = action.payload;
+      state.categories.error = false;
     },
-    getAllCatergoryFailed: (state) => {
-      state.catergories.isFetching = false;
-      state.catergories.error = true;
+    getAllCategoryFailed: (state) => {
+      state.categories.isFetching = false;
+      state.categories.error = true;
     },
     getAllUsersStart: (state) => {
       state.users.isFetching = true;
@@ -118,9 +118,9 @@ export const {
   getAllComponentsStart,
   getAllComponentsSuccess,
   getAllComponentsFailed,
-  getAllCatergoryStart,
-  getAllCatergorySuccess,
-  getAllCatergoryFailed,
+  getAllCategoryStart,
+  getAllCategorySuccess,
+  getAllCategoryFailed,
   getAllUsersStart,
   getAllUsersSuccess,
   getAllUsersFailed,

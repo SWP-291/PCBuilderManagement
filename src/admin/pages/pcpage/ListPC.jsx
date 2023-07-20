@@ -52,7 +52,7 @@ const ListPC = () => {
       width: 150,
       renderCell: (params) => {
         const { id } = params.row;
-        const isEditing = id === editingRow;
+        // const isEditing = id === editingRow;
 
         return (
           <>
@@ -64,9 +64,9 @@ const ListPC = () => {
               <AiOutlineDelete />
             </button> */}
 
-            <button>
+            {/* <button>
               <AiOutlineEdit />
-            </button>
+            </button> */}
             <button>
               <AiOutlineDelete />
             </button>

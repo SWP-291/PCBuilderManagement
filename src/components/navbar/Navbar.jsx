@@ -5,10 +5,17 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/apiRequest";
 
 export default function Navbar() {
   const user = useSelector((state) => state.auth.login.currentUser);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    logoutUser(dispatch);
+  };
 
   const toggleNavbar = () => {
     setIsNavbarOpen(!isNavbarOpen);
@@ -84,7 +91,11 @@ export default function Navbar() {
                       </NavLink>
                     </Dropdown.Item>
                     <Dropdown.Item>
-                      <NavLink className="nav-link" to="/">
+                      <NavLink
+                        className="nav-link"
+                        to="/"
+                        onClick={handleLogout}
+                      >
                         Logout
                       </NavLink>
                     </Dropdown.Item>

@@ -10,8 +10,8 @@ const Payment = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const productName = searchParams.get("name");
-  const price = searchParams.get("price");
-  const [selectedComponents, setSelectedComponents] = useState([]);
+  const productPrice = searchParams.get("price");
+  const productImage = searchParams.get("image");
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -22,19 +22,7 @@ const Payment = () => {
 
     setValidated(true);
   };
-  useEffect(() => {
-    const temporarySelectedComponents = localStorage.getItem(
-      "temporarySelectedComponents"
-    );
-    if (temporarySelectedComponents) {
-      const selectedComponentIds = JSON.parse(temporarySelectedComponents);
-      setSelectedComponents(selectedComponentIds);
-    }
-  }, []);
 
-  useEffect(() => {
-    console.log("ProductName: ", productName);
-  }, [productName]);
   return (
     <div className="container py-5">
       <div className="row">
@@ -176,7 +164,7 @@ const Payment = () => {
             <div className="d-flex align-items-center mb-3">
               <img
                 style={{ width: 100, height: 100 }}
-                src={searchParams.get("image")}
+                src={productImage}
                 alt="Product"
               />
               <div className="ms-3">
@@ -187,7 +175,7 @@ const Payment = () => {
           <hr />
           <p style={{ fontWeight: 600 }}>
             Total:{" "}
-            {parseFloat(price).toLocaleString("vi-VN", {
+            {parseFloat(productPrice).toLocaleString("vi-VN", {
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
             })}
