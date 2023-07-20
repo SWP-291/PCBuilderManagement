@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfileUsers } from '../../redux/apiRequest';
+import { toast } from 'react-toastify';
 const Profile =() =>{
     const dispatch = useDispatch();
     const userInfor = useSelector(state => state.users.profiles.profile);
@@ -21,6 +22,7 @@ const Profile =() =>{
           country: country
         };
         updateProfileUsers(userInfor.id, dispatch, updateInfo);
+        toast.success('Update profile success');
     };
 
     

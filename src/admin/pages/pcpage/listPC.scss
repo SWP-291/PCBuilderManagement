@@ -37,7 +37,6 @@
   color: #009393;
   font-size: xx-large;
   font-weight: 700;
-  margin-top: -5px;
 }
 .pc-image {
   width: 100%;
@@ -88,8 +87,9 @@
   text-transform: uppercase;
   border: 1px solid #009393;
   background-color: #009393;
-  margin-left: 75%;
-  margin-top: 20px;
+  width: 180px;
+  /* margin-left: 75%;
+  margin-top: 20px; */
 }
 .btn-create:hover {
   color: #009393;

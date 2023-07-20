@@ -55,10 +55,16 @@ const Layout = () => {
             <Route path="/pc" element={<PC />} />
             <Route path="/newUser" element={<NewUser />} />
             <Route path="/users" element={<User />} />
-            <Route path="/newComponent" element={<NewComponent />} />
+            <Route path="/addComponent" element={<NewComponent />} />
+            <Route path="/editComponent/:id" element={<NewComponent />} />
             <Route path="/components" element={<Component />} />
-            <Route path="/newCategory" element={<NewCategory />} />
+            <Route path="/addCategory" element={<NewCategory />} />
+            <Route path="/editCategory/:id" element={<NewCategory />} />
             <Route path="/category" element={<Category />} />
+            <Route
+              path="*"
+              element={<div> Not Found or You do not have permission.</div>}
+            />
           </Routes>
         </Col>
       </Row>

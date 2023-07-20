@@ -2,59 +2,36 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import "./newComponent.css";
+// import "./newComponent.css";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllComponents } from "../../../redux/apiRequest";
-
-const Categories = () => {
-  // const [data, setData] = useState([]);
-  const [editingRow, setEditingRow] = useState(null);
-  const data = useSelector(state => state.admin.components.component.data);
-  // const [data, setData] = useState([]);
+import { toast } from "react-toastify";
+import axios from "axios";
+const Components = () => {
+  const URL = "https://localhost:7262/api/Component";
+  const data = useSelector((state) => state.admin.components.component.data);
   const dispatch = useDispatch();
   useEffect(() => {
     getAllComponents(dispatch);
-    // setData(getAllComponents(dispatch));
   }, []);
 
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
-    data.map((item) =>
-      item.id === id ? { ...item, [field]: value } : item
-    );
-    // setData(updatedData);
+    data?.map((item) => (item.id === id ? { ...item, [field]: value } : item));
   };
-
-  // const handleUpdateClick = async (id) => {
-  //   const row = data.find((item) => item.id === id);
-
-  //   if (row) {
-  //     if (window.confirm("Are you sure you want to update this order?")) {
-  //       try {
-  //         await editComponentAPI(id, row); // Pass the updated data to the API
-  //         await fetchData(); // Fetch the updated data
-  //       } catch (error) {
-  //         console.error("Error updating order data:", error);
-  //         // Set an error state or display an error message to the user
-  //       }
-  //     }
-  //   }
-  // };
-
-  // const handleDeleteClick = async (id) => {
-  //   if (window.confirm("Are you sure you want to delete this order?")) {
-  //     try {
-  //       await deleteComponentAPI(id); // Call the API to delete the order
-  //       const updatedData = data.filter((item) => item.id !== id);
-  //       setData(updatedData); // Update the data state
-  //     } catch (error) {
-  //       console.error("Error deleting order:", error);
-  //       // Set an error state or display an error message to the user
-  //     }
-  //   }
-  // };
+  const handleDeleteClick = async (id) => {
+    if (window.confirm("Are you sure you want to delete this component?")) {
+      try {
+        await axios.delete(`${URL}/${id}`, id);
+        getAllComponents(dispatch);
+        toast.success("Deleted Successfully ~");
+      } catch (error) {
+        toast.error("Delete: Error!");
+      }
+    }
+  };
 
   const columns = [
     { field: "id", headerName: "ID", width: 50, editable: false },
@@ -91,22 +68,16 @@ const Categories = () => {
       width: 150,
       renderCell: (params) => {
         const { id } = params.row;
-        const isEditing = id === editingRow;
 
         return (
           <>
-            {/* <button onClick={() => handleUpdateClick(id)}>
-              <AiOutlineEdit />
-            </button>
+            <Link to={`/editComponent/${id}`}>
+              <button>
+                <AiOutlineEdit /> Edit
+              </button>
+            </Link>
             <button onClick={() => handleDeleteClick(id)}>
-              <AiOutlineDelete />
-            </button> */}
-
-            <button>
-              <AiOutlineEdit />
-            </button>
-            <button>
-              <AiOutlineDelete />
+              <AiOutlineDelete /> Delete
             </button>
           </>
         );
@@ -115,13 +86,11 @@ const Categories = () => {
   ];
 
   return (
-    <div className="container py-5">
-      <h2 className="title">
-        Components List
-        <Link to="/newComponent">
-          <button className="btn-create">Create Component</button>
-        </Link>
-      </h2>
+    <div className="container py-5 component">
+      <h2 className="title">Components List</h2>
+      <Link to="/addComponent/">
+        <button className="btn-create">Create Component</button>
+      </Link>
       <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
         <div
           className="dashboard-content"
@@ -152,4 +121,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Components;

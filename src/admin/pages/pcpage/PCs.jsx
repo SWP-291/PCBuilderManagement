@@ -127,7 +127,6 @@ const Pcs = () => {
 
   return (
     <div>
-
       <h2 className="title">
         Pcs List
         <Link to="/newPc">
