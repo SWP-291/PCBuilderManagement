@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 const Component = () => {
-  const URL = 'https://localhost:7262/api/Category'
-  const data = useSelector(state => state.admin.categories.category.data);
+  const URL = "https://localhost:7262/api/Category";
+  const data = useSelector((state) => state.admin.categories.category.data);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,18 +19,16 @@ const Component = () => {
 
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
-    data?.map((item) =>
-      item.id === id ? { ...item, [field]: value } : item
-    );
-  }; 
+    data?.map((item) => (item.id === id ? { ...item, [field]: value } : item));
+  };
   const handleDeleteClick = async (id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
-          await axios.delete(`${URL}/${id}`,id);
-          getAllCategories(dispatch);
-          toast.success("Deleted Successfully ~");
+        await axios.delete(`${URL}/${id}`, id);
+        getAllCategories(dispatch);
+        toast.success("Deleted Successfully ~");
       } catch (error) {
-          toast.error("Delete: Error!");
+        toast.error("Delete: Error!");
       }
     }
   };
@@ -55,7 +53,9 @@ const Component = () => {
         return (
           <>
             <Link to={`/editCategory/${id}`}>
-            <button><AiOutlineEdit /> Edit</button>
+              <button>
+                <AiOutlineEdit /> Edit
+              </button>
             </Link>
             <button onClick={() => handleDeleteClick(id)}>
               <AiOutlineDelete /> Delete
@@ -68,10 +68,7 @@ const Component = () => {
 
   return (
     <div className="container py-5 category">
-      
-      <h2 className="title">
-        Categories List
-      </h2>
+      <h2 className="title">Categories List</h2>
       <Link to="/addCategory/">
         <button className="btn-create">Create Category</button>
       </Link>

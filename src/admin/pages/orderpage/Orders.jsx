@@ -7,28 +7,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 const OrderTable = () => {
-  const URL = 'https://localhost:7262/api/Order'
-  const data = useSelector(state => state.admin.orders.order?.data);
+  const URL = "https://localhost:7262/api/Order";
+  const data = useSelector((state) => state.admin.orders.order?.data);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     getAllOrders(dispatch);
   }, []);
 
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
-    data?.map((item) =>
-      item.id === id ? { ...item, [field]: value } : item
-    );
-  }; 
+    data?.map((item) => (item.id === id ? { ...item, [field]: value } : item));
+  };
   const handleDeleteClick = async (id) => {
     if (window.confirm("Are you sure you want to delete this order?")) {
       try {
-          await axios.delete(`${URL}}/${id}`,id);
-          getAllOrders(dispatch);
-          toast.success("Deleted Successfully ~");
+        await axios.delete(`${URL}}/${id}`, id);
+        getAllOrders(dispatch);
+        toast.success("Deleted Successfully ~");
       } catch (error) {
-          toast.error("Delete: Error!");
+        toast.error("Delete: Error!");
       }
     }
   };
@@ -76,10 +74,7 @@ const OrderTable = () => {
 
   return (
     <div className="container py-5">
-
-      <h2 className="title">
-        Orders List
-      </h2>
+      <h2 className="title">Orders List</h2>
 
       <Box sx={{ height: "60%", width: "98%", marginTop: "30px" }}>
         <div
@@ -90,7 +85,7 @@ const OrderTable = () => {
             alignItems: "center",
           }}
         ></div>
-          <DataGrid
+        <DataGrid
           rows={data}
           columns={columns}
           initialState={{

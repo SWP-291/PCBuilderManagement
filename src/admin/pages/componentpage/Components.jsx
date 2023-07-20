@@ -9,9 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllComponents } from "../../../redux/apiRequest";
 import { toast } from "react-toastify";
 import axios from "axios";
-const Categories = () => {
-  const URL = 'https://localhost:7262/api/Component';
-  const data = useSelector(state => state.admin.components.component.data);
+const Components = () => {
+  const URL = "https://localhost:7262/api/Component";
+  const data = useSelector((state) => state.admin.components.component.data);
   const dispatch = useDispatch();
   useEffect(() => {
     getAllComponents(dispatch);
@@ -19,18 +19,16 @@ const Categories = () => {
 
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
-    data?.map((item) =>
-      item.id === id ? { ...item, [field]: value } : item
-    );
-  }; 
+    data?.map((item) => (item.id === id ? { ...item, [field]: value } : item));
+  };
   const handleDeleteClick = async (id) => {
     if (window.confirm("Are you sure you want to delete this component?")) {
       try {
-          await axios.delete(`${URL}/${id}`,id);
-          getAllComponents(dispatch);
-          toast.success("Deleted Successfully ~");
+        await axios.delete(`${URL}/${id}`, id);
+        getAllComponents(dispatch);
+        toast.success("Deleted Successfully ~");
       } catch (error) {
-          toast.error("Delete: Error!");
+        toast.error("Delete: Error!");
       }
     }
   };
@@ -74,7 +72,9 @@ const Categories = () => {
         return (
           <>
             <Link to={`/editComponent/${id}`}>
-            <button><AiOutlineEdit /> Edit</button>
+              <button>
+                <AiOutlineEdit /> Edit
+              </button>
             </Link>
             <button onClick={() => handleDeleteClick(id)}>
               <AiOutlineDelete /> Delete
@@ -87,12 +87,10 @@ const Categories = () => {
 
   return (
     <div className="container py-5 component">
-      <h2 className="title">
-        Components List
-      </h2>
+      <h2 className="title">Components List</h2>
       <Link to="/addComponent/">
-          <button className="btn-create">Create Component</button>
-        </Link>
+        <button className="btn-create">Create Component</button>
+      </Link>
       <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
         <div
           className="dashboard-content"
@@ -123,4 +121,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Components;

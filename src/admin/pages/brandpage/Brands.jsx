@@ -4,32 +4,34 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-import {  getAllBrands } from "../../../redux/apiRequest";
+// import Container from 'react-bootstrap/Container';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
+import { getAllBrands } from "../../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 const OrderTable = () => {
-  const data = useSelector(state => state.admin.brands.brand?.data);
+  const [editingRow, setEditingRow] = useState(null);
+  const data = useSelector((state) => state.admin.brands.brand.data);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     getAllBrands(dispatch);
   }, []);
 
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
-    data?.map((item) =>
-      item.id === id ? { ...item, [field]: value } : item
-    );
-  }; 
+    data?.map((item) => (item.id === id ? { ...item, [field]: value } : item));
+  };
   const handleDeleteClick = async (id) => {
     if (window.confirm("Are you sure you want to delete this order?")) {
       try {
-          await axios.delete(`https://localhost:7262/api/Brand/${id}`,id);
-          getAllBrands(dispatch);
-          toast.success("Deleted Successfully ~");
+        await axios.delete(`https://localhost:7262/api/Brand/${id}`, id);
+        getAllBrands(dispatch);
+        toast.success("Deleted Successfully ~");
       } catch (error) {
-          toast.error("Delete: Error!");
+        toast.error("Delete: Error!");
       }
     }
   };
@@ -62,7 +64,9 @@ const OrderTable = () => {
         return (
           <>
             <Link to={`/editBrand/${id}`}>
-            <button><AiOutlineEdit /> Edit</button>
+              <button>
+                <AiOutlineEdit /> Edit
+              </button>
             </Link>
             <button onClick={() => handleDeleteClick(id)}>
               <AiOutlineDelete /> Delete
@@ -75,9 +79,7 @@ const OrderTable = () => {
 
   return (
     <div className="container py-5">
-      <h2 className="title">
-        Brands List
-      </h2>
+      <h2 className="title">Brands List</h2>
       <Link to="/addBrand/">
         <button className="btn-create">Create Brand</button>
       </Link>

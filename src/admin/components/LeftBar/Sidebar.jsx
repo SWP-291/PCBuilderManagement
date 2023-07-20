@@ -6,10 +6,11 @@ import SideBarItem from "./sidebar-item";
 import "./Sidebar.scss";
 import logo from "../../assets/images/logo.png";
 import LogoutIcon from "../../assets/icons/logout.svg";
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import { logoutUser } from "../../../redux/apiRequest";
+import { useDispatch } from "react-redux";
 
 // function Sidebar({ menu }) {
 //   const location = useLocation();
@@ -55,13 +56,15 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 // export default Sidebar;
 
-
-
-
 function Sidebar({ menu }) {
   const location = useLocation();
 
   const [active, setActive] = useState(1);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    logoutUser(dispatch);
+  };
 
   useEffect(() => {
     menu.forEach((element) => {
@@ -76,42 +79,42 @@ function Sidebar({ menu }) {
   };
   return (
     <div className="sidebar-admin">
-      {['lg'].map((expand) => (
-        <Navbar key='lg' expand='lg' className="bg-body-tertiary mb-3">
+      {["lg"].map((expand) => (
+        <Navbar key="lg" expand="lg" className="bg-body-tertiary mb-3">
           <Container fluid>
             <Navbar.Brand href="#"></Navbar.Brand>
-            <Navbar.Toggle aria-controls='offcanvasNavbar-expand-lg' />
+            <Navbar.Toggle aria-controls="offcanvasNavbar-expand-lg" />
             <Navbar.Offcanvas
-              id='offcanvasNavbar-expand-lg'
-              aria-labelledby='offcanvasNavbarLabel-expand-lg'
+              id="offcanvasNavbar-expand-lg"
+              aria-labelledby="offcanvasNavbarLabel-expand-lg"
               placement="start"
             >
               <Offcanvas.Header closeButton>
-                <Offcanvas.Header id='offcanvasNavbarLabel-expand-lg'>
+                <Offcanvas.Header id="offcanvasNavbarLabel-expand-lg">
                   Menu
                 </Offcanvas.Header>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <div className="sidebar">
-                <div className="sidebar-logo">
-                  <img src={logo} alt="logo" />
-                </div>
-                <div className="sidebar-items">
-                  {menu.map((item, index) => (
-                    <div key={index} onClick={() => __navigate(item.id)}>
-                      <SideBarItem active={item.id === active} item={item} />
-                    </div>
-                  ))}
-                </div>
+                  <div className="sidebar-logo">
+                    <img src={logo} alt="logo" />
+                  </div>
+                  <div className="sidebar-items">
+                    {menu.map((item, index) => (
+                      <div key={index} onClick={() => __navigate(item.id)}>
+                        <SideBarItem active={item.id === active} item={item} />
+                      </div>
+                    ))}
+                  </div>
 
-                <div className="sidebar-footer">
-                  <span className="sidebar-item-label">Logout</span>
-                  <img
-                    src={LogoutIcon}
-                    alt="icon-logout"
-                    className="sidebar-item-icon"
-                  />
-                </div>
+                  <div className="sidebar-footer" onClick={handleLogout}>
+                    <span className="sidebar-item-label">Logout</span>
+                    <img
+                      src={LogoutIcon}
+                      alt="icon-logout"
+                      className="sidebar-item-icon"
+                    />
+                  </div>
                 </div>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

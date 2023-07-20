@@ -115,8 +115,8 @@ export default function CustomizePC() {
       const temporarySelectedComponent = updatedSelectedComponents.map(
         (component) => component.id
       );
-      await axios.put(
-        `https://localhost:7262/api/PC/${id}/UpdateComponentsOfPC`,
+      await axios.post(
+        `https://localhost:7262/api/PC/ CreatePCWithComponentsFromTemplate?templateId=${id}`,
         temporarySelectedComponent,
         {
           headers: {
@@ -145,17 +145,12 @@ export default function CustomizePC() {
     }
   };
 
-  const openComponentModal = (component, componentType, index) => {
-    if (index === 1 && componentType === "CPU") {
-      setSelectedComponentType(componentType);
-      setSelectedComponent(component);
-      setShowModal(true);
-    }
-    // console.log("Selected Component Type:", componentType);
-    // console.log("Selected Component:", component);
-    // setSelectedComponentType(componentType);
-    // setSelectedComponent(component);
-    // setShowModal(true);
+  const openComponentModal = (component, componentType) => {
+    console.log("Selected Component Type:", componentType);
+    console.log("Selected Component:", component);
+    setSelectedComponentType(componentType);
+    setSelectedComponent(component);
+    setShowModal(true);
   };
 
   const Loading = () => {
@@ -181,7 +176,7 @@ export default function CustomizePC() {
   const detailChunks = detail.split(". ");
 
   const ShowProduct = () => {
-    const totalPrice = calTotalPrice(selectedComponents);
+    // const isComponentsComplete = selectedComponents.length === 7;
     return (
       <>
         <div className="col-md-6 pt-4 image-main">
@@ -379,7 +374,7 @@ export default function CustomizePC() {
                           <div className="btn-select ml-auto">
                             <Button
                               onClick={() =>
-                                openComponentModal(component, component.name)
+                                openComponentModal(component, componentType)
                               }
                             >
                               Select
