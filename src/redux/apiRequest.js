@@ -60,7 +60,7 @@ export const loginUser = async (user, dispatch, navigate) => {
 
       toast.success(response.data.message);
       if (decodedUser.role === "Admin") {
-        getAllPc(token, dispatch);
+        getAllPc(dispatch);
         getAllComponents(dispatch);
         getAllCategories(dispatch);
         getAllUsers(dispatch);
