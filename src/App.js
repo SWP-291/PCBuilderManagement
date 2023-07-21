@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { loginSuccess, loginFailed } from "./redux/authSlice";
 
 function App() {
-<<<<<<< HEAD
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,9 +25,6 @@ function App() {
       }
     }
   }, [dispatch]);
-=======
-  
->>>>>>> 095594cf5390087b964882e8f1f3d03601f5f377
   return (
     <div>
       <Layout />

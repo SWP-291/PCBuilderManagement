@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import axios from "axios";
 const Payment = () => {
   const [validated, setValidated] = useState(false);
   const location = useLocation();
@@ -13,13 +14,12 @@ const Payment = () => {
   const productPrice = searchParams.get("price");
   const productImage = searchParams.get("image");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
-
     setValidated(true);
   };
 
@@ -32,28 +32,18 @@ const Payment = () => {
             <hr />
           </div>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Row>
-              <Col md>
-                <Form.FloatingLabel
-                  controlId="validationCustom01"
-                  label="First name"
-                  className="mb-3"
-                >
-                  <Form.Control required type="text" placeholder="First name" />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                </Form.FloatingLabel>
-              </Col>
-              <Col md>
-                <Form.FloatingLabel
-                  controlId="validationCustom02"
-                  label="Last name "
-                  className="mb-3"
-                >
-                  <Form.Control required type="text" placeholder="Last name" />
-                </Form.FloatingLabel>
-              </Col>
-            </Row>
             <Col>
+              <Form.FloatingLabel
+                controlId="validationCustom02"
+                label="Full Name"
+                className="mb-3"
+              >
+                <Form.Control
+                  required
+                  type="fullname"
+                  placeholder="Nguyễn Văn A"
+                />
+              </Form.FloatingLabel>
               <Form.FloatingLabel
                 controlId="validationCustom03"
                 label="Email address"
@@ -96,62 +86,44 @@ const Payment = () => {
               <h3 className="title">Payment</h3>
             </div>
             <Col>
-              <Form.Check
-                className="mb-3"
-                type="radio"
-                label="Credit Card "
-                required
-              />
-              <Form.Check className="mb-3" type="radio" label="Paypal " />
+              <Form.Group>
+                <Form.Check
+                  className="mb-3"
+                  type="radio"
+                  label="Credit Card"
+                  name="paymentMethod"
+                  required
+                />
+                <Form.Check
+                  className="mb-3"
+                  type="radio"
+                  label="PayPal"
+                  name="paymentMethod"
+                  required
+                />
+                <Form.Check
+                  className="mb-3"
+                  type="radio"
+                  label="Debit Card"
+                  name="paymentMethod"
+                  required
+                />
+                <Form.Check
+                  className="mb-3"
+                  type="radio"
+                  label="Bank Transfer"
+                  name="paymentMethod"
+                  required
+                />
+              </Form.Group>
             </Col>
-            <Row>
-              <Col md>
-                <FloatingLabel
-                  controlId="validationCustom06"
-                  label="Name on card "
-                  className="mb-3"
-                >
-                  <Form.Control required type="text" placeholder="John Biden" />
-                </FloatingLabel>
-              </Col>
-
-              <Col md>
-                <FloatingLabel
-                  controlId="validationCustom07"
-                  label="Card number"
-                  className="mb-3"
-                >
-                  <Form.Control
-                    required
-                    type="number"
-                    placeholder="01235678912"
-                  />
-                </FloatingLabel>
-              </Col>
-            </Row>
-            <Row>
-              <Col className="md-3">
-                <FloatingLabel
-                  controlId="validationCustom08"
-                  label="Expiration "
-                  className="mb-3"
-                >
-                  <Form.Control required type="date" placeholder="dd/MM/yyyy" />
-                </FloatingLabel>
-              </Col>
-
-              <Col className="md-3">
-                <FloatingLabel
-                  controlId="validationCustom09"
-                  label="CVV"
-                  className="mb-3"
-                >
-                  <Form.Control required type="cvv" placeholder="xxx" />
-                </FloatingLabel>
-              </Col>
-            </Row>
-
-            <Button type="submit">CONTINUE TO CHECKOUT</Button>
+            <Button
+              style={{ marginLeft: "75%" }}
+              type="submit"
+              onClick={handleSubmit}
+            >
+              CONTINUE TO CHECKOUT
+            </Button>
           </Form>
         </div>
 

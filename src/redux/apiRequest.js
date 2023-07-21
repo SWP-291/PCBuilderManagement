@@ -60,13 +60,13 @@ export const loginUser = async (user, dispatch, navigate) => {
 
       toast.success(response.data.message);
       if (decodedUser.role === "Admin") {
-        getAllPc(dispatch);
+        getAllPc(token, dispatch);
         getAllComponents(dispatch);
-        getAllCategory(dispatch);
+        getAllCategories(dispatch);
         getAllUsers(dispatch);
-        getAllBrand(dispatch);
-        getAllOrder(dispatch);
-        navigate("/");
+        getAllBrands(dispatch);
+        getAllOrders(dispatch);
+        navigate("/note");
       } else if (decodedUser.role === "Customer") {
         getAllListPc(dispatch);
         dispatch(getDataSuccess(decodedUser));
@@ -165,7 +165,7 @@ export const getAllComponents = async (dispatch) => {
     });
 };
 
-export const getAllCategory = async (dispatch) => {
+export const getAllCategories = async (dispatch) => {
   dispatch(getAllCategoryStart());
   axios
     .get(`https://localhost:7262/api/Category`)
@@ -191,7 +191,7 @@ export const getAllUsers = async (dispatch) => {
     });
 };
 
-export const getAllBrand = async (dispatch) => {
+export const getAllBrands = async (dispatch) => {
   dispatch(getAllBrandStart());
   axios
     .get(`https://localhost:7262/api/Brand`)
@@ -204,7 +204,7 @@ export const getAllBrand = async (dispatch) => {
     });
 };
 
-export const getAllOrder = async (dispatch) => {
+export const getAllOrders = async (dispatch) => {
   dispatch(getAllOrderStart());
   axios
     .get(`https://localhost:7262/api/Order`)

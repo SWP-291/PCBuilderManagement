@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector } from "react-redux";
 
 export default function Product() {
   const { id } = useParams();
@@ -29,6 +30,9 @@ export default function Product() {
   const [showTotalPrice, setShowTotalPrice] = useState(false);
   const navigate = useNavigate();
   const [toggleState, setToggleState] = useState(0);
+  const isLoggedIn = useSelector(
+    (state) => state.auth.login.currentUser != null
+  );
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -143,13 +147,20 @@ export default function Product() {
       );
 
       console.log("API Call conducted successfully");
-
       localStorage.removeItem("temporarySelectedComponents");
-      navigate(
-        `/payment?url=${encodeURIComponent(image)}&price=${encodeURIComponent(
-          totalPrice
-        )}&name=${encodeURIComponent(name)}`
-      );
+      if (isLoggedIn) {
+        // User is logged in, redirect to the payment page
+        navigate(
+          `/payment?url=${encodeURIComponent(
+            product.url
+          )}&price=${totalPrice}&image=${encodeURIComponent(
+            image
+          )}&name=${encodeURIComponent(name)}`
+        );
+      } else {
+        // User is not logged in, redirect to the login page
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Error conducting API call:", error.response);
       console.error("Error conducting API call:", error.response.data);

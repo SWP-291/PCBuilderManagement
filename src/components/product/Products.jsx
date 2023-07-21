@@ -3,6 +3,8 @@ import Skeleton from "react-loading-skeleton";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./product.css";
 import axios from "axios";
+import useRedirectToPaymentOrLogin from "../../router/ProtectRoute";
+import { useSelector } from "react-redux";
 
 export default function Products() {
   const [data, setData] = useState([]);
@@ -10,6 +12,10 @@ export default function Products() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   let componentMounted = true;
+  const isLoggedIn = useSelector(
+    (state) => state.auth.login.currentUser !== null
+  );
+  const redirectToPaymentOrLogin = useRedirectToPaymentOrLogin();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -86,12 +92,7 @@ export default function Products() {
     };
 
     const handleBuyNow = (product) => {
-      console.log("Product:", product);
-      navigate(
-        `/payment?url=${product.url}&price=${product.price}&image=${
-          product.image
-        }&name=${encodeURIComponent(product.name)}`
-      );
+      redirectToPaymentOrLogin(isLoggedIn, product);
     };
 
     const getProductButtons = (product) => {

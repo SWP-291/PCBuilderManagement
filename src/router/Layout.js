@@ -35,6 +35,7 @@ import Component from "../admin/pages/componentpage/Components";
 import NewComponent from "../admin/pages/componentpage/NewComponent";
 import Category from "../admin/pages/categorypage/Categories";
 import NewCategory from "../admin/pages/categorypage/NewCategory";
+import Note from "../admin/pages/Note";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 const Layout = () => {
@@ -47,6 +48,7 @@ const Layout = () => {
         </Col>
         <Col sm={10}>
           <Routes>
+            <Route path="/note" element={<Note />} />
             <Route path="/brands" element={<Brands />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/newOrder" element={<NewOrder />} />

@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-import { getAllCategory } from "../../../redux/apiRequest";
+import { getAllCategories } from "../../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -14,7 +14,7 @@ const Component = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getAllCategory(dispatch);
+    getAllCategories(dispatch);
   }, []);
 
   const handleEditCellChange = (params) => {

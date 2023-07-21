@@ -7,7 +7,7 @@ import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
 // import Container from 'react-bootstrap/Container';
 // import Row from 'react-bootstrap/Row';
 // import Col from 'react-bootstrap/Col';
-import { getAllBrand } from "../../../redux/apiRequest";
+import { getAllBrands } from "../../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -17,7 +17,7 @@ const OrderTable = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getAllBrand(dispatch);
+    getAllBrands(dispatch);
   }, []);
 
   const handleEditCellChange = (params) => {
