@@ -55,6 +55,7 @@ namespace PCBuilder.Repository.Repository
 
         public async Task<User> UpdateUserAsync(User user)
         {
+            user.IsActive = true;
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
             return user;

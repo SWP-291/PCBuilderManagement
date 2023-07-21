@@ -104,6 +104,7 @@ namespace PCBuilder.Services.Service
             }
 
             var role = await _iRoleRepository.GetRoleByIdAsync(user.RoleId);
+            await _iUserRepository.UpdateUserAsync(user); // neu tai khoan da bi xoa ma muon dang nhap lai thi set tai khoan hoat dong lai
             UserDTO userdto = new UserDTO
             {
                 Id = user.Id,
@@ -115,20 +116,13 @@ namespace PCBuilder.Services.Service
                 Password = user.Password,
                 Address = user.Address,
                 Avatar = user.Avatar,
-                IsActive = true,
+                IsActive = user.IsActive,
                 RoleId = 1
             };
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, role.Name),
-                new Claim("id", userdto.Id.ToString()),
-                new Claim("fullName", userdto.Fullname),
-                new Claim("phone", userdto.Phone),
-                new Claim("country", userdto.Country.ToString()),
-                new Claim("gender", userdto.Gender.ToString()),
-                new Claim("address", userdto.Address),
-                new Claim("avatar", userdto.Avatar)
+                new Claim(ClaimTypes.Role, role.Name)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
