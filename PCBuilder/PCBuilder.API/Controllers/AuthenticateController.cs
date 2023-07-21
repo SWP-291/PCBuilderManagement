@@ -60,7 +60,7 @@ namespace PCBuilder.API.Controllers
 
             if (!response.Success)
             {
-                return BadRequest(new { message = response.Message });
+                return BadRequest(new { message = response.Message, errorMessage = response.ErrorMessages });
             }
 
             return Ok(

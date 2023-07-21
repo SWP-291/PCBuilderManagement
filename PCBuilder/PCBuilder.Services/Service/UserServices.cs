@@ -260,7 +260,21 @@ namespace PCBuilder.Services.Service
             {
                 Token = jwt,
                 RefreshToken = refreshToken,
-                ExpiresIn = tokenDescriptor.Expires ?? DateTime.UtcNow.AddDays(7)
+                ExpiresIn = tokenDescriptor.Expires ?? DateTime.UtcNow.AddDays(7),
+                UserDTO = new UserDTO
+                {
+                    Id = user.Id,
+                    Fullname = user.Fullname,
+                    Email = user.Email,
+                    Phone = user.Phone,
+                    Country = user.Country,
+                    Gender = user.Gender,
+                    Password = user.Password,
+                    Address = user.Address,
+                    Avatar = user.Avatar,
+                    IsActive = true,
+                    RoleId = user.RoleId
+                }
             };
 
             response.Success = true;

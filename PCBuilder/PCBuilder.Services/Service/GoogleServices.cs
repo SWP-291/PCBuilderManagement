@@ -49,9 +49,7 @@ namespace PCBuilder.Services.Service
                 GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
 
                 // Kiểm tra xem người dùng có tồn tại trong hệ thống hay không
-                System.Console.WriteLine(payload.ToString());
                 var user = await _iUserRepository.GetUserByEmailAsync(payload.Email);
-                System.Console.WriteLine(user);
                 if (user == null)
                 {
                     // Tạo người dùng mới trong hệ thống
@@ -59,6 +57,10 @@ namespace PCBuilder.Services.Service
                     {
                         Email = payload.Email,
                         Fullname = payload.Name,
+                        Password = "1",
+                        Avatar = payload.Picture,
+                        RoleId = 1,
+                        IsActive = true
                         // Gán các thông tin khác từ payload nếu cần
                     };
                     await _iUserRepository.CreateUserAsync(user);
@@ -71,7 +73,7 @@ namespace PCBuilder.Services.Service
                 {
                     // Xử lý lỗi khi đăng nhập
                     response.Success = false;
-                    response.Message = "Login with Google failed.";
+                    response.Message = "Login with Google failed..";
                     response.ErrorMessages = loginResponse.ErrorMessages;
                     return response;
                 }
@@ -102,17 +104,31 @@ namespace PCBuilder.Services.Service
             }
 
             var role = await _iRoleRepository.GetRoleByIdAsync(user.RoleId);
+            UserDTO userdto = new UserDTO
+            {
+                Id = user.Id,
+                Fullname = user.Fullname,
+                Email = user.Email,
+                Phone = user.Phone,
+                Country = user.Country,
+                Gender = user.Gender,
+                Password = user.Password,
+                Address = user.Address,
+                Avatar = user.Avatar,
+                IsActive = true,
+                RoleId = 1
+            };
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, role.Name),
-                new Claim("id", user.Id.ToString()),
-                new Claim("fullName", user.Fullname),
-                new Claim("phone", user.Phone),
-                new Claim("country", user.Country.ToString()),
-                new Claim("gender", user.Gender.ToString()),
-                new Claim("address", user.Address),
-                new Claim("avatar", user.Avatar)
+                new Claim("id", userdto.Id.ToString()),
+                new Claim("fullName", userdto.Fullname),
+                new Claim("phone", userdto.Phone),
+                new Claim("country", userdto.Country.ToString()),
+                new Claim("gender", userdto.Gender.ToString()),
+                new Claim("address", userdto.Address),
+                new Claim("avatar", userdto.Avatar)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -142,7 +158,8 @@ namespace PCBuilder.Services.Service
             {
                 Token = jwt,
                 RefreshToken = refreshToken,
-                ExpiresIn = tokenDescriptor.Expires ?? DateTime.UtcNow.AddDays(7)
+                ExpiresIn = tokenDescriptor.Expires ?? DateTime.UtcNow.AddDays(7),
+                UserDTO = userdto
             };
 
             response.Success = true;
