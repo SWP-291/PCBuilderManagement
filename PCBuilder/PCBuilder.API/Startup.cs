@@ -86,8 +86,8 @@ namespace PCBuilder.API
                 })
                  .AddGoogle(options =>
                  {
-                     options.ClientId = "YourGoogleClientId";
-                     options.ClientSecret = "YourGoogleClientSecret";
+                     options.ClientId = "888811245186-qcjo042285j46as9sf8s4u1mu59a697g.apps.googleusercontent.com";
+                     options.ClientSecret = "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";
                  });
         }
 

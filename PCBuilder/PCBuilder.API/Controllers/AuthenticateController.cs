@@ -53,7 +53,7 @@ namespace PCBuilder.API.Controllers
             return Ok(new { message = response.Data });
         }
 
-        [HttpPost("google")]
+        [HttpPost("google-login")]
         public async Task<IActionResult> LoginWithGoogle([FromBody] GoogleLoginRequestDTO request)
         {
             var response = await _googleServices.LoginWithGoogle(request.IdToken);

@@ -16,27 +16,31 @@ namespace PCBuilder.Services.Service
     public interface IGoogleServices
     {
         Task<ServiceResponse<AuthResponseDTO>> LoginWithGoogle(string idToken);
+        Task<ServiceResponse<AuthResponseDTO>> ReturnTokenWhenLoginGoogle(string email);
     }
     public class GoogleServices : IGoogleServices
-	{
+    {
         private readonly IUserRepository _iUserRepository;
         private readonly IRoleRepository _iRoleRepository;
         private readonly IUserServices _iUserService;
+        private readonly IConfiguration _configuration;
         public GoogleServices
         (
             IUserRepository iUserRepository,
             IRoleRepository iRoleRepository,
-            IUserServices iUserServices
+            IUserServices iUserServices,
+            IConfiguration configuration
         )
-		{
+        {
             _iUserRepository = iUserRepository;
             _iRoleRepository = iRoleRepository;
             _iUserService = iUserServices;
+            _configuration = configuration;
         }
 
         public async Task<ServiceResponse<AuthResponseDTO>> LoginWithGoogle(string idToken)
         {
-            ServiceResponse<AuthResponseDTO> response = new ServiceResponse<AuthResponseDTO>();
+            var response = new ServiceResponse<AuthResponseDTO>();
 
             try
             {
@@ -45,7 +49,9 @@ namespace PCBuilder.Services.Service
                 GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
 
                 // Kiểm tra xem người dùng có tồn tại trong hệ thống hay không
+                System.Console.WriteLine(payload.ToString());
                 var user = await _iUserRepository.GetUserByEmailAsync(payload.Email);
+                System.Console.WriteLine(user);
                 if (user == null)
                 {
                     // Tạo người dùng mới trong hệ thống
@@ -59,7 +65,7 @@ namespace PCBuilder.Services.Service
                 }
 
                 // Tạo mã thông báo JWT
-                var loginResponse = await _iUserService.Login(user.Email, null); // Gọi lại phương thức Login với email người dùng
+                var loginResponse = await ReturnTokenWhenLoginGoogle(user.Email);
 
                 if (!loginResponse.Success)
                 {
@@ -84,7 +90,77 @@ namespace PCBuilder.Services.Service
             return response;
         }
 
+        public async Task<ServiceResponse<AuthResponseDTO>> ReturnTokenWhenLoginGoogle(string email)
+        {
+            ServiceResponse<AuthResponseDTO> response = new ServiceResponse<AuthResponseDTO>();
+            var user = await _iUserRepository.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "Invalid email";
+                return response;
+            }
+
+            var role = await _iRoleRepository.GetRoleByIdAsync(user.RoleId);
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, role.Name),
+                new Claim("id", user.Id.ToString()),
+                new Claim("fullName", user.Fullname),
+                new Claim("phone", user.Phone),
+                new Claim("country", user.Country.ToString()),
+                new Claim("gender", user.Gender.ToString()),
+                new Claim("address", user.Address),
+                new Claim("avatar", user.Avatar)
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:SecretKey"]);
+            var issuer = _configuration["JwtSettings:Issuer"];
+            var audience = _configuration["JwtSettings:Audience"];
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddDays(7),
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature
+                )
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwt = tokenHandler.WriteToken(token);
+
+            var refreshToken = GenerateRefreshToken();
+            var refreshTokenExpiration = DateTime.UtcNow.AddDays(30); // Thời gian hết hạn của RefreshToken
+
+            var authResponse = new AuthResponseDTO
+            {
+                Token = jwt,
+                RefreshToken = refreshToken,
+                ExpiresIn = tokenDescriptor.Expires ?? DateTime.UtcNow.AddDays(7)
+            };
+
+            response.Success = true;
+            response.Message = "Login successful.";
+            response.Data = authResponse;
+
+            return response;
+        }
+
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
 
     }
 }
-

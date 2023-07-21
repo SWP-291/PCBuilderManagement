@@ -44,5 +44,30 @@ namespace PCBuilder.API.Controllers
             // Trả về hồ sơ của người dùng
             return Ok(user);
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetProfile()
+        {
+            // Lấy mã thông báo JWT từ tiêu đề Authorization
+            var authorization = Request.Headers["Authorization"].ToString();
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.ReadJwtToken(authorization);
+
+            // Lấy ID người dùng từ mã thông báo JWT
+            int userId = int.Parse(token.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
+
+            // Truy vấn cơ sở dữ liệu để lấy hồ sơ của người dùng
+            var user = await _userServices.GetUserByIdAsync(userId);
+
+            // Nếu người dùng không tồn tại, trả về trạng thái 404
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Trả về hồ sơ của người dùng
+            return Ok(user);
+        }
     }
 }
