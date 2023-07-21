@@ -34,9 +34,9 @@ const Profile = () => {
     <div className="container py-5">
       <Row>
         <div className="col-lg-10 profile">
-          {/* <Col className="avatar">
+          <Col className="avatar">
             <img src={userInfor.avatar} alt="avatar" />
-          </Col> */}
+          </Col>
           <Form onSubmit={handleSubmit}>
             <h1>General information</h1>
             <Col md>

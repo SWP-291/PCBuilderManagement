@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import axios from "axios";
+import { toast } from "react-toastify";
 const Payment = () => {
   const [validated, setValidated] = useState(false);
   const location = useLocation();
@@ -19,6 +20,42 @@ const Payment = () => {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } else {
+      event.preventDefault();
+      try {
+        // Send the entire data object to the server for creating an order
+        // const orderData = {
+        //   amount: parseFloat(productPrice),
+        // };
+
+        // const orderResponse = await axios.post(
+        //   "https://localhost:7262/api/Order",
+        //   orderData,
+        //   {
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //   }
+        // );
+
+        // console.log("Ordered created:", orderResponse.data);
+
+        const paymentMethod = form.elements["paymentMethod"].value;
+        const paymentData = {
+          name: paymentMethod,
+          amount: parseFloat(productPrice),
+        };
+
+        const paymentResponse = await axios.post(
+          "https://localhost:7262/api/Payment",
+          paymentData
+        );
+        console.log("Payment created:", paymentResponse.data);
+        toast.success("Payment and Order created successfully");
+      } catch (error) {
+        console.error("Error", error);
+        toast.error("Payment not created");
+      }
     }
     setValidated(true);
   };

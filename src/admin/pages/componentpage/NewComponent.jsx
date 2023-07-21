@@ -43,7 +43,7 @@ export default function NewComponent() {
       const res = await axios.get(`${URL}/${id}`, id);
 
       if (res.status === 200) {
-        setState(res.data);
+        setState(res.data.data);
       }
       console.log("API response:", state);
     } catch (error) {

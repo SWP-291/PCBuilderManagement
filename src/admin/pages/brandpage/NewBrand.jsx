@@ -37,7 +37,7 @@ export default function NewBrand() {
       const res = await axios.get(`https://localhost:7262/api/Brand/${id}`, id);
 
       if (res.status === 200) {
-        setState(res.data);
+        setState(res.data.data);
       }
       console.log("API response:", state);
     } catch (error) {
