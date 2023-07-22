@@ -6,8 +6,8 @@ const useRedirectToPaymentOrLogin = () => {
   const redirectToPaymentOrLogin = (isLoggedIn, product) => {
     if (isLoggedIn) {
       navigate(
-        `/payment?url=${product.url}&price=${product.price}&image=${
-          product.image
+        `/payment?url=${product.url}&price=${product.price}&id=${
+          product.id
         }&name=${encodeURIComponent(product.name)}`
       );
     } else {

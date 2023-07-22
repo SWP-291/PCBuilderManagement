@@ -7,57 +7,85 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import axios from "axios";
 import { toast } from "react-toastify";
+import pc from "../assets/image/payment.png";
+import { useSelector } from "react-redux";
+
 const Payment = () => {
   const [validated, setValidated] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const productName = searchParams.get("name");
   const productPrice = searchParams.get("price");
-  const productImage = searchParams.get("image");
+  const [payment, setPayment] = useState();
+  const productId = searchParams.get("id");
+  const userId = useSelector((state) => state.auth.login.currentUser?.id);
+
+  const randomCode = Math.floor(1000 + Math.random() * 9000);
+
+  const handleInputChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    if (type === "radio") {
+      setPayment(checked ? value : "");
+    } else {
+      setPayment(value);
+    }
+  };
 
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
     } else {
       event.preventDefault();
       try {
-        // Send the entire data object to the server for creating an order
-        // const orderData = {
-        //   amount: parseFloat(productPrice),
-        // };
-
-        // const orderResponse = await axios.post(
-        //   "https://localhost:7262/api/Order",
-        //   orderData,
-        //   {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //   }
-        // );
-
-        // console.log("Ordered created:", orderResponse.data);
-
-        const paymentMethod = form.elements["paymentMethod"].value;
         const paymentData = {
-          name: paymentMethod,
+          name: productName,
           amount: parseFloat(productPrice),
+          code: randomCode,
+          paymentMode: payment,
+          paymentTime: "Installments",
         };
+        console.log("Payment:", paymentData);
 
         const paymentResponse = await axios.post(
           "https://localhost:7262/api/Payment",
-          paymentData
+          paymentData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
         console.log("Payment created:", paymentResponse.data);
+
+        const orderData = {
+          pcId: parseInt(productId),
+          amount: parseFloat(productPrice),
+          userId: userId,
+          statusId: "pending",
+          paymentId: "2",
+        };
+
+        const orderResponse = await axios.post(
+          "https://localhost:7262/api/Order",
+          orderData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("Order created:", orderResponse.data);
+
         toast.success("Payment and Order created successfully");
       } catch (error) {
         console.error("Error", error);
         toast.error("Payment not created");
       }
     }
-    setValidated(true);
   };
 
   return (
@@ -123,36 +151,47 @@ const Payment = () => {
               <h3 className="title">Payment</h3>
             </div>
             <Col>
-              <Form.Group>
-                <Form.Check
-                  className="mb-3"
-                  type="radio"
-                  label="Credit Card"
-                  name="paymentMethod"
-                  required
-                />
-                <Form.Check
-                  className="mb-3"
-                  type="radio"
-                  label="PayPal"
-                  name="paymentMethod"
-                  required
-                />
-                <Form.Check
-                  className="mb-3"
-                  type="radio"
-                  label="Debit Card"
-                  name="paymentMethod"
-                  required
-                />
-                <Form.Check
-                  className="mb-3"
-                  type="radio"
-                  label="Bank Transfer"
-                  name="paymentMethod"
-                  required
-                />
-              </Form.Group>
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    value="Credit Card"
+                    name="paymentMethod"
+                    onChange={handleInputChange}
+                  />
+                  Credit Card
+                </label>
+                <br />
+                <label>
+                  <input
+                    type="radio"
+                    value="PayPal"
+                    name="paymentMethod"
+                    onChange={handleInputChange}
+                  />
+                  PayPal
+                </label>
+                <br />
+                <label>
+                  <input
+                    type="radio"
+                    value="Debit Card"
+                    name="paymentMethod"
+                    onChange={handleInputChange}
+                  />
+                  Debit Card
+                </label>
+                <br />
+                <label>
+                  <input
+                    type="radio"
+                    value="Bank Transfer"
+                    name="paymentMethod"
+                    onChange={handleInputChange}
+                  />
+                  Bank Transfer
+                </label>
+              </div>
             </Col>
             <Button
               style={{ marginLeft: "75%" }}
@@ -171,11 +210,7 @@ const Payment = () => {
           </div>
           <Col className="md-3">
             <div className="d-flex align-items-center mb-3">
-              <img
-                style={{ width: 100, height: 100 }}
-                src={productImage}
-                alt="Product"
-              />
+              <img style={{ width: 100, height: 100 }} src={pc} alt="Product" />
               <div className="ms-3">
                 <p style={{ fontWeight: 600 }}>{productName}</p>
               </div>

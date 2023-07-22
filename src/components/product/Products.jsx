@@ -15,6 +15,8 @@ export default function Products() {
   const isLoggedIn = useSelector(
     (state) => state.auth.login.currentUser !== null
   );
+  const userId = useSelector((state) => state.auth.login.currentUser?.id);
+
   const redirectToPaymentOrLogin = useRedirectToPaymentOrLogin();
 
   useEffect(() => {
