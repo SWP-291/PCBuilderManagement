@@ -11,7 +11,7 @@ import { getAllPc } from "../../../redux/apiRequest";
 import axios from "axios";
 
 const ListPC = () => {
-  const data = useSelector((state) => state.admin.pcs.pc?.data);
+  const data = useSelector((state) => state.admin.pcs.pc.data);
   const dispatch = useDispatch();
 
   useEffect(() => {

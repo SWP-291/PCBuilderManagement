@@ -35,9 +35,8 @@ export default function NewBrand() {
   const getOneBrand = async (id) => {
     try {
       const res = await axios.get(`https://localhost:7262/api/Brand/${id}`, id);
-
       if (res.status === 200) {
-        setState(res.data);
+        setState(res.data.data);
       }
       console.log("API response:", state);
     } catch (error) {
@@ -57,7 +56,7 @@ export default function NewBrand() {
         navigate("/brands");
       }
     } catch (error) {
-      toast.error("Update Pc failed:", error);
+      toast.error("Update Brand failed:", error);
       // Handle the error, show error messages, or take other appropriate actions
     }
   };
@@ -132,33 +131,6 @@ export default function NewBrand() {
   };
   return (
     <div className="container py-5 newBrand">
-      {/* <h1 className="addBrandTitle">New Brand</h1>
-      <form className="addBrandForm">
-        <div className="addBrandItem">
-          <label>Image</label>
-          <input type="file" id="file" />
-        </div>
-        <div className="addBrandItem">
-          <label>ID</label>
-          <input type="text" placeholder="ID Brand" />
-        </div>
-        <div className="addBrandItem">
-          <label>Name</label>
-          <input type="text" placeholder="Name Brand" />
-        </div>
-        <div className="addBrandItem">
-          <label>Origin</label>
-          <input type="text" placeholder="Origin Brand" />
-        </div>
-        <div className="addBrandItem">
-          <label>Status</label>
-          <select name="active" id="active">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <button className="addBrandButton">Create</button>
-      </form> */}
       <div className="form">
         <h2>{id ? "Edit Brand" : "Create Brand"}</h2>
         <form onSubmit={handleSubmit}>

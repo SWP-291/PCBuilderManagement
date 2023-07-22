@@ -64,7 +64,7 @@ const OrderTable = () => {
         return (
           <>
             <button onClick={() => handleDeleteClick(id)}>
-              <AiOutlineDelete />
+              <AiOutlineDelete /> Delete
             </button>
           </>
         );

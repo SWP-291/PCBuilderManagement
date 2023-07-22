@@ -10,22 +10,22 @@ import { loginSuccess, loginFailed } from "./redux/authSlice";
 
 function App() {
 // <<<<<<< HEAD
-//   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-//   useEffect(() => {
-//     // Check if the token exists in local storage
-//     const token = localStorage.getItem("tokenUser");
-//     if (token) {
-//       // If the token exists, decode it and dispatch the login success action
-//       try {
-//         const decodedUser = jwt(token);
-//         dispatch(loginSuccess(decodedUser));
-//       } catch (error) {
-//         // If there's an error decoding the token, dispatch the login failed action
-//         dispatch(loginFailed());
-//       }
-//     }
-//   }, [dispatch]);
+  useEffect(() => {
+    // Check if the token exists in local storage
+    const token = localStorage.getItem("tokenUser");
+    if (token) {
+      // If the token exists, decode it and dispatch the login success action
+      try {
+        const decodedUser = jwt(token);
+        dispatch(loginSuccess(decodedUser));
+      } catch (error) {
+        // If there's an error decoding the token, dispatch the login failed action
+        dispatch(loginFailed());
+      }
+    }
+  }, [dispatch]);
 
   return (
     <div>

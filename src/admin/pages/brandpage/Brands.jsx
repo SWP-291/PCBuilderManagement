@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 const OrderTable = () => {
-  const [editingRow, setEditingRow] = useState(null);
   const data = useSelector((state) => state.admin.brands.brand.data);
   const dispatch = useDispatch();
 

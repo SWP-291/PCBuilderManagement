@@ -1,3 +1,33 @@
+// import { createSlice } from "@reduxjs/toolkit";
+
+// const authSlice = createSlice({
+//   name: "auth",
+//   initialState: {
+//     isLoggedIn: false,
+//     token: null,
+//     role: '',
+//   },
+//   reducers: {
+//     loginSuccess: (state, action) => {
+//       state.isLoggedIn = true;
+//       state.token = action.payload.token;
+//       state.role = action.payload.role;
+//     },
+//     logoutSuccess: (state) => {
+//       state.isLoggedIn= false;
+//       state.token = null;
+//       state.error = null;
+//     },
+//   },
+// });
+
+// export const {
+//   loginSuccess,
+//   logoutSuccess,
+// } = authSlice.actions;
+// export default authSlice.reducer;
+
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({

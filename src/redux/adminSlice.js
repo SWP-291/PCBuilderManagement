@@ -65,7 +65,7 @@ const adminSlice = createSlice({
     },
     getAllCategorySuccess: (state, action) => {
       state.categories.isFetching = false;
-      state.categories.catergory = action.payload;
+      state.categories.category = action.payload;
       state.categories.error = false;
     },
     getAllCategoryFailed: (state) => {

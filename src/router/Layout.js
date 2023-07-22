@@ -35,6 +35,7 @@ import Component from "../admin/pages/componentpage/Components";
 import NewComponent from "../admin/pages/componentpage/NewComponent";
 import Category from "../admin/pages/categorypage/Categories";
 import NewCategory from "../admin/pages/categorypage/NewCategory";
+import Note from "../admin/pages/Note"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 const Layout = () => {
@@ -42,18 +43,23 @@ const Layout = () => {
   if (user && user.role === "Admin") {
     return (
       <Row>
+        <ToastContainer position="top-center" autoClose={1000} />
         <Col sm={2}>
           <Sidebar menu={sidebar_menu} />
         </Col>
         <Col sm={10}>
           <Routes>
+            <Route path="/note" element={<Note/>}/>
             <Route path="/brands" element={<Brands />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/newOrder" element={<NewOrder />} />
-            <Route path="/newBrand" element={<NewBrand />} />
-            <Route path="/newPc" element={<NewPC />} />
+            <Route path="/addBrand" element={<NewBrand />} />
+            <Route path="/editBrand/:id" element={<NewBrand />} />
+            <Route path="/addPc" element={<NewPC />} />
+            <Route path="/editPc/:id" element={<PC />} />
             <Route path="/pc" element={<PC />} />
-            <Route path="/newUser" element={<NewUser />} />
+            <Route path="/addUser" element={<NewUser />} />
+            <Route path="/editUser/:id" element={<NewUser />} />
             <Route path="/users" element={<User />} />
             <Route path="/addComponent" element={<NewComponent />} />
             <Route path="/editComponent/:id" element={<NewComponent />} />

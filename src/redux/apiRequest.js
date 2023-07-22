@@ -1,12 +1,7 @@
 import axios from "axios";
 import {
-  loginFailed,
-  loginStart,
   loginSuccess,
-  logoutStart,
   logoutSuccess,
-  logoutFailed,
-  // getUsersStart, getUsersSuccess, getUsersFailed,
 } from "./authSlice";
 import {
   updateStart,
@@ -41,24 +36,44 @@ import jwt from "jwt-decode"; // import dependency
 import { toast } from "react-toastify";
 
 export const loginUser = async (user, dispatch, navigate) => {
-  dispatch(loginStart());
-  axios
-    .post(`https://localhost:7262/api/Authenticate/login`, user)
+  axios.post(`https://localhost:7262/api/Authenticate/login`, user)
     .then(function (response) {
+      // dispatch(loginSuccess(response.data.token.token));
+      // localStorage.setItem('token',response.data.token.token);
+      // localStorage.setItem("refreshToken", response.data.token.refreshToken);
+      // localStorage.setItem("expiresIn", response.data.token.expiresIn);
+      // toast.success(response.data.message);
+      
       const token = response.data.token.token;
+      const userDTO = response.data.token.userDTO;
+      
+      // const currentUser = response.data.token.userDTO;
       const decodedUser = jwt(token); // Decode the token
-      console.log(decodedUser);
+      // console.log(decodedUser);
       const refreshToken = response.data.token.refreshToken;
       const expiresIn = response.data.token.expiresIn;
-
+      localStorage.setItem("userDTO", JSON.stringify(userDTO));
       localStorage.setItem("currentUser", JSON.stringify(decodedUser));
       localStorage.setItem("tokenUser", token);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("expiresIn", expiresIn);
 
       dispatch(loginSuccess(decodedUser));
+      // const token = response.data.token;
 
+      // const decodedUser = jwt(token); // Decode the token
+      // console.log(decodedUser);
+      // const refreshToken = response.data.token.refreshToken;
+      // const expiresIn = response.data.token.expiresIn;
+
+      // localStorage.setItem("currentUser", JSON.stringify(decodedUser));
+      // localStorage.setItem("tokenUser", token);
+      // // localStorage.setItem("refreshToken", refreshToken);
+      // // localStorage.setItem("expiresIn", expiresIn);
+
+      // dispatch(loginSuccess(decodedUser));
       toast.success(response.data.message);
+      
       if (decodedUser.role === "Admin") {
         getAllPc(dispatch);
         getAllComponents(dispatch);
@@ -66,7 +81,7 @@ export const loginUser = async (user, dispatch, navigate) => {
         getAllUsers(dispatch);
         getAllBrands(dispatch);
         getAllOrders(dispatch);
-        navigate("/");
+        navigate("/note");
       } else if (decodedUser.role === "Customer") {
         getAllListPc(dispatch);
         dispatch(getDataSuccess(decodedUser));
@@ -77,7 +92,6 @@ export const loginUser = async (user, dispatch, navigate) => {
     })
     .catch(function (error) {
       toast.error(error.response.data.message);
-      dispatch(loginFailed());
     });
 };
 export const logoutUser = async (dispatch, navigate) => {
@@ -91,7 +105,6 @@ export const logoutUser = async (dispatch, navigate) => {
 
     toast.success("Logged out successfully.");
   } catch (error) {
-    dispatch(logoutFailed(error));
     toast.error("Logout failed. Please try again.");
   }
 };
