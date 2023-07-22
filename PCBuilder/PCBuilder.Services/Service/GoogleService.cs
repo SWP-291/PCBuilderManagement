@@ -18,13 +18,13 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<AuthResponseDTO>> LoginWithGoogle(string idToken);
         Task<ServiceResponse<AuthResponseDTO>> ReturnTokenWhenLoginGoogle(string email);
     }
-    public class GoogleServices : IGoogleServices
+    public class GoogleService : IGoogleServices
     {
         private readonly IUserRepository _iUserRepository;
         private readonly IRoleRepository _iRoleRepository;
         private readonly IUserServices _iUserService;
         private readonly IConfiguration _configuration;
-        public GoogleServices
+        public GoogleService
         (
             IUserRepository iUserRepository,
             IRoleRepository iRoleRepository,

@@ -19,12 +19,12 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<bool>> DeleteBrandAsync(int id);
     }
 
-    public class BrandServices : IBrandServices
+    public class BrandService : IBrandServices
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IMapper _mapper;
 
-        public BrandServices(IBrandRepository brandRepository, IMapper mapper)
+        public BrandService(IBrandRepository brandRepository, IMapper mapper)
         {
             _brandRepository = brandRepository;
             _mapper = mapper;

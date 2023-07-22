@@ -20,12 +20,12 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<List<ComponentDTO>>> SearchComponentsByName(string name);
         Task<ServiceResponse<ICollection<ComponentDTO>>> GetProductsByPriceRange(decimal? minPrice, decimal? maxPrice, bool? isDescending);
     }
-    public class ComponentServices : IComponentServices
+    public class ComponentService : IComponentServices
     {
         private readonly IComponentRepository _componentRepository;
         private readonly IMapper _mapper;
 
-        public ComponentServices(IComponentRepository componentRepository, IMapper mapper)
+        public ComponentService(IComponentRepository componentRepository, IMapper mapper)
         {
             _componentRepository = componentRepository;
             _mapper = mapper;

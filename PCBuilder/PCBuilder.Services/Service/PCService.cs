@@ -38,14 +38,14 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<bool>> DeletePCWithComponent(int pcId);
     }
 
-    public class PCServices : IPCServices
+    public class PCService : IPCServices
     {
         private readonly IPCRepository _repository;
         private readonly IMapper _mapper;
         private readonly IPcComponentRepository _pcComponentRepository;
         private readonly IComponentRepository _componentRepository;
 
-        public PCServices(IPCRepository pCRepository, IMapper mapper, IPcComponentRepository pcComponentRepository, IComponentRepository componentRepository)
+        public PCService(IPCRepository pCRepository, IMapper mapper, IPcComponentRepository pcComponentRepository, IComponentRepository componentRepository)
         {
             this._repository = pCRepository;
             this._mapper = mapper;

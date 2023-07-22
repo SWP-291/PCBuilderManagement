@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace PCBuilder.API
+namespace PCBuilder.API.Config
 {
     public class Startup
     {
@@ -29,36 +29,12 @@ namespace PCBuilder.API
             });
 
             //Add Automapper
-            services.AddAutoMapper(typeof(MappingConfig));
+            services.AddAutoMapper(typeof(AutoMapperConfig));
             // Add Cors
             services.AddCors();
 
-            // Add dependency injection
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IPCRepository, PCRepository>();
-
-            services.AddScoped<IUserServices, UserServices>();
-            services.AddScoped<IPCServices, PCServices>();
-
-            services.AddScoped<IBrandRepository, BrandRepository>();
-            services.AddScoped<IBrandServices, BrandServices>();
-
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ICategoryServices, CategoryServices>();
-
-            services.AddScoped<IComponentRepository, ComponentRepository>();
-            services.AddScoped<IComponentServices, ComponentServices>();
-
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IOrderServices, OrderServices>();
-
-            services.AddScoped<IPcComponentRepository, PcComponentRepository>();
-            services.AddScoped<IRoleRepository, RoleRepository>();
-
-            services.AddScoped<IGoogleServices, GoogleServices>();
-
-            services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<IPaymentServices, PaymentServices>();
+            // Dependency injection
+            DependencyInjectionConfig.Configure(services);
 
             // handle login/sign up with jwt
             services

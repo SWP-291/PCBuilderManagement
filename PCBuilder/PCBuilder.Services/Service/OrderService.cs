@@ -18,12 +18,12 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<OrderDTO>> UpdateOrder(int id, OrderDTO orderDTO);
         Task<ServiceResponse<bool>> DeleteOrder(int orderId);
     }
-    public class OrderServices : IOrderServices
+    public class OrderService : IOrderServices
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
 
-        public OrderServices(IOrderRepository orderRepository, IMapper mapper)
+        public OrderService(IOrderRepository orderRepository, IMapper mapper)
         {
             this._orderRepository = orderRepository;
             this._mapper = mapper;

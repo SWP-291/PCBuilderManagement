@@ -19,11 +19,11 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<bool>> DeletePaymentAsync(int id);
 
     }
-    public class PaymentServices : IPaymentServices
+    public class PaymentService : IPaymentServices
     {
         private readonly IPaymentRepository _paymentRepository;
         private readonly IMapper _mapper;
-        public PaymentServices(IPaymentRepository paymentRepository, IMapper mapper)
+        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper)
         {
             this._paymentRepository = paymentRepository;
             this._mapper = mapper;

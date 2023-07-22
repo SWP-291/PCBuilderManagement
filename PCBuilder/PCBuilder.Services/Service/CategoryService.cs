@@ -19,12 +19,12 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<bool>> DeleteCategoryAsync(int id);
         Task<ServiceResponse<List<CategoryDTO>>> SearchCategoriesByName(string name);
     }
-    public class CategoryServices : ICategoryServices
+    public class CategoryService : ICategoryServices
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public CategoryServices(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;

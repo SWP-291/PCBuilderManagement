@@ -29,14 +29,14 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<UserDTO>> Signup(UserDTO userDTO);
     }
 
-    public class UserServices : IUserServices
+    public class UserService : IUserServices
     {
         private readonly IUserRepository _iUserRepository;
         private readonly IRoleRepository _iRoleRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
-        public UserServices(
+        public UserService(
             IUserRepository iUserRepository,
             IRoleRepository iRoleRepository,
             IMapper mapper,

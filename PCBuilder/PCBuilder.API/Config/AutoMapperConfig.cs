@@ -9,9 +9,9 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PCBuilder.Services.DTO
 {
-    public class MappingConfig : Profile
+    public class AutoMapperConfig : Profile
     {
-        public MappingConfig()
+        public AutoMapperConfig()
         {
             CreateMap<Pc, PcDTO>().ReverseMap();
             CreateMap<User, UserDTO>().ReverseMap();
