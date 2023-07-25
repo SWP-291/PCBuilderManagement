@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 export default function NewBrand() {
+  const URL = 'https://localhost:7262/api/Brand';
+  const token = localStorage.getItem("tokenUser");
   const initialState = {
     name: "",
     logo: "",
@@ -31,50 +33,60 @@ export default function NewBrand() {
     }
   }, [id]);
 
-  // Function to fetch and set the PC data
+  // Function to fetch and set the Brand data
   const getOneBrand = async (id) => {
-    try {
-      const res = await axios.get(`https://localhost:7262/api/Brand/${id}`, id);
-      if (res.status === 200) {
-        setState(res.data.data);
-      }
-      console.log("API response:", state);
-    } catch (error) {
-      console.error("Fetch Brand data failed:", error);
-    }
+      await axios.get(`${URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
+      }, id)
+      .then(function (response) {
+        if (response.request.status === 200) {
+          setState(response.data.data);
+        }
+      })
+      .catch(function (error) {
+        console.error("Fetch Brand data failed:", error);
+      });
   };
 
   const updateBrand = async (brandId, data) => {
-    try {
-      const res = await axios.put(
-        `https://localhost:7262/api/Brand/${brandId}`,
-        data
-      );
-      console.log("update date: ", res.data);
-      if (res.status === 200) {
+    await axios.put(
+      `${URL}/${brandId}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(function (response) {
+      if (response.request.status === 200) {
         toast.success(`Updated Brand successfully ~`);
         navigate("/brands");
       }
-    } catch (error) {
+    })
+    .catch(function (error) {
       toast.error("Update Brand failed:", error);
-      // Handle the error, show error messages, or take other appropriate actions
-    }
+      console.log(error);
+    });
   };
 
   const addNewBrand = async (data) => {
-    try {
-      console.log("Brand: ", data);
-      const res = await axios.post(`https://localhost:7262/api/Brand`, data);
-      if (res.status === 200 || res.status === 201) {
-        toast.success("New Brand has been added successfully ~");
+    await axios.post(`${URL}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        if (response.request.status === 200) {
+          toast.success("New Brand has been added successfully ~");
         navigate("/brands");
-      } else {
-        toast.error("New Brand has been added failed ~");
-      }
-    } catch (error) {
-      toast.error("Add New Brand failed:", error);
-      // Handle the error, show error messages, or take other appropriate actions
-    }
+        } else {
+          toast.error("New Brand has been added failed ~");
+        }
+      })
+      .catch(function (error) {
+        toast.error("Add new brand failed:");
+        console.error("Fetch brand data failed:", error);
+      });
   };
 
   // validate
@@ -133,10 +145,10 @@ export default function NewBrand() {
     <div className="container py-5 newBrand">
       <div className="form">
         <h2>{id ? "Edit Brand" : "Create Brand"}</h2>
-        <form onSubmit={handleSubmit}>
-          <Col md className="contentBrand">
-            <label htmlFor="name">Name: </label>
-            <input
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3 contentBrand">
+            <Form.Label htmlFor="name">Name: </Form.Label>
+            <Form.Control
               type="text"
               name="name"
               value={state.name}
@@ -145,11 +157,10 @@ export default function NewBrand() {
             {errors.name_err && (
               <span className="error">{errors.name_err}</span>
             )}
-          </Col>
-          <Row>
-            <Col md className="contentBrand">
-              <label htmlFor="origin">Origin: </label>
-              <input
+          </Form.Group>
+            <Form.Group className="mb-3 contentBrand">
+              <Form.Label htmlFor="origin">Origin: </Form.Label>
+              <Form.Control
                 type="text"
                 name="origin"
                 value={state.origin}
@@ -158,21 +169,20 @@ export default function NewBrand() {
               {errors.origin_err && (
                 <span className="error">{errors.origin_err}</span>
               )}
-            </Col>
-          </Row>
-          <Col md className="contentBrand">
-            <label htmlFor="logo">Logo: </label>
-            <input
+            </Form.Group>
+          <Form.Group className="mb-3 contentBrand">
+            <Form.Label htmlFor="logo">Logo: </Form.Label>
+            <Form.Control
               type="text"
               id="file"
               name="logo"
               value={state.logo}
               onChange={handleInputChange}
             />
-            {errors.logo_err && <span className="error">{errors.logo}</span>}
-          </Col>
+            {errors.logo_err && <span className="error">{errors.logo_err}</span>}
+          </Form.Group>
           <Row>
-            <Col md className="contentBrand" id="check">
+            <Form.Group className="mb-3 contentBrand" id="check">
               <div>
                 <label htmlFor="status">Status (active or not):</label>
                 <input
@@ -182,7 +192,7 @@ export default function NewBrand() {
                   onChange={handleInputChange}
                 />
               </div>
-            </Col>
+            </Form.Group>
           </Row>
 
           <div className="form-button">
@@ -190,7 +200,7 @@ export default function NewBrand() {
               {id ? "Update Brand" : "Create Brand"}
             </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

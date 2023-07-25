@@ -3,9 +3,10 @@ import "./newUser.scss";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Button, Col,Row } from "react-bootstrap";
+import { Button, Col,Form,Row } from "react-bootstrap";
 const NewUser = () => {
   const URL = "https://localhost:7262/api/User";
+  const token = localStorage.getItem("tokenUser");
   const initialState = {
     fullname: "",
     email: "",
@@ -51,45 +52,58 @@ const NewUser = () => {
 
   // Function to fetch and set the User data
   const getOneUser = async (id) => {
-    try {
-      const res = await axios.get(`${URL}/${id}`, id);
-
-      if (res.status === 200) {
-        setState(res.data.data);
-      }
-      console.log("API response:", state);
-    } catch (error) {
-      console.error("Fetch User data failed:", error);
-    }
+    await axios.get(`${URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
+      }, id)
+      .then(function (response) {
+        if (response.request.status === 200 || response.request.status === 201) {
+          setState(response.data.data);
+        }
+      })
+      .catch(function (error) {
+        console.error("Fetch user data failed:", error);
+      });
   };
   const updateUser = async (userId, data) => {
-    try {
-      const res = await axios.put(`${URL}/${userId}`, data);
-      console.log("update date: ", res.data);
-      if (res.status === 200) {
-        toast.success(`Updated User successfully ~`);
+    await axios.put(
+      `${URL}/${userId}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(function (response) {
+      if (response.request.status === 200 || response.request.status === 201) {
+        toast.success(`Updated user successfully ~`);
         navigate("/users");
       }
-    } catch (error) {
+    })
+    .catch(function (error) {
       toast.error("Update user failed:", error);
-      // Handle the error, show error messages, or take other appropriate actions
-    }
+      console.log(error);
+    });
   };
 
   const addNewUser = async (data) => {
-    try {
-      console.log("addPc: ", data);
-      const res = await axios.post(`https://localhost:7262/api/User`, data);
-      if (res.status === 200 || res.status === 201) {
-        toast.success("New User has been added successfully ~");
-        navigate("/users");
-      } else {
-        toast.error("New USer has been added failed ~");
-      }
-    } catch (error) {
-      toast.error("Add new User failed:", error);
-      // Handle the error, show error messages, or take other appropriate actions
-    }
+    await axios.post(`${URL}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        console.log(response.request.status)
+        if (response.request.status === 200 || response.request.status === 201) {
+          toast.success("New User has been added successfully ~");
+          navigate("/users");
+        } else {
+          toast.error("Added new user failed ~");
+        }
+      })
+      .catch(function (error) {
+        toast.error("Add New User failed:");
+        console.error("Fetch User data failed:", error);
+      });
   };
 
   // validate
@@ -117,7 +131,7 @@ const NewUser = () => {
     ) {
       errors.email_err = "It is not email. Email like name@email.com";
     }
-    if (roleId.trim() === "" || parseInt(roleId) < 1 || parseInt(roleId) > 3) {
+    if (isNaN(roleId) || parseInt(roleId) < 1 || parseInt(roleId) > 3 || roleId === ""){
       errors.roleId_err = "RoleId = {1, 2, 3}";
       isValid = false;
     }
@@ -155,17 +169,16 @@ const NewUser = () => {
     } else {
       setState((prevState) => ({ ...prevState, [name]: value }));
     }
-    // setState((state) => ({ ...state, [name]: value }));
   };
 
   return (
     <div className="container py-5 newUser">
       <div className="form">
         <h2>{id ? "Edit User" : "Create User"}</h2>
-        <form onSubmit={handleSubmit}>
-          <Col md className="contentUser">
-            <label htmlFor="fullname">Full Name: </label>
-            <input
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="fullname">Full Name: </Form.Label>
+            <Form.Control
               type="text"
               name="fullname"
               value={state.fullname}
@@ -174,11 +187,10 @@ const NewUser = () => {
             {errors.fullname_err && (
               <span className="error">{errors.fullname_err}</span>
             )}
-          </Col>
-          <Row>
-            <Col md className="contentUser">
-              <label htmlFor="email">Email: </label>
-              <input
+          </Form.Group>
+              <Form.Group className="mb-3 contentUser">
+              <Form.Label htmlFor="email">Email: </Form.Label>
+              <Form.Control
                 type="text"
                 name="email"
                 value={state.email}
@@ -187,13 +199,12 @@ const NewUser = () => {
               {errors.email_err && (
                 <span className="error">{errors.email_err}</span>
               )}
-            </Col>
-          </Row>
+              </Form.Group>
 
           <Row>
-            <Col md className="contentUser">
-              <label htmlFor="phone">Phone: </label>
-              <input
+            <Col className="mb-3 contentUser">
+              <Form.Label htmlFor="phone">Phone: </Form.Label>
+              <Form.Control
                 type="text"
                 name="phone"
                 value={state.phone}
@@ -202,8 +213,8 @@ const NewUser = () => {
               {/* {errors.phone && <span className='error'>{errors.price_err}</span>} */}
             </Col>
             <Col md className="contentUser">
-              <label htmlFor="country">Country: </label>
-              <input
+              <Form.Label htmlFor="country">Country: </Form.Label>
+              <Form.Control
                 type="text"
                 name="country"
                 value={state.country}
@@ -241,10 +252,9 @@ const NewUser = () => {
             </Col>
           </Row>
 
-          <Row>
-            <Col md className="contentUser">
-              <label htmlFor="password">Password: </label>
-              <input
+            <Form.Group className="mb-3 contentUser">
+              <Form.Label htmlFor="password">Password: </Form.Label>
+              <Form.Control
                 type="text"
                 name="password"
                 value={state.password}
@@ -253,36 +263,29 @@ const NewUser = () => {
               {errors.password_err && (
                 <span className="error">{errors.password_err}</span>
               )}
-            </Col>
-          </Row>
-          <Row>
-            <Col md className="contentUser">
-              <label htmlFor="address">Address: </label>
-              <input
+            </Form.Group>
+            <Form.Group className="mb-3 contentUser">
+              <Form.Label htmlFor="address">Address: </Form.Label>
+              <Form.Control
                 type="text"
                 name="address"
                 value={state.address}
                 onChange={handleInputChange}
               />
-              {/* {errors.email_err && <span className='error'>{errors.email_err}</span>} */}
-            </Col>
-          </Row>
-          <Row>
-            <Col md className="contentUser">
-              <label htmlFor="avatar">Avatar: </label>
-              <input
+            </Form.Group>
+            <Form.Group className="mb-3 contentUser">
+              <Form.Label htmlFor="avatar">Avatar: </Form.Label>
+              <Form.Control
                 type="text"
                 name="avatar"
                 value={state.avatar}
                 onChange={handleInputChange}
               />
-              {/* {errors.a && <span className='error'>{errors.image_err}</span>} */}
-            </Col>
-          </Row>
+            </Form.Group>
           <Row>
             <Col md className="contentUser" id="check">
               <div>
-                <label htmlFor="isActive">Is Active?</label>
+                <Form.Label htmlFor="isActive">Is Active?</Form.Label>
                 <input
                   type="checkbox"
                   name="isActive"
@@ -293,11 +296,11 @@ const NewUser = () => {
             </Col>
           </Row>
 
-          <Col md className="contentUser">
-            <label htmlFor="roleId">
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="roleId">
               Role ID (1: Customer, 2: Admin, 3: Employee):{" "}
-            </label>
-            <input
+            </Form.Label>
+            <Form.Control
               type="number"
               name="roleId"
               value={state.roleId}
@@ -306,11 +309,11 @@ const NewUser = () => {
             {errors.roleId_err && (
               <span className="error">{errors.roleId_err}</span>
             )}
-          </Col>
+          </Form.Group>
           <div className="form-button">
             <Button type="submit">{id ? "Update User" : "Create User"}</Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { getAllCategory } from "../../../redux/apiRequest";
 export default function NewCategory() {
   const URL = "https://localhost:7262/api/Category";
+  const token = localStorage.getItem("tokenUser");
   const initialState = {
     name: "",
     parentId: "",
@@ -33,46 +34,58 @@ export default function NewCategory() {
   }, [id]);
 
   const getOneCategory = async (id) => {
-    try {
-      const res = await axios.get(`${URL}/${id}`, id);
-
-      if (res.status === 200) {
-        setState(res.data.data);
-      }
-      console.log("API response:", state);
-    } catch (error) {
-      console.error("Fetch Category data failed:", error);
-    }
-  };
+    await axios.get(`${URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
+      }, id)
+      .then(function (response) {
+        if (response.request.status === 200) {
+          setState(response.data.data);
+        }
+      })
+      .catch(function (error) {
+        console.error("Fetch Category data failed:", error);
+      });
+  }
 
   const updateCategory = async (categoryId, data) => {
-    try {
-      const res = await axios.put(`${URL}/${categoryId}`, data);
-      console.log("update date: ", res.data);
-      if (res.status === 200) {
-        toast.success(`Updated Category successfully ~`);
+    await axios.put(
+      `${URL}/${categoryId}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(function (response) {
+      if (response.request.status === 200) {
+        toast.success(`Updated category successfully ~`);
         navigate("/category");
       }
-    } catch (error) {
-      toast.error("Update Category failed:", error);
-      // Handle the error, show error messages, or take other appropriate actions
-    }
-  };
+    })
+    .catch(function (error) {
+      toast.error("Update category failed:", error);
+      console.log(error);
+    });
+  }
 
   const addNewCategory = async (data) => {
-    try {
-      // console.log('addCat: ', data);
-      const res = await axios.post(`${URL}`, data);
-      if (res.status === 200 || res.status === 201) {
-        toast.success("New Category has been added successfully ~");
-        navigate("/category");
-      } else {
-        toast.error("New Category has been added failed ~");
-      }
-    } catch (error) {
-      toast.error("Add New Category failed:", error);
-      // Handle the error, show error messages, or take other appropriate actions
-    }
+    await axios.post(`${URL}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        if (response.request.status === 200) {
+          toast.success("New Category has been added successfully ~");
+          navigate("/category");
+        } else {
+          toast.error("New Category has been added failed ~");
+        }
+      })
+      .catch(function (error) {
+        toast.error("Add New Category failed:");
+        console.error("Fetch Category data failed:", error);
+      });
   };
 
   const validateForm = () => {
@@ -111,28 +124,17 @@ export default function NewCategory() {
   };
 
   const handleInputChange = (event) => {
-    const { name, value, type, checked } = event.target;
-
-    // For checkbox inputs, the value will be a string "true" or "false"
-    // We convert it to a boolean value
-    if (type === "checkbox") {
-      setState((prevState) => ({
-        ...prevState,
-        [name]: checked,
-      }));
-    } else {
-      setState((prevState) => ({ ...prevState, [name]: value }));
-    }
-    // setState((state) => ({ ...state, [name]: value }));
+    const { name, value} = event.target;
+    setState((state) => ({ ...state, [name]: value }));
   };
   return (
     <div className="container py-5 newCategory">
       <div className="form">
         <h2>{id ? "Edit Category" : "Create Category"}</h2>
-        <form onSubmit={handleSubmit}>
-          <Col md className="contentCategory">
-            <label htmlFor="name">Name: </label>
-            <input
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3 contentCategory">
+            <Form.Label htmlFor="name">Name: </Form.Label>
+            <Form.Control
               type="text"
               name="name"
               value={state.name}
@@ -141,11 +143,11 @@ export default function NewCategory() {
             {errors.name_err && (
               <span className="error">{errors.name_err}</span>
             )}
-          </Col>
+          </Form.Group>
           <Row>
-            <Col md className="contentCategory">
-              <label htmlFor="parentId">ParentID: </label>
-              <input
+            <Col className="mb-3 contentCategory">
+              <Form.Label htmlFor="parentId">ParentID: </Form.Label>
+              <Form.Control
                 type="number"
                 name="parentId"
                 value={state.parentId}
@@ -155,9 +157,9 @@ export default function NewCategory() {
                 <span className="error">{errors.parentId_err}</span>
               )}
             </Col>
-            <Col md className="contentCategory" id="abc">
-              <label htmlFor="brandId">BrandID: </label>
-              <input
+            <Col className="mb-3 contentCategory" id="abc">
+              <Form.Label htmlFor="brandId">BrandID: </Form.Label>
+              <Form.Control
                 type="number"
                 name="brandId"
                 value={state.brandId}
@@ -173,7 +175,7 @@ export default function NewCategory() {
               {id ? "Update Category" : "Create Category"}
             </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

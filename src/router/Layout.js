@@ -56,7 +56,7 @@ const Layout = () => {
             <Route path="/addBrand" element={<NewBrand />} />
             <Route path="/editBrand/:id" element={<NewBrand />} />
             <Route path="/addPc" element={<NewPC />} />
-            <Route path="/editPc/:id" element={<PC />} />
+            <Route path="/editPc/:id" element={<NewPC />} />
             <Route path="/pc" element={<PC />} />
             <Route path="/addUser" element={<NewUser />} />
             <Route path="/editUser/:id" element={<NewUser />} />

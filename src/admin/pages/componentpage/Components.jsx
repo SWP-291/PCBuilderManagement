@@ -5,31 +5,50 @@ import { Link } from "react-router-dom";
 // import "./newComponent.css";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllComponents } from "../../../redux/apiRequest";
 import { toast } from "react-toastify";
 import axios from "axios";
 const Components = () => {
   const URL = "https://localhost:7262/api/Component";
-  const data = useSelector((state) => state.admin.components.component.data);
-  const dispatch = useDispatch();
+  const token = localStorage.getItem("tokenUser");
+  const [ data, setData ] = useState([]);
   useEffect(() => {
-    getAllComponents(dispatch);
+    getAllComponents();
   }, []);
 
+  const getAllComponents = async() => {
+    
+    await axios
+    .get(`${URL}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(function (response) {
+      setData(response.data.data);
+    })
+    .catch(function (error) {
+      console.log(error.message);
+    });
+  }
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
     data?.map((item) => (item.id === id ? { ...item, [field]: value } : item));
   };
   const handleDeleteClick = async (id) => {
     if (window.confirm("Are you sure you want to delete this component?")) {
-      try {
-        await axios.delete(`${URL}/${id}`, id);
-        getAllComponents(dispatch);
-        toast.success("Deleted Successfully ~");
-      } catch (error) {
-        toast.error("Delete: Error!");
-      }
+      await axios.delete(`${URL}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          },
+        }, id)
+        .then(function (response) {
+          getAllComponents();
+          toast.success("Deleted Successfully ~");
+        })
+        .catch(function (error) {
+          toast.error("Delete: Error!");
+          console.log(error.message);
+        });
     }
   };
 
@@ -86,11 +105,14 @@ const Components = () => {
   ];
 
   return (
-    <div className="container py-5 component">
-      <h2 className="title">Components List</h2>
-      <Link to="/addComponent/">
-        <button className="btn-create">Create Component</button>
-      </Link>
+    <div className="container py-5">
+      <h1 className="title">Components List</h1>
+      <div className="btn">
+          <Link to="/addComponent/">
+            <button className="btn-create">Create Component</button>
+          </Link>
+      </div>
+      
       <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
         <div
           className="dashboard-content"

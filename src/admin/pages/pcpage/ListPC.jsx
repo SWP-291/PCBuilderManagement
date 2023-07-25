@@ -1,107 +1,91 @@
 import React, { useEffect, useState } from "react";
 import "./listPC.scss";
-import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getAllPc } from "../../../redux/apiRequest";
 import axios from "axios";
+import { Button, Col, Row, Card } from "react-bootstrap";
 
 const ListPC = () => {
-  const data = useSelector((state) => state.admin.pcs.pc.data);
-  const dispatch = useDispatch();
-
+  const [data, setData] = useState([]);
+  const token = localStorage.getItem("tokenUser");
   useEffect(() => {
-    getAllPc(dispatch);
+    getAllPc();
   }, []);
 
+  const getAllPc = async() => {
+    
+    await axios
+    .get(`https://localhost:7262/api/PC/GetListByAdmin`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(function (response) {
+      setData(response.data.data);
+    })
+    .catch(function (error) {
+      console.log(error.message);
+    });
+  }
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
     data?.map((item) => (item.id === id ? { ...item, [field]: value } : item));
   };
   const handleDeleteClick = async (id) => {
     if (window.confirm("Are you sure you want to delete this order?")) {
-      try {
-        await axios.delete(`https://localhost:7262/api/PC/${id}`, id);
-        getAllPc(dispatch);
-        toast.success("Deleted Successfully ~");
-      } catch (error) {
-        toast.error("Delete: Error!");
-      }
+      await axios.delete(`https://localhost:7262/api/PC/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          },
+        }, id)
+        .then(function (response) {
+          getAllPc();
+          toast.success("Deleted Successfully ~");
+        })
+        .catch(function (error) {
+          toast.error("Delete: Error!");
+          console.log(error.message);
+        });
     }
   };
-  const columns = [
-    { field: "id", headerName: "ID", width: 50, editable: false },
-    { field: "name", headerName: "Name", width: 250, editable: true },
-    { field: "image", headerName: "Image", width: 400, editable: true },
-    {
-      field: "templateId",
-      headerName: "TemplateId",
-      width: 150,
-      editable: true,
-    },
 
-    { field: "price", headerName: "price", width: 150, editable: true },
-    {
-      field: "actions",
-      headerName: "Actions",
-      width: 150,
-      renderCell: (params) => {
-        const { id } = params.row;
-
-        return (
-          <>
-            <Link to={`/editPc/${id}`}>
-              <button>
-                <AiOutlineEdit /> Edit
-              </button>
-            </Link>
-            <button onClick={() => handleDeleteClick(id)}>
-              <AiOutlineDelete /> Delete
-            </button>
-          </>
-        );
-      },
-    },
-  ];
+  const formatNumberWithCommas = (number) =>{
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   return (
-    <div className="container py-5">
+    <div className="container py-5 listPc">
       <h1 className="title"> PCs List </h1>
       <div className="btn">
         <Link to="/addPc/">
           <button className="btn-create">Create PC</button>
         </Link>
       </div>
+      <Row xs={1} md={4} className="g-4">
+      {data && data.map((info) => (
+        <Col key={info.id}>
+          <Card>
+            <Card.Img variant="top" src={info.image}/>
+            <Card.Body>
+              <Card.Title>{info.name}</Card.Title>
+              <Card.Text>{formatNumberWithCommas(info.price)}</Card.Text>
+            </Card.Body>
+            <Card.Footer>
+              <Link to={`/editPc/${info.id}`}>
+                <Button className="btn-footer">
+                  <AiOutlineEdit /> Edit
+                </Button>
+              </Link>
 
-      <Box sx={{ height: "60%", width: "95%", marginTop: "30px" }}>
-        <div
-          className="dashboard-content"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        ></div>
-        <DataGrid
-          rows={data}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10,
-              },
-            },
-          }}
-          pageSizeOptions={[6]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          editMode="cell"
-          onEditCellChange={handleEditCellChange}
-        />
-      </Box>
+              <Button className="btn-footer" onClick={() => handleDeleteClick(info.id)}>
+                <AiOutlineDelete /> Delete
+              </Button>
+            </Card.Footer>
+          </Card>
+        </Col>
+      ))}
+    </Row>
     </div>
   );
 };

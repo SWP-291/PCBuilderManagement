@@ -4,6 +4,7 @@
     justify-content: center;
     align-items: center;
     .form {
+        width: 100%;
         h2{
             text-align  : center;
             color: #009393;
@@ -21,12 +22,12 @@
                 font-size: large;
                 font-weight: 500;
             }
-            input{
-                width: 70vh;
-            }
         }
         #abc{
-            height: 100px;
+            input{
+                height: 500px;
+            }
+            
         }
         .form-button{
             margin: 15px 0px;
@@ -41,6 +42,9 @@
                 background-color: #03aeae;
                 border: none;
             }
+        }
+        .error{
+            color: red;
         }
     }
 }

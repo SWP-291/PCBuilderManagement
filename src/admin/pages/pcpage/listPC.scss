@@ -1,99 +1,62 @@
-.pc-section {
-  padding: 1rem;
-}
-
-.pc-section h2{
-  align-items: center;
-}
-
-.pc-list {
+.container{
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  .title{
+    text-align  : center;
+    color: #009393;
+    font-size: xx-large;
+    font-weight: 700;
+  }
+  .btn{
+    display: flex;
+    justify-content: flex-end;
+    .btn-create{
+      display: block;
+      float: right;
+      margin: 10px 0px;
+      padding: 0.8em;
+      padding-left: 2em;
+      padding-right: 2em;
+      cursor: pointer;
+      color: #FFFFFF;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-radius: 8px;
+      text-transform: uppercase;
+      border: 1px solid #009393;
+      background-color: #009393;
+    }
+    .btn-create:hover {
+      color: #009393;
+      border: 1px solid #009393;
+      background-color: #F0F2F5;
+    } 
+  }
+  .card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .card-body{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .card-text{
+        font-size: large;
+      }
+    }
+    .card-footer{
+      display: flex;
+      background-color: white;
+      .btn-footer{
+        margin-left: 10px;
+        svg{
+          margin-top: 5px;
+          margin-right: 5px;
+          width: 100%;
+        }
+      }
+    }
+  }
 }
-
-.pc-box {
-  width: 350px;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin: 0.5rem;
-}
-
-.pc-name {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.pc-description {
-  margin-bottom: 0.5rem;
-}
-
-.pc-price {
-  font-weight: bold;
-}
-
-.title{
-  text-align  : center;
-  color: #009393;
-  font-size: xx-large;
-  font-weight: 700;
-}
-.pc-image {
-  width: 100%;
-  max-height: 200px;
-  object-fit: cover;
-}
-
-.btn-update{
-  margin-left: 170px;
-  box-shadow: inset;
-  font-weight: 200;
-  border: 1px solid #009393;
-  background-color: #009393;
-  color: #FFFFFF;
-  cursor: pointer;
-  border-radius: 3px;
-}
-
-.btn-delete{
-  margin-left: 10px;
-  box-shadow: inset;
-  font-weight: 200;
-  border: 1px solid #009393;
-  background-color: #009393;
-  color: #FFFFFF;
-  cursor: pointer;
-  border-radius: 3px;
-}
-.btn-update:hover {
-  color: #009393;
-  border: 1px solid #009393;
-  background-color: #F0F2F5;
-}
-.btn-delete:hover {
-  color: #009393;
-  border: 1px solid #009393;
-  background-color: #F0F2F5;
-}
-.btn-create{
-  padding: 0.8em;
-  padding-left: 2em;
-  padding-right: 2em;
-  cursor: pointer;
-  color: #FFFFFF;
-  font-size: 0.9rem;
-  font-weight: 700;
-  border-radius: 8px;
-  text-transform: uppercase;
-  border: 1px solid #009393;
-  background-color: #009393;
-  width: 180px;
-  /* margin-left: 75%;
-  margin-top: 20px; */
-}
-.btn-create:hover {
-  color: #009393;
-  border: 1px solid #009393;
-  background-color: #F0F2F5;
-} 
-

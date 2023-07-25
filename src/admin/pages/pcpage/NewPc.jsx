@@ -3,8 +3,11 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
+
 export default function NewPc() {
+  const URL = 'https://localhost:7262/api/PC';
+  const token = localStorage.getItem("tokenUser");
   const initialState = {
     name: "",
     summary: "",
@@ -21,9 +24,6 @@ export default function NewPc() {
 
   const error_init = {
     name_err: "",
-    summary_err: "",
-    detail_err: "",
-    description_err: "",
     price_err: "",
     discount_err: "",
     templateId_err: "",
@@ -58,49 +58,58 @@ export default function NewPc() {
 
   // Function to fetch and set the PC data
   const getOnePc = async (id) => {
-    try {
-      const res = await axios.get(`https://localhost:7262/api/PC/${id}`, id);
-
-      if (res.status === 200) {
-        setState(res.data.data);
-      }
-      console.log("API response:", state);
-    } catch (error) {
-      console.error("Fetch PC data failed:", error);
-    }
+      await axios.get(`${URL}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          },
+        }, id)
+        .then(function (response) {
+          if (response.request.status === 200) {
+            setState(response.data.data);
+          }
+        })
+        .catch(function (error) {
+          console.error("Fetch PC data failed:", error);
+        });
   };
 
   const updatePc = async (pcId, data) => {
-    try {
-      const res = await axios.put(
-        `https://localhost:7262/api/PC/${pcId}`,
-        data
-      );
-      console.log("update date: ", res.data);
-      if (res.status === 200) {
+    await axios.put(
+      `${URL}/${pcId}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(function (response) {
+      if (response.request.status === 200) {
         toast.success(`Updated Pc successfully ~`);
         navigate("/pc");
       }
-    } catch (error) {
+    })
+    .catch(function (error) {
       toast.error("Update Pc failed:", error);
-      // Handle the error, show error messages, or take other appropriate actions
-    }
+      console.log(error);
+    });
   };
 
   const addNewPc = async (data) => {
-    try {
-      // console.log('addPc: ', data);
-      const res = await axios.post(`https://localhost:7262/api/PC`, data);
-      if (res.status === 200 || res.status === 201) {
-        toast.success("New Pc has been added successfully ~");
-        navigate("/pc");
-      } else {
-        toast.error("New Pc has been added failed ~");
-      }
-    } catch (error) {
-      toast.error("Add New Pc failed:", error);
-      // Handle the error, show error messages, or take other appropriate actions
-    }
+    await axios.post(`${URL}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        if (response.request.status === 200) {
+          toast.success("New Pc has been added successfully ~");
+          navigate("/pc");
+        } else {
+          toast.error("New Pc has been added failed ~");
+        }
+      })
+      .catch(function (error) {
+        toast.error("Add New Pc failed:");
+        console.error("Fetch PC data failed:", error);
+      });
   };
 
   // validate
@@ -113,21 +122,6 @@ export default function NewPc() {
       if (name.length < 2) {
         errors.name_err = "Name must be more than 2 words";
       }
-      isValid = false;
-    }
-
-    if (summary.trim() === "") {
-      errors.sumary_err = "Sumary is required";
-      isValid = false;
-    }
-
-    if (detail.trim() === "") {
-      errors.detail_err = "Detail is required";
-      isValid = false;
-    }
-
-    if (description.trim() === "") {
-      errors.description_err = "Description is required";
       isValid = false;
     }
 
@@ -196,10 +190,10 @@ export default function NewPc() {
     <div className="container py-5 newPc">
       <div className="form">
         <h2>{id ? "Edit Pc" : "Create Pc"}</h2>
-        <form onSubmit={handleSubmit}>
-          <Col md className="contentPc">
-            <label htmlFor="name">Name: </label>
-            <input
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3 contentPc">
+            <Form.Label htmlFor="name">Name: </Form.Label>
+            <Form.Control
               type="text"
               name="name"
               value={state.name}
@@ -208,50 +202,45 @@ export default function NewPc() {
             {errors.name_err && (
               <span className="error">{errors.name_err}</span>
             )}
-          </Col>
-          <Row>
-            <Col md className="contentPc" id="abc">
-              <label htmlFor="summary">Sumary: </label>
-              <input
-                type="text"
+          </Form.Group>
+            <Form.Group className="mb-3 contentPc" id="abc">
+              <Form.Label htmlFor="summary">Sumary: </Form.Label>
+              <Form.Control
+                type="comment"
+                rows= {3}
+                as="textarea"
                 name="summary"
                 value={state.summary}
                 onChange={handleInputChange}
               />
-              {errors.summary_err && (
-                <span className="error">{errors.summary_err}</span>
-              )}
-            </Col>
-            <Col md className="contentPc" id="abc">
-              <label htmlFor="detail">Detail: </label>
-              <input
-                type="text"
+            </Form.Group>
+            <Form.Group className="mb-3 contentPc" id="abc">
+              <Form.Label htmlFor="detail">Detail: </Form.Label>
+              <Form.Control
+                type="comment"
+                rows= {3}
+                as="textarea"
                 name="detail"
                 value={state.detail}
                 onChange={handleInputChange}
               />
-              {errors.detail_err && (
-                <span className="error">{errors.detail_err}</span>
-              )}
-            </Col>
-            <Col md className="contentPc" id="abc">
-              <label htmlFor="description">Description: </label>
-              <input
-                type="description"
+            </Form.Group>
+            <Form.Group className="mb-3 contentPc" id="abc">
+              <Form.Label htmlFor="description">Description: </Form.Label>
+              <Form.Control
+                type="comment"
+                rows= {3}
+                as="textarea"
                 name="description"
                 value={state.description}
                 onChange={handleInputChange}
               />
-              {errors.description_err && (
-                <span className="error">{errors.description_err}</span>
-              )}
-            </Col>
-          </Row>
+            </Form.Group>
 
           <Row>
-            <Col md className="contentPc">
-              <label htmlFor="price">Price: </label>
-              <input
+            <Col className="mb-3 contentPc">
+              <Form.Label htmlFor="price">Price: </Form.Label>
+              <Form.Control
                 type="number"
                 name="price"
                 value={state.price}
@@ -261,9 +250,9 @@ export default function NewPc() {
                 <span className="error">{errors.price_err}</span>
               )}
             </Col>
-            <Col md className="contentPc">
-              <label htmlFor="discount">Discount: </label>
-              <input
+            <Col className="mb-3 contentPc">
+              <Form.Label htmlFor="discount">Discount: </Form.Label>
+              <Form.Control
                 type="number"
                 name="discount"
                 value={state.discount}
@@ -273,35 +262,9 @@ export default function NewPc() {
                 <span className="error">{errors.discount_err}</span>
               )}
             </Col>
-          </Row>
-          <Row>
-            <Col md className="contentPc" id="check">
-              <div>
-                <label htmlFor="isPublic">Is Public?</label>
-                <input
-                  type="checkbox"
-                  name="isPublic"
-                  checked={state.isPublic}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </Col>
-            <Col md className="contentPc" id="check">
-              <div>
-                <label htmlFor="isTemplate">Is Template?</label>
-                <input
-                  type="checkbox"
-                  name="isTemplate"
-                  checked={state.isTemplate}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col md className="contentPc">
-              <label htmlFor="templateId">Template ID : </label>
-              <input
+            <Col className="contentPc">
+              <Form.Label htmlFor="templateId">Template ID : </Form.Label>
+              <Form.Control
                 type="number"
                 name="templateId"
                 value={state.templateId}
@@ -312,8 +275,8 @@ export default function NewPc() {
               )}
             </Col>
             <Col md className="contentPc">
-              <label htmlFor="desigBy">Design by: </label>
-              <input
+              <Form.Label htmlFor="desigBy">Design by: </Form.Label>
+              <Form.Control
                 type="number"
                 name="designBy"
                 value={state.designBy}
@@ -324,9 +287,32 @@ export default function NewPc() {
               )}
             </Col>
           </Row>
-          <Col md className="contentPc">
-            <label htmlFor="image">Image: </label>
-            <input
+          <Row>
+            <Col className="contentPc" id="check">
+                <Form.Label htmlFor="isPublic">Is Public?</Form.Label>
+                <input
+                  type="checkbox"
+                  name="isPublic"
+                  checked={state.isPublic}
+                  onChange={handleInputChange}
+                />
+            </Col>
+            <Col className="contentPc" id="check">
+                <Form.Label htmlFor="isTemplate">Is Template?</Form.Label>
+                <input
+                  type="checkbox"
+                  name="isTemplate"
+                  checked={state.isTemplate}
+                  onChange={handleInputChange}
+                />
+            </Col>
+          </Row>
+          <Row>
+            
+          </Row>
+          <Form.Group className="mb-3 contentPc">
+            <Form.Label htmlFor="image">Image: </Form.Label>
+            <Form.Control
               type="text"
               name="image"
               value={state.image}
@@ -335,11 +321,11 @@ export default function NewPc() {
             {errors.image_err && (
               <span className="error">{errors.image_err}</span>
             )}
-          </Col>
+          </Form.Group>
           <div className="form-button">
             <Button type="submit">{id ? "Update Pc" : "Create Pc"}</Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

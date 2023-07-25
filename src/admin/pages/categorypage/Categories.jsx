@@ -4,32 +4,50 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-import { getAllCategories } from "../../../redux/apiRequest";
-import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 const Component = () => {
   const URL = "https://localhost:7262/api/Category";
-  const data = useSelector((state) => state.admin.categories.category.data);
-  const dispatch = useDispatch();
-
+  const token = localStorage.getItem("tokenUser");
+  const [ data, setData ] = useState([]);
   useEffect(() => {
-    getAllCategories(dispatch);
+    getAllCategories();
   }, []);
 
+  const getAllCategories = async() => {
+    
+    await axios
+    .get(`${URL}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(function (response) {
+      setData(response.data.data);
+    })
+    .catch(function (error) {
+      console.log(error.message);
+    });
+  }
   const handleEditCellChange = (params) => {
     const { id, field, value } = params;
     data?.map((item) => (item.id === id ? { ...item, [field]: value } : item));
   };
   const handleDeleteClick = async (id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
-      try {
-        await axios.delete(`${URL}/${id}`, id);
-        getAllCategories(dispatch);
-        toast.success("Deleted Successfully ~");
-      } catch (error) {
-        toast.error("Delete: Error!");
-      }
+      await axios.delete(`${URL}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          },
+        }, id)
+        .then(function (response) {
+          getAllCategories();
+          toast.success("Deleted Successfully ~");
+        })
+        .catch(function (error) {
+          toast.error("Delete: Error!");
+          console.log(error.message);
+        });
     }
   };
 
@@ -38,7 +56,7 @@ const Component = () => {
     {
       field: "name",
       headerName: "Name",
-      width: 300,
+      width: 700,
       editable: true,
     },
     { field: "parentId", headerName: "Parent ID", width: 150, editable: true },
@@ -67,12 +85,14 @@ const Component = () => {
   ];
 
   return (
-    <div className="container py-5 category">
-      <h2 className="title">Categories List</h2>
-      <Link to="/addCategory/">
-        <button className="btn-create">Create Category</button>
-      </Link>
-
+    <div className="container py-5">
+      <h1 className="title">Categories List</h1>
+      <div className="btn">
+          <Link to="/addCategory/">
+            <button className="btn-create">Create Category</button>
+          </Link>
+      </div>
+      
       <Box sx={{ height: "60%", width: "98%", marginTop: "30px" }}>
         <div
           className="dashboard-content"
