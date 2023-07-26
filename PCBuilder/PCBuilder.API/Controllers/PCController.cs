@@ -29,7 +29,7 @@ namespace PCBuilder.API.Controllers
             return Ok(PCs);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet("GetListByAdmin")]
         public async Task<IActionResult> GetPCListByAdmin()
         {

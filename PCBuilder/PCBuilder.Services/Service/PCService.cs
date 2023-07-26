@@ -330,7 +330,7 @@ namespace PCBuilder.Services.Service
         }
         public async Task<ServiceResponse<PcDTO>> CreatePC(PcDTO pcDTO)
         {
-            ServiceResponse<PcDTO> _response = new();
+            ServiceResponse<PcDTO> _response = new ServiceResponse<PcDTO>();
 
             try
             {
@@ -358,7 +358,7 @@ namespace PCBuilder.Services.Service
         }
         public async Task<ServiceResponse<PcDTO>> UpdatePC(int ID, PcDTO pcDTO)
         {
-            ServiceResponse<PcDTO> _response = new();
+            ServiceResponse<PcDTO> _response = new ServiceResponse<PcDTO>();
 
             try
             {
@@ -374,7 +374,6 @@ namespace PCBuilder.Services.Service
 
                 var PC = _mapper.Map(pcDTO, pc);
                 var updatedPc = await _repository.UpdatePcAsync(PC);
-
                 var updatedPcDTO = _mapper.Map<PcDTO>(updatedPc);
                 _response.Success = true;
                 _response.Message = "PC updated successfully";
@@ -639,7 +638,7 @@ namespace PCBuilder.Services.Service
                 // Create a new PC based on the template
                 var newPC = new Pc
                 {
-                    Name = "New PC",
+                    Name = "Custom PC by",
                     Summary = "",
                     Detail = "",
                     Description = "",
