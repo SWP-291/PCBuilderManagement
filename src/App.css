@@ -1,3 +1,6 @@
 body {
     background-color: #6f2525; /* Replace with your desired color */
+    margin: 0px;
+    padding: 0px;
+    /* overflow: hidden; */
   }

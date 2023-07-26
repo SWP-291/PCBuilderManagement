@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "./login.scss";
 import { Button } from "react-bootstrap";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-// import axios from 'axios';
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import { loginUser } from "../../redux/apiRequest";
 import { useDispatch } from "react-redux";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const [password, setPassword] = useState("");
@@ -51,6 +52,19 @@ const Login = () => {
       <Popover.Body>Relax and try remember your password.</Popover.Body>
     </Popover>
   );
+  // login google
+  const handleGoogleLoginSuccess = async (response) => {
+    // Xử lý khi người dùng đăng nhập thành công bằng Google
+    const idToken = response.credential;
+    loginUser(idToken, dispatch, navigate);
+    
+
+  };
+
+  const handleGoogleLoginFailure = (error) => {
+    // Xử lý khi đăng nhập bằng Google thất bại
+    console.log("Google login failure: ", error);
+  };
 
   return (
     <div className="loginform">
@@ -103,6 +117,18 @@ const Login = () => {
           >
             <a href="#">Forget your password?</a>
           </OverlayTrigger>
+
+        
+          {/* Đăng nhập bằng Google */}
+          <div className='col-12'>
+            <GoogleLogin
+              clientId='888811245186-qcjo042285j46as9sf8s4u1mu59a697g.apps.googleusercontent.com'
+              buttonText='Login with Google'
+              onSuccess={handleGoogleLoginSuccess}
+              onFailure={handleGoogleLoginFailure}
+              cookiePolicy={"single_host_origin"}
+            />
+          </div>
         </form>
       </div>
     </div>

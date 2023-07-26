@@ -1,5 +1,8 @@
 .btn{
     display: flex;
+    justify-content: end;
+    align-items: end;
+    margin-bottom: 10px;
 }
   
   .btn.detail-button {
@@ -13,7 +16,8 @@
     color: 0f8698;
     border: 0.5px solid black; 
     padding: 8px 12px;
-    margin: 3px;
+    /* margin: 3px; */
+    margin-left: 20px;
   }
   
   .btn.detail-button:hover {
@@ -126,8 +130,4 @@
   width: calc(100% + 2px);
   height: 5px;
   background: rgb(88, 203, 241);
-}
-
-.btn-select {
- 
 }

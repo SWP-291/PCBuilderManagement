@@ -22,8 +22,9 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light py shadow-sm">
-      <div className="container">
+
+      <nav className="navbar navbar-expand-lg navbar-light py shadow-sm">
+      {/* <div className="container"> */}
         <NavLink className="navbar-brand" to="/">
           <img className="logo" src={logo} alt="" />
           <span className="title">FPC</span>
@@ -111,7 +112,8 @@ export default function Navbar() {
             )}
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </nav>
+    
   );
 }

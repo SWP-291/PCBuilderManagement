@@ -92,7 +92,7 @@ const Users = () => {
   return (
     <div className="container py-5">
       <h1 className="title">Users List</h1>
-      <div className="btn">
+      <div className="Createbtn">
           <Link to="/addUser/">
             <button className="btn-create">Create User</button>
           </Link>

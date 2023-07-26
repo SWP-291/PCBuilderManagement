@@ -35,21 +35,19 @@ import Component from "../admin/pages/componentpage/Components";
 import NewComponent from "../admin/pages/componentpage/NewComponent";
 import Category from "../admin/pages/categorypage/Categories";
 import NewCategory from "../admin/pages/categorypage/NewCategory";
-import Note from "../admin/pages/Note"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 const Layout = () => {
   const user = useSelector((state) => state.auth.login.currentUser);
   if (user && user.role === "Admin") {
     return (
-      <Row>
+      <Row style={{overflow: 'hidden'}}>
         <ToastContainer position="top-center" autoClose={1000} />
-        <Col sm={2}>
+        <Col sm={2} style={{margin: '0px'}}>
           <Sidebar menu={sidebar_menu} />
         </Col>
         <Col sm={10}>
           <Routes>
-            <Route path="/note" element={<Note/>}/>
             <Route path="/brands" element={<Brands />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/newOrder" element={<NewOrder />} />

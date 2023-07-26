@@ -12,50 +12,6 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { logoutUser } from "../../../redux/apiRequest";
 import { useDispatch } from "react-redux";
 
-// function Sidebar({ menu }) {
-//   const location = useLocation();
-
-//   const [active, setActive] = useState(1);
-
-//   useEffect(() => {
-//     menu.forEach((element) => {
-//       if (location.pathname === element.path) {
-//         setActive(element.id);
-//       }
-//     });
-//   }, [location.pathname]);
-
-//   const __navigate = (id) => {
-//     setActive(id);
-//   };
-
-//   return (
-//     <nav className="sidebar">
-//         <div className="sidebar-logo">
-//           <img src={logo} alt="logo" />
-//         </div>
-//           <div className="sidebar-items">
-//             {menu.map((item, index) => (
-//               <div key={index} onClick={() => __navigate(item.id)}>
-//                 <SideBarItem active={item.id === active} item={item} />
-//               </div>
-//             ))}
-//           </div>
-
-//           <div className="sidebar-footer">
-//             <span className="sidebar-item-label">Logout</span>
-//             <img
-//               src={LogoutIcon}
-//               alt="icon-logout"
-//               className="sidebar-item-icon"
-//             />
-//           </div>
-//     </nav>
-//   );
-// }
-
-// export default Sidebar;
-
 function Sidebar({ menu }) {
   const location = useLocation();
 
@@ -81,7 +37,7 @@ function Sidebar({ menu }) {
     <div className="sidebar-admin">
       {["lg"].map((expand) => (
         <Navbar key="lg" expand="lg" className="bg-body-tertiary mb-3">
-          <Container fluid>
+          <Container fluid className="content">
             <Navbar.Brand href="#"></Navbar.Brand>
             <Navbar.Toggle aria-controls="offcanvasNavbar-expand-lg" />
             <Navbar.Offcanvas
@@ -96,16 +52,19 @@ function Sidebar({ menu }) {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <div className="sidebar">
-                  <div className="sidebar-logo">
-                    <img src={logo} alt="logo" />
-                  </div>
-                  <div className="sidebar-items">
-                    {menu.map((item, index) => (
-                      <div key={index} onClick={() => __navigate(item.id)}>
-                        <SideBarItem active={item.id === active} item={item} />
+                  <div className="sidebar-menu">
+                      <div className="sidebar-logo">
+                        <img src={logo} alt="logo" />
                       </div>
-                    ))}
+                      <div className="sidebar-items">
+                        {menu.map((item, index) => (
+                          <div key={index} onClick={() => __navigate(item.id)}>
+                            <SideBarItem active={item.id === active} item={item} />
+                          </div>
+                        ))}
+                      </div>
                   </div>
+                  
 
                   <div className="sidebar-footer" onClick={handleLogout}>
                     <span className="sidebar-item-label">Logout</span>

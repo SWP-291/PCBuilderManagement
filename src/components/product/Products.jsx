@@ -3,6 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./product.css";
 import axios from "axios";
+import { Row } from "react-bootstrap";
 
 export default function Products() {
   const [data, setData] = useState([]);
@@ -98,7 +99,7 @@ export default function Products() {
       if (product.isTemplate) {
         return (
           <>
-            <div className="button container">
+            <div className="button">
               <NavLink
                 to={`/PCDetail/${product.id}`}
                 className="btn detail-button"
@@ -134,7 +135,6 @@ export default function Products() {
                       src={pro.image}
                       className="card-img-top"
                       alt={pro.name}
-                      height="250px"
                     />
 
                     <div className="card-body d-flex flex-column">
@@ -162,7 +162,7 @@ export default function Products() {
   return (
     <div>
       <div className="hero">
-        <div className="container my-5 py-5">
+        <Row className="justify-content-md-center">
           <div className="row">
             <div className="col-12 mb-5">
               <h1 className="display-6 text-center fw-bold animated-text">
@@ -183,7 +183,7 @@ export default function Products() {
             </div>
           </div>
           {loading ? <Loading /> : <ShowProducts />}
-        </div>
+        </Row>
       </div>
     </div>
   );

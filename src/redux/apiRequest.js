@@ -73,13 +73,7 @@ export const loginUser = async (user, dispatch, navigate) => {
       toast.success(response.data.message);
       
       if (decodedUser.role === "Admin") {
-        // getAllPc(dispatch);
-        // getAllComponents(dispatch);
-        // getAllCategories(dispatch);
-        // getAllUsers(dispatch);
-        // getAllBrands(dispatch);
-        // getAllOrders(dispatch);
-        navigate("/note");
+        navigate("/pc");
       } else if (decodedUser.role === "Customer") {
         getAllListPc(dispatch);
         dispatch(getDataSuccess(decodedUser));
@@ -92,6 +86,37 @@ export const loginUser = async (user, dispatch, navigate) => {
       toast.error(error.response.data.message);
     });
 };
+
+export const loginGoogle = async (idToken, dispatch, navigate) => {
+      await axios.post(
+      "https://localhost:7262/api/Authenticate/google-login",
+      { idToken }
+    )
+      .then(function (response) {
+        toast.success("Login Successfully ~");
+        console.log('token: ',response);
+        // navigate("/");
+      })
+      .catch(function (error) {
+        toast.error("Login Error!");
+        console.log(error.message);
+      });
+
+    try {
+      // Gửi idToken đến backend bằng HTTP request (sử dụng Axios hoặc fetch)
+      const response = await axios.post(
+        "https://localhost:7262/api/Authenticate/google-login",
+        { idToken }
+      );
+
+      // Xử lý kết quả trả về từ backend (response.data)
+      // Ví dụ, có thể lưu thông tin người dùng vào trạng thái ứng dụng
+    } catch (error) {
+      // Xử lý lỗi khi gửi yêu cầu đến backend
+      console.log("Error sending idToken to server:", error);
+    }
+}
+
 export const logoutUser = async (dispatch, navigate) => {
   try {
     localStorage.removeItem("currentUser");

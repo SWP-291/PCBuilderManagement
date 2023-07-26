@@ -56,7 +56,7 @@ const Component = () => {
     {
       field: "name",
       headerName: "Name",
-      width: 700,
+      width: 600,
       editable: true,
     },
     { field: "parentId", headerName: "Parent ID", width: 150, editable: true },
@@ -87,7 +87,7 @@ const Component = () => {
   return (
     <div className="container py-5">
       <h1 className="title">Categories List</h1>
-      <div className="btn">
+      <div className="Createbtn">
           <Link to="/addCategory/">
             <button className="btn-create">Create Category</button>
           </Link>

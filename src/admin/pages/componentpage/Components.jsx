@@ -107,7 +107,7 @@ const Components = () => {
   return (
     <div className="container py-5">
       <h1 className="title">Components List</h1>
-      <div className="btn">
+      <div className="Createbtn">
           <Link to="/addComponent/">
             <button className="btn-create">Create Component</button>
           </Link>

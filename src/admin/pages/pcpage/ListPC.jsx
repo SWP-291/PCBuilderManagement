@@ -57,7 +57,7 @@ const ListPC = () => {
   return (
     <div className="container py-5 listPc">
       <h1 className="title"> PCs List </h1>
-      <div className="btn">
+      <div className="Createbtn">
         <Link to="/addPc/">
           <button className="btn-create">Create PC</button>
         </Link>
