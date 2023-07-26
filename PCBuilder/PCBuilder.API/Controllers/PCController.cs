@@ -174,7 +174,7 @@ namespace PCBuilder.API.Controllers
 
             return Ok(response);
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpDelete("{id}/DeletePCWithComponent")]
         public async Task<IActionResult> DeletePCWithComponent(int id)
         {

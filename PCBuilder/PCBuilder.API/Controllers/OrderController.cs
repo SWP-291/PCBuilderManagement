@@ -39,6 +39,19 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
+        [HttpPost("CreateOrderWithPayment")]
+        public async Task<IActionResult> CreateOrderWithPayment([FromBody] OrderPaymentDTO orderDTO)
+        {
+            var response = await _orderServices.CreateOrderWithPayment(orderDTO);
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] OrderDTO orderDTO)
         {

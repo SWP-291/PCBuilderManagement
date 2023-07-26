@@ -17,16 +17,20 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<OrderDTO>> CreateOrder(OrderDTO orderDTO);
         Task<ServiceResponse<OrderDTO>> UpdateOrder(int id, OrderDTO orderDTO);
         Task<ServiceResponse<bool>> DeleteOrder(int orderId);
+
+        Task<ServiceResponse<OrderPaymentDTO>> CreateOrderWithPayment(OrderPaymentDTO orderPaymentDTO);
     }
     public class OrderService : IOrderServices
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
+        private readonly IPaymentRepository _paymentRepository;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper)
+        public OrderService(IOrderRepository orderRepository, IMapper mapper, IPaymentRepository paymentRepository)
         {
             this._orderRepository = orderRepository;
             this._mapper = mapper;
+            this._paymentRepository = paymentRepository;
         }
 
         public async Task<ServiceResponse<OrderDTO>> GetOrderById(int orderId)
@@ -106,6 +110,7 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
+        
 
         public async Task<ServiceResponse<OrderDTO>> UpdateOrder(int id, OrderDTO orderDTO)
         {
@@ -168,6 +173,43 @@ namespace PCBuilder.Services.Service
             }
 
             return response;
+        }
+
+        public async Task<ServiceResponse<OrderPaymentDTO>> CreateOrderWithPayment(OrderPaymentDTO orderPaymentDTO)
+        {
+            ServiceResponse<OrderPaymentDTO> response = new ServiceResponse<OrderPaymentDTO>();
+
+
+            try
+            {
+                
+
+                var payment = _mapper.Map<Payment>(orderPaymentDTO.PaymentDTO);
+                var paymentDTO = await _paymentRepository.CreatePaymentAsync(payment);
+                var createPayment = _mapper.Map<PaymentDTO>(paymentDTO);
+
+                orderPaymentDTO.PaymentDTO = createPayment;
+                orderPaymentDTO.PaymentId = createPayment.Id;
+
+                var orderPayment = _mapper.Map<Order>(orderPaymentDTO);
+                var orderDTO = await _orderRepository.CreateOrderAsync(orderPayment);
+                var createOrder = _mapper.Map<OrderPaymentDTO>(orderDTO);
+                createOrder.PaymentDTO = createPayment;
+
+
+                response.Data = createOrder;
+                response.Success = true;
+                response.Message = "Order create successfully";
+
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return  response;
         }
     }
 }
