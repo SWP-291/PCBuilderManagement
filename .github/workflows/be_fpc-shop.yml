@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'fpc-shop'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B13D6C16AC044CBAB85A9473F1E6178C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4666764B37E34D9FA2384453333A28CA }}
           package: .
