@@ -52,6 +52,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'fpc-shop'
-          slot-name: 'Production'
+          slot-name: 'fpc-shop'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B96246DAE73E4CC4973401E4C24B2685 }}
           package: .
