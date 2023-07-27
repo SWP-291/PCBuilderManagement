@@ -43,8 +43,9 @@ export const loginUser = async (user, dispatch, navigate) => {
       // localStorage.setItem("refreshToken", response.data.token.refreshToken);
       // localStorage.setItem("expiresIn", response.data.token.expiresIn);
       // toast.success(response.data.message);
-      
       const token = response.data.token.token;
+
+      localStorage.setItem('idUser',response.data.token.userDTO.id);
       
       // const currentUser = response.data.token.userDTO;
       const decodedUser = jwt(token); // Decode the token
