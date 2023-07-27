@@ -32,7 +32,7 @@ namespace PCBuilder.Services.Service
         Task<ServiceResponse<List<PcDTO>>> SearchPCsByName(String name);
         Task<ServiceResponse<List<PCInformationDTO>>> GetPCComponent();
         Task<ServiceResponse<PCInformationDTO>> GetPCComponentByID(int pcId);
-        Task<ServiceResponse<PCInformationDTO>> AddComponentsToPC(int pcId, List<int> componentIds);
+        Task<ServiceResponse<PcAddComponentDTO>> CreatePCAndAddComponentsToPCByAdmin(PcAddComponentDTO pcAddComponentDTO);
         Task<ServiceResponse<PCInformationDTO>> UpdateComponentsOfPC(int pcId, List<int> componentIds);
         Task<ServiceResponse<PCInformationDTO>> CreatePCWithComponentsFromTemplate(int templateId, List<int> componentIds);
         Task<ServiceResponse<bool>> DeletePCWithComponent(int pcId);
@@ -444,36 +444,39 @@ namespace PCBuilder.Services.Service
             return _response;
         }
 
-        public async Task<ServiceResponse<PCInformationDTO>> AddComponentsToPC(int pcId, List<int> componentIds)
+        public async Task<ServiceResponse<PcAddComponentDTO>> CreatePCAndAddComponentsToPCByAdmin(PcAddComponentDTO pcAddComponentDTO)
         {
-            ServiceResponse<PCInformationDTO> response = new ServiceResponse<PCInformationDTO>();
+            ServiceResponse<PcAddComponentDTO> response = new ServiceResponse<PcAddComponentDTO>();
 
             try
             {
 
                 // Fetch the PC from the database
-                var pc = await _repository.GetPcsByIdAsync(pcId);
-                if (pc == null)
-                {
-                    response.Success = false;
-                    response.Message = "PC not found";
-                    return response;
-                }
+
+
+                var pc = _mapper.Map<Pc>(pcAddComponentDTO);
+
+
+                var createdPc = await _repository.CreatePcAsync(pc);
+
+
+
+
                 //if (pc.IsTemplate == true)
                 //{
                 //    response.Success = false;
                 //    response.Message = "PC Not Custom";
                 //    return response;
                 //}
-                
+
 
                 // Fetch the existing components from the database based on the IDs
-                var listComponents = await _pcComponentRepository.GetComponentsByIdsAsync(componentIds);
-                if (pc == null || listComponents == null)
+                var listComponents = await _componentRepository.GetComponentsByIdsAsync(pcAddComponentDTO.Components);
+                if (listComponents == null)
                 {
                     response.Success = false;
                     response.Message = "PC or component not found.";
-                    return response;
+
                 }
                 var newComponents = new List<ComponentDTO>();
                 // Create a PC_Component entity for each existing component
@@ -483,7 +486,7 @@ namespace PCBuilder.Services.Service
                     var pcComponent = new PcComponent
                     {
                         ComponentId = component.Id,
-                        PcId = pc.Id,
+                        PcId = createdPc.Id,
                         Quantity = 1,
 
                     };
@@ -502,20 +505,20 @@ namespace PCBuilder.Services.Service
 
                     newComponents.Add(componentDTO);
                 }
-                pc.IsPublic = true;
-                pc.IsTemplate = true;
+                createdPc.IsPublic = true;
+                createdPc.IsTemplate = true;
                 var totalPrice = listComponents.Select(c => c.Price);
-                pc.Price = totalPrice.Sum();
-                pc.DesignBy = 3;
+                createdPc.Price = (decimal)totalPrice.Sum();
+                createdPc.DesignBy = 3;
 
-                pc.Description += string.Join("|", listComponents.Select(c => c.Description));
-                pc.Summary += string.Join("|", listComponents.Select(c => c.Summary));
-                pc.Detail += string.Join(". ", listComponents.Select(c => c.Name));
+                createdPc.Description += string.Join("|", listComponents.Select(c => c.Description));
+                createdPc.Summary += string.Join("|", listComponents.Select(c => c.Summary));
+                createdPc.Detail += string.Join(". ", listComponents.Select(c => c.Name));
 
                 // Add the PC_Component entities to the database
                 // Update the response with success message and PC DTO
-                var pcDTO = _mapper.Map<PCInformationDTO>(pc);
-                pcDTO.Components = newComponents;
+                var pcDTO = _mapper.Map<PcAddComponentDTO>(createdPc);
+                pcDTO.Components = pcAddComponentDTO.Components;
                 response.Success = true;
                 response.Message = "Components added to PC successfully";
                 response.Data = pcDTO;

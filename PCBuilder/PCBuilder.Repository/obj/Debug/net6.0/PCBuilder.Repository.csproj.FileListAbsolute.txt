@@ -124,3 +124,17 @@ T:/LearnSpace/Git Manager/BE-PC/PCBuilderManagement/PCBuilder/PCBuilder.Reposito
 /Users/thinhtran/Desktop/PCBuider_BE_BACKUP/PCBuilderManagement/PCBuilder/PCBuilder.Repository/obj/Debug/net6.0/PCBuilder.Repository.pdb
 /Users/thinhtran/Desktop/PCBuider_BE_BACKUP/PCBuilderManagement/PCBuilder/PCBuilder.Repository/obj/Debug/net6.0/PCBuilder.Repository.genruntimeconfig.cache
 /Users/thinhtran/Desktop/PCBuider_BE_BACKUP/PCBuilderManagement/PCBuilder/PCBuilder.Repository/obj/Debug/net6.0/ref/PCBuilder.Repository.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\bin\Debug\net6.0\PCBuilder.Repository.deps.json
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\bin\Debug\net6.0\PCBuilder.Repository.runtimeconfig.json
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\bin\Debug\net6.0\PCBuilder.Repository.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\bin\Debug\net6.0\PCBuilder.Repository.pdb
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\obj\Debug\net6.0\PCBuilder.Repository.csproj.AssemblyReference.cache
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\obj\Debug\net6.0\PCBuilder.Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\obj\Debug\net6.0\PCBuilder.Repository.AssemblyInfoInputs.cache
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\obj\Debug\net6.0\PCBuilder.Repository.AssemblyInfo.cs
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\obj\Debug\net6.0\PCBuilder.Repository.csproj.CoreCompileInputs.cache
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\obj\Debug\net6.0\PCBuilder.Repository.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\obj\Debug\net6.0\refint\PCBuilder.Repository.dll
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\obj\Debug\net6.0\PCBuilder.Repository.pdb
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\obj\Debug\net6.0\PCBuilder.Repository.genruntimeconfig.cache
+D:\FreeCourseOnline\freecourse-webapi-net5\PCBuilderManagement\PCBuilder\PCBuilder.Repository\obj\Debug\net6.0\ref\PCBuilder.Repository.dll

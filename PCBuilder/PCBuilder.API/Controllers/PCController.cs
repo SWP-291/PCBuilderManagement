@@ -122,10 +122,10 @@ namespace PCBuilder.API.Controllers
 
             return Ok(response);
         }
-        [HttpPost("{PcId}/AddComponents")]
-        public async Task<IActionResult> AddComponentsToPC(int PcId, List<int> componentIds)
+        [HttpPost("CreatePCAndAddComponentsToPCByAdmin")]
+        public async Task<IActionResult> CreatePCAndAddComponentsToPCByAdmin(PcAddComponentDTO pcDTO)
         {
-            var response = await _IPCServices.AddComponentsToPC(PcId, componentIds);
+            var response = await _IPCServices.CreatePCAndAddComponentsToPCByAdmin(pcDTO);
 
             if (!response.Success)
             {
