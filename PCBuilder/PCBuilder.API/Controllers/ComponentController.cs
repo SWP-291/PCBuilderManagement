@@ -43,7 +43,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Admin, Employee")]
+        //[Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         public async Task<IActionResult> CreateComponent([FromBody] ComponentDTO componentDTO)
         {
@@ -57,7 +57,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Admin, Employee")]
+        //[Authorize(Roles = "Admin, Employee")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateComponent(int id, [FromBody] ComponentDTO componentDTO)
         {
@@ -82,7 +82,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Admin, Employee")]
+        //[Authorize(Roles = "Admin, Employee")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComponent(int id)
         {

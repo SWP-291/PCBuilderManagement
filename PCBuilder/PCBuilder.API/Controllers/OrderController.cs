@@ -79,7 +79,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Admin, Employee")]
+        //[Authorize(Roles = "Admin, Employee")]
         [HttpPut("{orderId}")]
         public async Task<IActionResult> UpdateOrder(int orderId, [FromBody] OrderDTO orderDTO)
         {
@@ -94,7 +94,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Admin, Employee")]
+        //[Authorize(Roles = "Admin, Employee")]
         [HttpDelete("{orderId}")]
         public async Task<IActionResult> DeleteOrder(int orderId)
         {

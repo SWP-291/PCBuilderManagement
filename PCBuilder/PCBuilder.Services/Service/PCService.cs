@@ -514,6 +514,7 @@ namespace PCBuilder.Services.Service
                 createdPc.Description += string.Join("|", listComponents.Select(c => c.Description));
                 createdPc.Summary += string.Join("|", listComponents.Select(c => c.Summary));
                 createdPc.Detail += string.Join(". ", listComponents.Select(c => c.Name));
+                await _repository.UpdatePcAsync(createdPc);
 
                 // Add the PC_Component entities to the database
                 // Update the response with success message and PC DTO
@@ -641,7 +642,7 @@ namespace PCBuilder.Services.Service
                 // Create a new PC based on the template
                 var newPC = new Pc
                 {
-                    Name = "Custom PC by",
+                    Name = "Custom PC by Customer",
                     Summary = "",
                     Detail = "",
                     Description = "",
@@ -704,7 +705,7 @@ namespace PCBuilder.Services.Service
                 newPC.Description = string.Join("|", componentDecription);
                 var componentSummary = newComponents.Select(c => c.Summary);
                 newPC.Summary = string.Join("|", componentSummary);
-                _repository.UpdatePcAsync(newPC);
+                await _repository.UpdatePcAsync(newPC);
 
                 // Save the new PC to the database
                 // Code here to save the new PC to your database

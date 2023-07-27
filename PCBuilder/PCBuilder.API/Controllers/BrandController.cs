@@ -39,7 +39,7 @@ namespace PCBuilder.API.Controllers
             return Ok(brand);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateBrand(BrandDTO brandDTO)
         {
@@ -53,7 +53,7 @@ namespace PCBuilder.API.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBrand(int id, BrandDTO brandDTO)
         {
@@ -72,7 +72,7 @@ namespace PCBuilder.API.Controllers
             return BadRequest(response.Message);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBrand(int id)
         {

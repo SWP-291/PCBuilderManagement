@@ -13,7 +13,7 @@ namespace PCBuilder.Services.Service
     public interface IOrderServices
     {
         Task<ServiceResponse<OrderDTO>> GetOrderById(int orderId);
-        Task<ServiceResponse<List<OrderPaymentDTO>>> GetOrderByUserId(int userId);
+        Task<ServiceResponse<List<OrderDetailDTO>>> GetOrderByUserId(int userId);
         Task<ServiceResponse<List<OrderDTO>>> GetAllOrders();
         Task<ServiceResponse<OrderDTO>> CreateOrder(OrderDTO orderDTO);
         Task<ServiceResponse<OrderDTO>> UpdateOrder(int id, OrderDTO orderDTO);
@@ -213,9 +213,9 @@ namespace PCBuilder.Services.Service
             return response;
         }
 
-        public async Task<ServiceResponse<List<OrderPaymentDTO>>> GetOrderByUserId(int userId)
+        public async Task<ServiceResponse<List<OrderDetailDTO>>> GetOrderByUserId(int userId)
         {
-            var response = new ServiceResponse<List<OrderPaymentDTO>>();
+            var response = new ServiceResponse<List<OrderDetailDTO>>();
 
             try
             {
@@ -238,7 +238,7 @@ namespace PCBuilder.Services.Service
                     return response;
                 }
 
-                var orderDTOs = new List<OrderPaymentDTO>();
+                var orderDTOs = new List<OrderDetailDTO>();
                 foreach (var order in orders)
                 {
                     int paymentId = order.PaymentId;
@@ -247,7 +247,7 @@ namespace PCBuilder.Services.Service
                     var payment = await _paymentRepository.GetPaymentByIdAsync(paymentId);
                     var pc = await _pcRepository.GetPcsByIdAsync(pcId);
 
-                    var OrderDTO = new OrderPaymentDTO
+                    var OrderDTO = new OrderDetailDTO
                     {
                         Id = order.Id,
                         OrderDate = order.OrderDate,

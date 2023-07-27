@@ -37,7 +37,7 @@ namespace PCBuilder.API.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO userDTO)
         {
@@ -53,7 +53,7 @@ namespace PCBuilder.API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO userDTO)
         {

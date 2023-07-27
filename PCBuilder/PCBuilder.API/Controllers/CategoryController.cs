@@ -36,7 +36,7 @@ namespace PCBuilder.API.Controllers
             return Ok(category);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryDTO categoryDTO)
         {
@@ -50,7 +50,7 @@ namespace PCBuilder.API.Controllers
             return Ok(createdCategory);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, CategoryDTO categoryDTO)
         {
@@ -64,7 +64,7 @@ namespace PCBuilder.API.Controllers
             return Ok(updatedCategory);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
