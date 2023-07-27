@@ -13,7 +13,7 @@ namespace PCBuilder.Repository.Repository
         Task<Order> CreateOrderAsync(Order order);
         Task<Order> UpdateOrderAsync(Order order);
         Task<bool> DeleteOrderAsync(int orderId);
-        Task<Order> GetOrderByUserIdAsync(int userId);
+        Task<List<Order>> GetOrderByUserIdAsync(int userId);
 
     }
 
@@ -30,9 +30,12 @@ namespace PCBuilder.Repository.Repository
         {
             return await _dbContext.Orders.FindAsync(orderId);
         }
-        public async Task<Order> GetOrderByUserIdAsync(int userId)
+        public async Task<List<Order>> GetOrderByUserIdAsync(int userId)
         {
-            return await _dbContext.Orders.FirstOrDefaultAsync(o => o.UserId == userId);
+            var orders = await _dbContext.Orders
+                                .Where(o => o.UserId == userId)
+                                .ToListAsync();
+            return orders;
         }
 
         public async Task<List<Order>> GetAllOrdersAsync()

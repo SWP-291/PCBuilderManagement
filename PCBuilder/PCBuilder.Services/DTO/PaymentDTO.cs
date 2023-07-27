@@ -10,14 +10,14 @@ namespace PCBuilder.Services.DTO
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public decimal Amount { get; set; }
+        public decimal? Amount { get; set; }
 
         public long Code { get; set; }
 
-        public string PaymentMode { get; set; }
+        public string? PaymentMode { get; set; }
 
-        public string PaymentTime { get; set; }
+        public string? PaymentTime { get; set; }
     }
 }

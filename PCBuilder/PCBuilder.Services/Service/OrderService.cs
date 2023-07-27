@@ -13,7 +13,7 @@ namespace PCBuilder.Services.Service
     public interface IOrderServices
     {
         Task<ServiceResponse<OrderDTO>> GetOrderById(int orderId);
-        Task<ServiceResponse<OrderPaymentDTO>> GetOrderByUserId(int userId);
+        Task<ServiceResponse<List<OrderPaymentDTO>>> GetOrderByUserId(int userId);
         Task<ServiceResponse<List<OrderDTO>>> GetAllOrders();
         Task<ServiceResponse<OrderDTO>> CreateOrder(OrderDTO orderDTO);
         Task<ServiceResponse<OrderDTO>> UpdateOrder(int id, OrderDTO orderDTO);
@@ -71,7 +71,7 @@ namespace PCBuilder.Services.Service
 
         public async Task<ServiceResponse<List<OrderDTO>>> GetAllOrders()
         {
-            ServiceResponse<List<OrderDTO>> response = new ServiceResponse<List<OrderDTO>>();
+            var response = new ServiceResponse<List<OrderDTO>>();
 
             try
             {
@@ -213,43 +213,93 @@ namespace PCBuilder.Services.Service
             return response;
         }
 
-        public async Task<ServiceResponse<OrderPaymentDTO>> GetOrderByUserId(int userId)
+        public async Task<ServiceResponse<List<OrderPaymentDTO>>> GetOrderByUserId(int userId)
         {
-            var response = new ServiceResponse<OrderPaymentDTO>();
+            var response = new ServiceResponse<List<OrderPaymentDTO>>();
 
             try
             {
-                var order = await _orderRepository.GetOrderByUserIdAsync(userId);
-
-                if (order == null)
-                {
-                    response.Success = false;
-                    response.Message = "Order not found.";
-                    return response;
-                }
-                int paymentId = order.PaymentId;
-                int pcId = order.PcId;
-
-                var payment = await _paymentRepository.GetPaymentByIdAsync(paymentId);
-                var pc = await _pcRepository.GetPcsByIdAsync(pcId);
+                // Fetch user data once since it's the same for all orders
                 var user = await _userRepository.GetUserByIdAsync(userId);
 
-                var OrderDTO = _mapper.Map<OrderPaymentDTO>(order);
-
-                if (payment != null && pc != null && user != null)
+                if (user == null)
                 {
-                    var paymentDTO = _mapper.Map<PaymentDTO>(payment);
-                    var userDTO = _mapper.Map<UserDTO>(user);
-                    var pcDTO = _mapper.Map<PcDTO>(pc);
-
-                    OrderDTO.PaymentDTO = paymentDTO;
-                    OrderDTO.userDTO = userDTO;
-                    OrderDTO.pcDTO = pcDTO;
+                    response.Success = false;
+                    response.Message = "User not found.";
+                    return response;
                 }
 
-                response.Data = OrderDTO;
+                var orders = await _orderRepository.GetOrderByUserIdAsync(userId);
+
+                if (orders == null)
+                {
+                    response.Success = false;
+                    response.Message = "No orders found for the given user.";
+                    return response;
+                }
+
+                var orderDTOs = new List<OrderPaymentDTO>();
+                foreach (var order in orders)
+                {
+                    int paymentId = order.PaymentId;
+                    int pcId = order.PcId;
+
+                    var payment = await _paymentRepository.GetPaymentByIdAsync(paymentId);
+                    var pc = await _pcRepository.GetPcsByIdAsync(pcId);
+
+                    var OrderDTO = new OrderPaymentDTO
+                    {
+                        Id = order.Id,
+                        OrderDate = order.OrderDate,
+                        Amount = order.Amount,
+                        StatusId = order.StatusId,
+                    };
+
+                    if (payment != null && pc != null)
+                    {
+                        var paymentDTO = new PaymentDTO
+                        {
+                            Id = payment.Id,
+                            Name = payment.Name,
+                            Amount = payment.Amount,
+                            Code = payment.Code,
+                            PaymentMode = payment.PaymentMode,
+                            PaymentTime = payment.PaymentTime
+                        };
+                        var pcDTO = new PcDTO
+                        {
+                            Id = pc.Id,
+                            Name = pc.Name,
+                            Summary = pc.Summary,
+                            Detail = pc.Detail,
+                            Price = pc.Price,
+                            Discount = pc.Discount,
+                            Image = pc.Image
+                        };
+
+                        OrderDTO.PaymentDTO = paymentDTO;
+                        OrderDTO.pcDTO = pcDTO;
+                    }
+
+                    // Use the user data fetched earlier
+                    OrderDTO.userDTO = new UserDTO()
+                    {
+                        Id = user.Id,
+                        Fullname = user.Fullname,
+                        Email = user.Email,
+                        Phone = user.Phone,
+                        Country = user.Country,
+                        Gender = user.Gender,
+                        Address = user.Address,
+                        Avatar = user.Avatar
+                    };
+
+                    orderDTOs.Add(OrderDTO);
+                }
+
+                response.Data = orderDTOs;
                 response.Success = true;
-                response.Message = "Order retrieved successfully";
+                response.Message = "Orders retrieved successfully";
             }
             catch (Exception ex)
             {
@@ -257,6 +307,7 @@ namespace PCBuilder.Services.Service
                 response.Message = "Error";
                 response.ErrorMessages = new List<string> { ex.Message };
             }
+
             return response;
         }
     }
