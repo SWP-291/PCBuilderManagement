@@ -43,12 +43,14 @@ export const loginUser = async (user, dispatch, navigate) => {
       // toast.success(response.data.message);
 
       const token = response.data.token.token;
-
+      localStorage.setItem("idUser", response.data.token.userDTO.id);
       // const currentUser = response.data.token.userDTO;
       const decodedUser = jwt(token); // Decode the token
       // console.log(decodedUser);
+
       const refreshToken = response.data.token.refreshToken;
       const expiresIn = response.data.token.expiresIn;
+
       localStorage.setItem("currentUser", JSON.stringify(decodedUser));
       localStorage.setItem("tokenUser", token);
       localStorage.setItem("refreshToken", refreshToken);
@@ -80,20 +82,38 @@ export const loginUser = async (user, dispatch, navigate) => {
         navigate("/pc");
       } else if (decodedUser.role === "Customer") {
         navigate("/");
-      } else {
-        toast.error("Unauthorized access");
       }
     })
     .catch(function (error) {
       toast.error(error.response.data.message);
     });
 };
+export const loginGoogle = async (idToken, dispatch, navigate) => {
+  await axios
+    .post("https://localhost:7262/api/Authenticate/google-login", { idToken })
+    .then(function (response) {
+      console.log("res: ", response);
+      dispatch(loginSuccess(response.data.token.token));
+      localStorage.setItem("idUser", response.data.token.userDTO.id);
+      localStorage.setItem("tokenUser", response.data.token.token);
+      localStorage.setItem("refreshToken", response.data.token.refreshToken);
+      localStorage.setItem("expiresIn", response.data.token.expiresIn);
+      toast.success("Login Successfully ~");
+      navigate("/");
+    })
+    .catch(function (error) {
+      toast.error("Login Error!");
+      console.log(error);
+    });
+};
+
 export const logoutUser = async (dispatch, navigate) => {
   try {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("tokenUser");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("expriresIn");
+    localStorage.removeItem("idUser");
 
     dispatch(logoutSuccess());
     navigate("/home");

@@ -12,6 +12,7 @@
     "@mui/styled-engine": "^5.13.2",
     "@mui/x-data-grid": "^6.10.0",
     "@react-icons/all-files": "^4.1.0",
+    "@react-oauth/google": "^0.11.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@syncfusion/ej2-react-grids": "^21.2.10",
     "@testing-library/jest-dom": "^5.16.5",

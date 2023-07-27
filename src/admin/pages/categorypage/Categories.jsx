@@ -6,7 +6,7 @@ import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
 import { toast } from "react-toastify";
 import axios from "axios";
-const Component = () => {
+const Categories = () => {
   const URL = "https://localhost:7262/api/Category";
   const token = localStorage.getItem("tokenUser");
   const [data, setData] = useState([]);
@@ -89,7 +89,7 @@ const Component = () => {
   ];
 
   return (
-    <div className="container py-5">
+    <div className="layout">
       <h1 className="title">Categories List</h1>
       <div className="Createbtn">
         <Link to="/addCategory/">
@@ -127,4 +127,4 @@ const Component = () => {
   );
 };
 
-export default Component;
+export default Categories;

@@ -1,96 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-
 import SideBarItem from "./sidebar-item";
 
-import "./Sidebar.scss";
-import logo from "../../assets/images/logo.png";
-import LogoutIcon from "../../assets/icons/logout.svg";
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import { logoutUser } from "../../../redux/apiRequest";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+function Sidebar() {
+  const menu = [
+    { id: 1, label: "PC", icon: "fa-desktop", path: "/pc" },
+    { id: 2, label: "Brand", icon: "fa-tag", path: "/brands" },
 
-function Sidebar({ menu }) {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const [active, setActive] = useState(1);
-  const dispatch = useDispatch();
-
-  const handleLogout = async () => {
-    try {
-      await logoutUser(dispatch, navigate);
-    } catch (error) {
-      // Handle any unexpected errors during logout (optional).
-      console.error("Logout failed due to unexpected error:", error);
-    }
-  };
-
-  useEffect(() => {
-    menu.forEach((element) => {
-      if (location.pathname === element.path) {
-        setActive(element.id);
-      }
-    });
-  }, [location.pathname]);
-
-  const __navigate = (id) => {
-    setActive(id);
-  };
-  return (
-    <div className="sidebar-admin">
-      {["lg"].map((expand) => (
-        <Navbar key="lg" expand="lg" className="bg-body-tertiary mb-3">
-          <Container fluid className="content">
-            <Navbar.Brand href="#"></Navbar.Brand>
-            <Navbar.Toggle aria-controls="offcanvasNavbar-expand-lg" />
-            <Navbar.Offcanvas
-              id="offcanvasNavbar-expand-lg"
-              aria-labelledby="offcanvasNavbarLabel-expand-lg"
-              placement="start"
-            >
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Header id="offcanvasNavbarLabel-expand-lg">
-                  Menu
-                </Offcanvas.Header>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                <div className="sidebar">
-                  <div className="sidebar-menu">
-                    <div className="sidebar-logo">
-                      <img src={logo} alt="logo" />
-                    </div>
-                    <div className="sidebar-items">
-                      {menu.map((item, index) => (
-                        <div key={index} onClick={() => __navigate(item.id)}>
-                          <SideBarItem
-                            active={item.id === active}
-                            item={item}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="sidebar-footer" onClick={handleLogout}>
-                    <span className="sidebar-item-label">Logout</span>
-                    <img
-                      src={LogoutIcon}
-                      alt="icon-logout"
-                      className="sidebar-item-icon"
-                    />
-                  </div>
-                </div>
-              </Offcanvas.Body>
-            </Navbar.Offcanvas>
-          </Container>
-        </Navbar>
-      ))}
-    </div>
-  );
+    { id: 3, label: "Order", icon: "fa-shopping-cart", path: "/orders" },
+    { id: 4, label: "User", icon: "fa-user", path: "/users" },
+    { id: 5, label: "Component", icon: "fa-cube", path: "/components" },
+    { id: 6, label: "Category", icon: "fa-folder", path: "/category" },
+  ];
+  return <SideBarItem menu={menu} />;
 }
 
 export default Sidebar;

@@ -1,135 +1,344 @@
-import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
-import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
-import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
+import "./newUser.scss";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
-const Users = () => {
+import { toast } from "react-toastify";
+import { Button, Col, Form, Row } from "react-bootstrap";
+const NewUser = () => {
   const URL = "https://localhost:7262/api/User";
   const token = localStorage.getItem("tokenUser");
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    getAllUsers();
-  }, []);
+  const initialState = {
+    fullname: "",
+    email: "",
+    phone: "",
+    country: "",
+    gender: "",
+    password: "",
+    address: "",
+    avatar: "",
+    isActive: false,
+    roleId: "",
+  };
 
-  const getAllUsers = async () => {
+  const error_init = {
+    fullname_err: "",
+    email_err: "",
+    password_err: "",
+    roleId_err: "",
+  };
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [state, setState] = useState(initialState);
+  const {
+    fullname,
+    email,
+    phone,
+    country,
+    gender,
+    password,
+    address,
+    avatar,
+    isActive,
+    roleId,
+  } = state;
+  const [errors, setErrors] = useState(error_init);
+
+  useEffect(() => {
+    if (id) {
+      getOneUser(id);
+    }
+  }, [id]);
+
+  // Function to fetch and set the User data
+  const getOneUser = async (id) => {
     await axios
-      .get(`${URL}`, {
+      .get(
+        `${URL}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        id
+      )
+      .then(function (response) {
+        if (
+          response.request.status === 200 ||
+          response.request.status === 201
+        ) {
+          setState(response.data.data);
+        }
+      })
+      .catch(function (error) {
+        console.error("Fetch user data failed:", error);
+      });
+  };
+  const updateUser = async (userId, data) => {
+    await axios
+      .put(`${URL}/${userId}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(function (response) {
-        setData(response.data.data);
+        if (
+          response.request.status === 200 ||
+          response.request.status === 201
+        ) {
+          toast.success(`Updated user successfully ~`);
+          navigate("/users");
+        }
       })
       .catch(function (error) {
-        console.log(error.message);
+        toast.error("Update user failed:", error);
+        console.log(error);
       });
   };
-  const handleEditCellChange = (params) => {
-    const { id, field, value } = params;
-    data?.map((item) => (item.id === id ? { ...item, [field]: value } : item));
+
+  const addNewUser = async (data) => {
+    await axios
+      .post(`${URL}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        console.log(response.request.status);
+        if (
+          response.request.status === 200 ||
+          response.request.status === 201
+        ) {
+          toast.success("New User has been added successfully ~");
+          navigate("/users");
+        } else {
+          toast.error("Added new user failed ~");
+        }
+      })
+      .catch(function (error) {
+        toast.error("Add New User failed:");
+        console.error("Fetch User data failed:", error);
+      });
   };
-  const handleDeleteClick = async (id) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      await axios
-        .delete(
-          `${URL}/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-          id
+
+  // validate
+  const validateForm = () => {
+    let isValid = true;
+    let errors = { ...error_init };
+
+    if (fullname.trim() === "" || fullname.length < 2) {
+      errors.fullname_err = "Name is Required";
+      if (fullname.length < 2) {
+        errors.fullname_err = "Name must be more than 2 words";
+      }
+      isValid = false;
+    }
+
+    if (email.trim() === "") {
+      errors.email_err = "Email is required";
+      isValid = false;
+    } else if (
+      !email
+        .toLowerCase()
+        .match(
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
         )
-        .then(function (response) {
-          getAllUsers();
-          toast.success("Deleted Successfully ~");
-        })
-        .catch(function (error) {
-          toast.error("Delete: Error!");
-          console.log(error.message);
-        });
+    ) {
+      errors.email_err = "It is not email. Email like name@email.com";
+    }
+    if (
+      isNaN(roleId) ||
+      parseInt(roleId) < 1 ||
+      parseInt(roleId) > 3 ||
+      roleId === ""
+    ) {
+      errors.roleId_err = "RoleId = {1, 2, 3}";
+      isValid = false;
+    }
+
+    if (password.trim() === "") {
+      errors.password_err = "Password is required";
+      isValid = false;
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (validateForm()) {
+      if (id) updateUser(id, state);
+      else addNewUser(state);
+    } else {
+      toast.error("Some info is invalid ~ Pls check again");
     }
   };
-  const columns = [
-    { field: "id", headerName: "ID", width: 50, editable: false },
-    { field: "fullname", headerName: "Full Name", width: 150, editable: true },
-    { field: "email", headerName: "Email", width: 210, editable: true },
-    {
-      field: "phone",
-      headerName: "Phone",
-      type: "number",
-      width: 100,
-      editable: true,
-    },
-    { field: "country", headerName: "Country", width: 80, editable: true },
-    { field: "gender", headerName: "Gender", width: 60, editable: true },
-    { field: "password", headerName: "Password", width: 80, editable: true },
-    { field: "address", headerName: "Address", width: 180, editable: true },
-    { field: "avatar", headerName: "Avatar", width: 120, editable: true },
-    {
-      field: "actions",
-      headerName: "Actions",
-      width: 150,
-      renderCell: (params) => {
-        const { id } = params.row;
 
-        return (
-          <>
-            <Link to={`/editUser/${id}`}>
-              <button>
-                <AiOutlineEdit /> Edit
-              </button>
-            </Link>
-            <button onClick={() => handleDeleteClick(id)}>
-              <AiOutlineDelete /> Delete
-            </button>
-          </>
-        );
-      },
-    },
-  ];
+  const handleInputChange = (event) => {
+    const { name, value, type, checked } = event.target;
+
+    // For checkbox inputs, the value will be a string "true" or "false"
+    // We convert it to a boolean value
+    if (type === "checkbox") {
+      setState((prevState) => ({
+        ...prevState,
+        [name]: checked,
+      }));
+    } else {
+      setState((prevState) => ({ ...prevState, [name]: value }));
+    }
+  };
 
   return (
-    <div className="container py-5">
-      <h1 className="title">Users List</h1>
-      <div className="Createbtn">
-        <Link to="/addUser/">
-          <button className="btn-create">Create User</button>
-        </Link>
-      </div>
+    <div className="container py-5 newUser">
+      <div className="form">
+        <h2>{id ? "Edit User" : "Create User"}</h2>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="fullname">Full Name: </Form.Label>
+            <Form.Control
+              type="text"
+              name="fullname"
+              value={state.fullname}
+              onChange={handleInputChange}
+            />
+            {errors.fullname_err && (
+              <span className="error">{errors.fullname_err}</span>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="email">Email: </Form.Label>
+            <Form.Control
+              type="text"
+              name="email"
+              value={state.email}
+              onChange={handleInputChange}
+            />
+            {errors.email_err && (
+              <span className="error">{errors.email_err}</span>
+            )}
+          </Form.Group>
 
-      <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
-        <div
-          className="dashboard-content"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        ></div>
-        <DataGrid
-          rows={data}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10,
-              },
-            },
-          }}
-          pageSizeOptions={[6]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          editMode="cell"
-          onEditCellChange={handleEditCellChange}
-        />
-      </Box>
+          <Row>
+            <Col className="mb-3 contentUser">
+              <Form.Label htmlFor="phone">Phone: </Form.Label>
+              <Form.Control
+                type="text"
+                name="phone"
+                value={state.phone}
+                onChange={handleInputChange}
+              />
+              {/* {errors.phone && <span className='error'>{errors.price_err}</span>} */}
+            </Col>
+            <Col md className="contentUser">
+              <Form.Label htmlFor="country">Country: </Form.Label>
+              <Form.Control
+                type="text"
+                name="country"
+                value={state.country}
+                onChange={handleInputChange}
+              />
+              {/* {errors.discount_err && <span className='error'>{errors.discount_err}</span>} */}
+            </Col>
+          </Row>
+          <Row>
+            <Col md className="contentUser">
+              <label htmlFor="gender">Gender: </label>
+              <div>
+                <div>
+                  <input
+                    type="radio"
+                    name="gender"
+                    id="male"
+                    value="Male"
+                    checked={state.gender === "Male"}
+                    onChange={handleInputChange}
+                  />
+                  <label htmlFor="male">Male</label>
+
+                  <input
+                    type="radio"
+                    name="gender"
+                    id="female"
+                    value="Female"
+                    checked={state.gender === "Female"}
+                    onChange={handleInputChange}
+                  />
+                  <label htmlFor="female">Female</label>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="password">Password: </Form.Label>
+            <Form.Control
+              type="text"
+              name="password"
+              value={state.password}
+              onChange={handleInputChange}
+            />
+            {errors.password_err && (
+              <span className="error">{errors.password_err}</span>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="address">Address: </Form.Label>
+            <Form.Control
+              type="text"
+              name="address"
+              value={state.address}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="avatar">Avatar: </Form.Label>
+            <Form.Control
+              type="text"
+              name="avatar"
+              value={state.avatar}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Row>
+            <Col md className="contentUser" id="check">
+              <div>
+                <Form.Label htmlFor="isActive">Is Active?</Form.Label>
+                <input
+                  type="checkbox"
+                  name="isActive"
+                  checked={state.isActive}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </Col>
+          </Row>
+
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="roleId">
+              Role ID (1: Customer, 2: Admin, 3: Employee):{" "}
+            </Form.Label>
+            <Form.Control
+              type="number"
+              name="roleId"
+              value={state.roleId}
+              onChange={handleInputChange}
+            />
+            {errors.roleId_err && (
+              <span className="error">{errors.roleId_err}</span>
+            )}
+          </Form.Group>
+          <div className="form-button">
+            <Button type="submit">{id ? "Update User" : "Create"}</Button>
+            <Link to="/users">
+              <Button style={{ backgroundColor: "red" }}>Cancel</Button>
+            </Link>
+          </div>
+        </Form>
+      </div>
     </div>
   );
 };
-
-export default Users;
+export default NewUser;

@@ -1,10 +1,9 @@
 import "./newPc.scss";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Col, Form, Row } from "react-bootstrap";
-
 export default function NewPc() {
   const URL = "https://localhost:7262/api/PC";
   const token = localStorage.getItem("tokenUser");
@@ -34,6 +33,10 @@ export default function NewPc() {
   };
   const { id } = useParams();
   const navigate = useNavigate();
+  const [selectedComponentType, setSelectedComponentType] = useState("");
+  const [filteredComponents, setFilteredComponents] = useState([]);
+  const [selectedComponent, setSelectedComponent] = useState([]);
+  const [components, setComponents] = useState([]);
 
   const [state, setState] = useState(initialState);
   const {
@@ -47,6 +50,13 @@ export default function NewPc() {
     isPublic,
     designBy,
     image,
+    cpu,
+    mainboard,
+    vga,
+    psu,
+    ram,
+    ssd,
+    hdd,
   } = state;
   const [errors, setErrors] = useState(error_init);
 
@@ -56,7 +66,36 @@ export default function NewPc() {
     }
   }, [id]);
 
-  // Function to fetch and set the PC data
+  useEffect(() => {
+    fetchAvailableComponents();
+  }, []);
+
+  const handleComponentTypeChange = (event) => {
+    const selectedType = event.target.value.trim();
+    setSelectedComponentType(selectedType);
+
+    console.log("selectedType:", selectedType);
+    console.log("components:", components); // Check the components data
+
+    const filtered = components.filter(
+      (component) => component.name === selectedType
+    );
+
+    console.log("filtered:", filtered);
+
+    setFilteredComponents(filtered);
+  };
+
+  const fetchAvailableComponents = async () => {
+    try {
+      const response = await axios.get("https://localhost:7262/api/Component");
+      console.log(response.data);
+      setComponents(response.data.data);
+    } catch (error) {
+      console.error("Error fetching components:", error);
+    }
+  };
+
   const getOnePc = async (id) => {
     await axios
       .get(
@@ -96,14 +135,46 @@ export default function NewPc() {
         console.log(error);
       });
   };
+  const addSelectedComponent = (componentId, componentsData) => {
+    console.log("componentId:", componentId);
+    const component = components.find((c) => c.id === componentId);
+    console.log("filtered:", component);
 
+    if (component) {
+      componentsData = [...componentsData, component];
+    }
+
+    return componentsData;
+  };
   const addNewPc = async (data) => {
+    const componentIds = [];
+
+    // Add the selected component IDs to the componentIds array
+    componentIds.push(data.cpu);
+    componentIds.push(data.mainboard);
+    componentIds.push(data.vga);
+    componentIds.push(data.psu);
+    componentIds.push(data.ram);
+    componentIds.push(data.ssd);
+    componentIds.push(data.hdd);
+
+    // Filter out any invalid IDs (0 or empty values)
+    const filteredComponentIds = componentIds.filter((id) => id !== 0);
+
+    // Set the components array in the data object to the filtered component IDs
+    data.components = filteredComponentIds;
+
+    console.log("component data", data.components);
     await axios
-      .post(`${URL}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post(
+        `https://localhost:7262/api/PC/CreatePCAndAddComponentsToPCByAdmin`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then(function (response) {
         if (response.request.status === 200) {
           toast.success("New Pc has been added successfully ~");
@@ -313,7 +384,7 @@ export default function NewPc() {
               />
             </Col>
           </Row>
-          <Row></Row>
+
           <Form.Group className="mb-3 contentPc">
             <Form.Label htmlFor="image">Image: </Form.Label>
             <Form.Control
@@ -326,8 +397,147 @@ export default function NewPc() {
               <span className="error">{errors.image_err}</span>
             )}
           </Form.Group>
+          <Form.Group className="mb-3 contentPc" id="abc">
+            <Form.Label htmlFor="cpu">CPU: </Form.Label>
+            <Form.Control
+              as="select"
+              name="cpu"
+              value={state.cpu}
+              onChange={handleInputChange}
+            >
+              <option value="">Select CPU</option>
+              {/* Check if components is not empty before using filter */}
+              {components.length > 0 &&
+                components
+                  .filter((component) => component.name.includes("CPU"))
+                  .map((component) => (
+                    <option key={component.id} value={component.id}>
+                      {component.name}
+                    </option>
+                  ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group className="mb-3 contentPc" id="abc">
+            <Form.Label htmlFor="mainboard">Mainboard: </Form.Label>
+            <Form.Control
+              as="select"
+              name="mainboard"
+              value={state.mainboard}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Mainboard</option>
+              {components.length > 0 &&
+                components
+                  .filter((component) => component.name.includes("Mainboard"))
+                  .map((component) => (
+                    <option key={component.id} value={component.id}>
+                      {component.name}
+                    </option>
+                  ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group className="mb-3 contentPc" id="abc">
+            <Form.Label htmlFor="vga">VGA: </Form.Label>
+            <Form.Control
+              as="select"
+              name="vga"
+              value={state.vga}
+              onChange={handleInputChange}
+            >
+              <option value="">Select VGA</option>
+              {components.length > 0 &&
+                components
+                  .filter((component) => component.name.includes("VGA"))
+                  .map((component) => (
+                    <option key={component.id} value={component.id}>
+                      {component.name}
+                    </option>
+                  ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group className="mb-3 contentPc" id="abc">
+            <Form.Label htmlFor="psu">PSU: </Form.Label>
+            <Form.Control
+              as="select"
+              name="psu"
+              value={state.psu}
+              onChange={handleInputChange}
+            >
+              <option value="">Select PSU</option>
+              {components.length > 0 &&
+                components
+                  .filter((component) => component.name.includes("PSU"))
+                  .map((component) => (
+                    <option key={component.id} value={component.id}>
+                      {component.name}
+                    </option>
+                  ))}
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group className="mb-3 contentPc" id="abc">
+            <Form.Label htmlFor="ram">RAM: </Form.Label>
+            <Form.Control
+              as="select"
+              name="ram"
+              value={state.ram}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Ram</option>
+              {components.length > 0 &&
+                components
+                  .filter((component) => component.name.includes("Ram"))
+                  .map((component) => (
+                    <option key={component.id} value={component.id}>
+                      {component.name}
+                    </option>
+                  ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group className="mb-3 contentPc" id="abc">
+            <Form.Label htmlFor="ssd">SSD: </Form.Label>
+            <Form.Control
+              as="select"
+              name="ssd"
+              value={state.ssd}
+              onChange={handleInputChange}
+            >
+              <option value="">Select SSD</option>
+              {components.length > 0 &&
+                components
+                  .filter((component) => component.name.includes("SSD"))
+                  .map((component) => (
+                    <option key={component.id} value={component.id}>
+                      {component.name}
+                    </option>
+                  ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group className="mb-3 contentPc" id="abc">
+            <Form.Label htmlFor="hdd">HDD: </Form.Label>
+            <Form.Control
+              as="select"
+              name="hdd"
+              value={state.hdd}
+              onChange={handleInputChange}
+            >
+              <option value="">Select HDD</option>
+              {components.length > 0 &&
+                components
+                  .filter((component) => component.name.includes("HDD"))
+                  .map((component) => (
+                    <option key={component.id} value={component.id}>
+                      {component.name}
+                    </option>
+                  ))}
+            </Form.Control>
+          </Form.Group>
+
           <div className="form-button">
-            <Button type="submit">{id ? "Update Pc" : "Create Pc"}</Button>
+            <Button type="submit">{id ? "Update PC" : "Create"}</Button>
+            <Link to="/pc">
+              <Button style={{ backgroundColor: "red" }}>Cancel</Button>
+            </Link>
           </div>
         </Form>
       </div>

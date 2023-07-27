@@ -59,7 +59,7 @@ const ListPC = () => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
   return (
-    <div className="container py-5 listPc">
+    <div className="layout">
       <h1 className="title"> PCs List </h1>
       <div className="Createbtn">
         <Link to="/addPc/">
@@ -78,13 +78,25 @@ const ListPC = () => {
                 </Card.Body>
                 <Card.Footer>
                   <Link to={`/editPc/${info.id}`}>
-                    <Button className="btn-footer">
+                    <Button
+                      style={{
+                        color: "#ffffff",
+                        background: "#009393",
+                        borderColor: "#009393",
+                      }}
+                      className="btn-footer"
+                    >
                       <AiOutlineEdit /> Edit
                     </Button>
                   </Link>
 
                   <Button
                     className="btn-footer"
+                    style={{
+                      color: "#ffffff",
+                      background: "#009393",
+                      borderColor: "#009393",
+                    }}
                     onClick={() => handleDeleteClick(info.id)}
                   >
                     <AiOutlineDelete /> Delete

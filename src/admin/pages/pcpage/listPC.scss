@@ -1,4 +1,4 @@
-.container{
+.layout{
   display: flex;
   flex-direction: column;
   .title{
@@ -6,14 +6,15 @@
     color: #009393;
     font-size: xx-large;
     font-weight: 700;
+    margin: 0px;
   }
   .Createbtn{
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 10px;
     .btn-create{
       display: block;
       float: right;
-      margin: 10px 0px;
       padding: 0.8em;
       padding-left: 2em;
       padding-right: 2em;
@@ -50,6 +51,7 @@
       display: flex;
       background-color: white;
       .btn-footer{
+        display: flex;
         margin-left: 10px;
         svg{
           margin-top: 5px;
@@ -58,5 +60,8 @@
         }
       }
     }
+  }
+  .MuiBox-root{
+    margin-top: 10px;
   }
 }

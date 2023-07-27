@@ -1,7 +1,7 @@
 import React from "react";
 import "./newComponent.scss";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Col, Form, Row } from "react-bootstrap";
@@ -40,47 +40,41 @@ export default function NewComponent() {
 
   // Function to fetch and set the component data
   const getOneComponent = async (id) => {
-    await axios
-      .get(
-        `${URL}/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+    await axios.get(`${URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
         },
-        id
-      )
+      }, id)
       .then(function (response) {
-        setState(response.data.data);
+          setState(response.data.data);
       })
       .catch(function (error) {
         console.error("Fetch component data failed:", error);
       });
   };
   const updateComponent = async (id, data) => {
-    await axios
-      .put(`${URL}/${id}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(function (response) {
-        if (response.request.status === 200) {
-          toast.success(`Updated component successfully ~`);
-          navigate("/components");
-        }
-      })
-      .catch(function (error) {
-        toast.error("Update component failed");
-        console.log(error);
-      });
+    await axios.put(
+      `${URL}/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(function (response) {
+      if (response.request.status === 200) {
+        toast.success(`Updated component successfully ~`);
+        navigate("/components");
+      }
+    })
+    .catch(function (error) {
+      toast.error("Update component failed");
+      console.log(error);
+    });
   };
 
   const addNewComponent = async (data) => {
-    await axios
-      .post(`${URL}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    await axios.post(`${URL}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
         },
       })
       .then(function (response) {
@@ -149,61 +143,61 @@ export default function NewComponent() {
       <div className="form">
         <h2>{id ? "Edit Component" : "Create Component"}</h2>
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3 contentComponent">
-            <Form.Label htmlFor="name">Name: </Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={state.name}
-              onChange={handleInputChange}
-            />
-            {errors.name_err && (
-              <span className="error">{errors.name_err}</span>
-            )}
-          </Form.Group>
-          <Form.Group className="mb-3 contentComponent">
-            <Form.Label htmlFor="image">Image: </Form.Label>
-            <Form.Control
-              type="text"
-              name="image"
-              value={state.image}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3 contentComponent">
-            <Form.Label htmlFor="price">Price: </Form.Label>
-            <Form.Control
-              type="number"
-              name="price"
-              value={state.price}
-              onChange={handleInputChange}
-            />
-            {errors.price_err && (
-              <span className="error">{errors.price_err}</span>
-            )}
-          </Form.Group>
-          <Form.Group className="mb-3 contentComponent" id="abc">
-            <Form.Label htmlFor="summary">Sumary: </Form.Label>
-            <Form.Control
-              type="comment"
-              rows={3}
-              as="textarea"
-              name="summary"
-              value={state.summary}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3 contentComponent" id="abc">
-            <Form.Label htmlFor="description">Description: </Form.Label>
-            <Form.Control
-              type="comment"
-              rows={3}
-              as="textarea"
-              name="description"
-              value={state.description}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
+            <Form.Group className="mb-3 contentComponent">
+              <Form.Label htmlFor="name">Name: </Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={state.name}
+                onChange={handleInputChange}
+              />
+              {errors.name_err && (
+                <span className="error">{errors.name_err}</span>
+              )}
+            </Form.Group>
+            <Form.Group className="mb-3 contentComponent">
+              <Form.Label htmlFor="image">Image: </Form.Label>
+              <Form.Control
+                type="text"
+                name="image"
+                value={state.image}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3 contentComponent">
+              <Form.Label htmlFor="price">Price: </Form.Label>
+              <Form.Control
+                type="number"
+                name="price"
+                value={state.price}
+                onChange={handleInputChange}
+              />
+              {errors.price_err && (
+                <span className="error">{errors.price_err}</span>
+              )}
+            </Form.Group>
+            <Form.Group className="mb-3 contentComponent" id="abc">
+              <Form.Label htmlFor="summary">Sumary: </Form.Label>
+              <Form.Control
+                type="comment"
+                rows= {3}
+                as="textarea"
+                name="summary"
+                value={state.summary}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3 contentComponent" id="abc">
+              <Form.Label htmlFor="description">Description: </Form.Label>
+              <Form.Control
+                type="comment"
+                rows= {3}
+                as="textarea"
+                name="description"
+                value={state.description}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
 
           <Row>
             <Col className="contentComponent">
@@ -234,8 +228,11 @@ export default function NewComponent() {
 
           <div className="form-button">
             <Button type="submit">
-              {id ? "Update Component" : "Create Component"}
+              {id ? "Update Component" : "Create"}
             </Button>
+            <Link to="/components">
+              <Button style={{backgroundColor: 'red'}}>Cancel</Button>
+            </Link>
           </div>
         </Form>
       </div>

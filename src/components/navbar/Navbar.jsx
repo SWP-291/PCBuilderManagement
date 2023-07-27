@@ -1,20 +1,49 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import "./navbar.scss";
 import logo from "../assets/image/logo.png";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/apiRequest";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 export default function Navbar() {
-  const user = useSelector((state) => state.auth.login.currentUser);
+  const id = localStorage.getItem("idUser");
+  const token = localStorage.getItem("tokenUser");
+  const [data, setData] = useState("");
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const URL = "https://localhost:7262/api/User";
+  useEffect(() => {
+    if (id) {
+      getOneUser(id);
+    }
+  }, [id]);
+  const getOneUser = async (id) => {
+    await axios
+      .get(
+        `${URL}/${id}`,
+        {
+          headers: {
+            Authorize: `Bearer ${token}`,
+          },
+        },
+        id
+      )
+      .then(function (response) {
+        if (
+          response.request.status === 200 ||
+          response.request.status === 201
+        ) {
+          setData(response.data.data);
+        }
+      })
+      .catch(function (error) {
+        console.error("Fetch user data failed:", error);
+      });
+  };
   const handleLogout = async () => {
     try {
       await logoutUser(dispatch, navigate);
@@ -73,13 +102,13 @@ export default function Navbar() {
           </li>
         </ul>
         <div className="buttons">
-          {user ? (
+          {id ? (
             <>
               <div className="user">
-                <img className="avatar" src={user.avatar} alt="" />
+                <img className="avatar" src={data.avatar} alt="" />
                 <DropdownButton
                   id="dropdown-basic-button"
-                  title={user.fullName}
+                  title={data.fullname}
                 >
                   <Dropdown.Item>
                     <NavLink className="nav-link" to="/profile">

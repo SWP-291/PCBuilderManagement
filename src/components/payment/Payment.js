@@ -23,7 +23,7 @@ const Payment = () => {
   const productPrice = searchParams.get("price");
   const [payment, setPayment] = useState();
   const [paymentTime, setPaymentTime] = useState();
-  const productId = searchParams.get("id");
+  const productId = searchParams.get("pcId");
   const userId = useSelector((state) => state.auth.login.currentUser?.id);
   const fullname = useSelector(
     (state) => state.auth.login.currentUser?.fullName
@@ -34,6 +34,24 @@ const Payment = () => {
   const address = useSelector((state) => state.auth.login.currentUser?.address);
   const phone = useSelector((state) => state.auth.login.currentUser?.phone);
   const randomCode = Math.floor(1000 + Math.random() * 9000);
+
+  const handleDeleteClick = async (productId) => {
+    if (window.confirm("Are you sure you want to cancel this transaction?")) {
+      try {
+        await axios.delete(
+          `https://localhost:7262/api/PC/${productId}/DeletePCWithComponent`
+        );
+        console.log("DELETE success");
+        // Optionally, you can show a success message or navigate to a different page after deletion.
+        // For example:
+        toast.success("Transaction canceled successfully");
+        navigate("/home");
+      } catch (error) {
+        console.error("DELETE error:", error);
+        toast.error("Failed to cancel transaction");
+      }
+    }
+  };
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -181,7 +199,7 @@ const Payment = () => {
               </div>
               <Col>
                 <div>
-                  <label style={{ marginLeft: "100px" }}>
+                  <label>
                     <input
                       type="radio"
                       value="Credit Card"
@@ -225,7 +243,7 @@ const Payment = () => {
               </div>
               <Col>
                 <div>
-                  <label style={{ marginLeft: "160px" }}>
+                  <label>
                     <input
                       type="radio"
                       value="Immediate"
@@ -314,17 +332,31 @@ const Payment = () => {
             </p>
             <Button
               style={{
-                marginLeft: "49%",
-                color: "#00abc6",
-                background: "#ffffff",
+                marginLeft: "195px",
+                color: "#ffffff",
+                background: "#ED3324",
                 fontSize: "20px",
                 fontWeight: "bold",
-                borderColor: "black",
+                borderColor: "#ffffff",
+              }}
+              type="submit"
+              onClick={handleDeleteClick.bind(null, productId)}
+            >
+              Cancel
+            </Button>
+            <Button
+              style={{
+                marginLeft: "20px",
+                color: "#ffffff",
+                background: "#009bb3",
+                fontSize: "20px",
+                fontWeight: "bold",
+                borderColor: "#ffffff",
               }}
               type="submit"
               onClick={handleSubmit}
             >
-              CONTINUE TO CHECKOUT
+              Checkout
             </Button>
           </div>
         </div>

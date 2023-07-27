@@ -28,7 +28,6 @@ export default function Product() {
   const [selectedPrices, setSelectedPrices] = useState([]);
   const [toastProps, setToastProps] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
-  const location = useLocation();
   const [showTotalPrice, setShowTotalPrice] = useState(false);
   const [showSelectedPrice, setShowSelectedPrice] = useState(false);
   const navigate = useNavigate();
@@ -156,13 +155,11 @@ export default function Product() {
         const temporarySelectedComponents = localStorage.getItem(
           "temporarySelectedComponents"
         );
-
         const parsedSelectedComponents = temporarySelectedComponents
           ? JSON.parse(temporarySelectedComponents)
           : [];
         console.log(parsedSelectedComponents);
-
-        await axios.post(
+        const response = await axios.post(
           `https://localhost:7262/api/PC/CreatePCWithComponentsFromTemplate?templateId=${id}`,
           parsedSelectedComponents,
           {
@@ -171,14 +168,13 @@ export default function Product() {
             },
           }
         );
-
         console.log("API Call conducted successfully");
         localStorage.removeItem("temporarySelectedComponents");
         // User is logged in, redirect to the payment page
         navigate(
-          `/payment?url=${encodeURIComponent(
-            product.url
-          )}&id=${id}&price=${totalPrice}&image=${encodeURIComponent(
+          `/payment?url=${encodeURIComponent(product.url)}&pcId=${
+            response.data.data.id
+          }&price=${totalPrice}&image=${encodeURIComponent(
             image
           )}&name=${encodeURIComponent(name)}`
         );

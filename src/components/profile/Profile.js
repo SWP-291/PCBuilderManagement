@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { useSelector } from "react-redux";
 import "./Profile.scss";
 const Profile = () => {
+  const URL = "https://localhost:7262/api/User";
   const [userData, setUserData] = useState({
     fullname: "",
     gender: "",
@@ -15,56 +15,63 @@ const Profile = () => {
     country: "",
     avatar: "",
   });
-  // const [fullname_err, setFullname_err] = useState('');
   const navigate = useNavigate();
-  const id = useSelector((state) => state.auth.login.currentUser.id);
+  const id = localStorage.getItem("idUser");
+  const token = localStorage.getItem("tokenUser");
   useEffect(() => {
-    getOneUser(id);
+    if (id) {
+      getOneUser(id);
+    }
   }, [id]);
 
+  // Function to fetch and set the User data
   const getOneUser = async (id) => {
-    try {
-      const res = await axios.get(`https://localhost:7262/api/User/${id}`, id);
-
-      if (res.status === 200) {
-        setUserData(res.data.data);
-      }
-    } catch (error) {
-      console.error("Fetch User data failed:", error);
-    }
+    await axios
+      .get(
+        `${URL}/${id}`,
+        {
+          headers: {
+            Authorize: `Bearer ${token}`,
+          },
+        },
+        id
+      )
+      .then(function (response) {
+        if (
+          response.request.status === 200 ||
+          response.request.status === 201
+        ) {
+          setUserData(response.data.data);
+        }
+      })
+      .catch(function (error) {
+        console.error("Fetch user data failed:", error);
+      });
   };
   const updateUser = async (userId, data) => {
-    try {
-      const res = await axios.put(
-        `https://localhost:7262/api/User/${userId}`,
-        data
-      );
-      console.log("update date: ", res.data);
-      if (res.status === 200) {
-        toast.success(`Updated User successfully ~`);
-        getOneUser(id);
-        navigate("/profile");
-      }
-    } catch (error) {
-      toast.error("Update user failed:", error);
-    }
+    await axios
+      .put(`${URL}/${userId}`, data, {
+        headers: {
+          Authorize: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        if (
+          response.request.status === 200 ||
+          response.request.status === 201
+        ) {
+          toast.success(`Updated user successfully ~`);
+          navigate("/profile");
+        }
+      })
+      .catch(function (error) {
+        toast.error("Update user failed:", error);
+        console.log(error);
+      });
   };
-  // const validateForm = () => {
-  //     let isValid = true;
-  //     if (userData.fullname.trim() === "" ) {
-  //         console.log('fullname_err: ',fullname_err);
-  //     setFullname_err("Name is Required");
-  //     isValid = false;
-  //     }
-  //     return isValid;
-  //     };
   const handleSubmit = (event) => {
     event.preventDefault();
-    // if (validateForm){
     updateUser(userData.id, userData);
-    // }else {
-    //     toast.error("Fullname is require ~ Pls check again");
-    // }
   };
 
   return (
@@ -91,9 +98,6 @@ const Profile = () => {
                   }
                 />
               </Form.FloatingLabel>
-              {/* {fullname_err && (
-                <span className="error">{fullname_err}</span>
-                )} */}
             </Col>
             <Col md>
               <Form.FloatingLabel
