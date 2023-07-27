@@ -87,7 +87,7 @@ namespace PCBuilder.API.Config
             app.UseCors(
                 builder =>
                     builder
-                        .WithOrigins("http://localhost:3000", "https://localhost:3000")
+                        .WithOrigins("http://localhost:3000", "https://localhost:3000", "https://fpcshop.azurewebsites.net")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
             );

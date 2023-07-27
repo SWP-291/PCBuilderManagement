@@ -326,10 +326,7 @@ namespace PCBuilder.Services.Service
                 response.Message = "User sign up failed.";
                 response.ErrorMessages = new List<string> { ex.Message };
             }
-
             return response;
         }
-
-
     }
 }
