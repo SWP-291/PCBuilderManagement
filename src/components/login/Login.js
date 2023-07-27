@@ -3,7 +3,7 @@ import "./Login.scss";
 import { Button } from "react-bootstrap";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 // import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import { loginUser } from "../../redux/apiRequest";
@@ -17,6 +17,7 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const validateEmail = (email) => {
     return String(email)

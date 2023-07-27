@@ -3,6 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./product.css";
 import axios from "axios";
+import { Row } from "react-bootstrap";
 import useRedirectToPaymentOrLogin from "../../router/ProtectRoute";
 import { useSelector } from "react-redux";
 
@@ -40,38 +41,6 @@ export default function Products() {
     getProducts();
   }, []);
 
-  // useEffect(() => {
-  //   const getProducts = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const token = localStorage.getItem("currentUser");
-  //       if (token) {
-  //         console.log("token", token);
-  //         const response = await axios.get(
-  //           "https://localhost:7262/api/PC/GetListByCustomer",
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${token}`,
-  //             },
-  //           }
-  //         );
-  //         setData(response.data);
-  //         // setFilter(response.data.filter((product) => product.isTemplate));
-  //         setLoading(false);
-  //       }
-  //     } catch (error) {
-  //       if (error.response && error.response.status === 401) {
-  //         console.log("Unauthorized access error (401)");
-  //       } else {
-  //         console.log(error);
-  //       }
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   getProducts();
-  // }, []);
-
   const Loading = () => {
     return (
       <>
@@ -101,7 +70,7 @@ export default function Products() {
       if (product.isTemplate) {
         return (
           <>
-            <div className="button container">
+            <div className="button">
               <NavLink
                 to={`/PCDetail/${product.id}`}
                 className="btn detail-button"
@@ -137,7 +106,6 @@ export default function Products() {
                       src={pro.image}
                       className="card-img-top"
                       alt={pro.name}
-                      height="250px"
                     />
 
                     <div className="card-body d-flex flex-column">
@@ -165,7 +133,7 @@ export default function Products() {
   return (
     <div>
       <div className="hero">
-        <div className="container my-5 py-5">
+        <Row className="justify-content-md-center">
           <div className="row">
             <div className="col-12 mb-5">
               <h1 className="display-6 text-center fw-bold animated-text">
@@ -186,7 +154,7 @@ export default function Products() {
             </div>
           </div>
           {loading ? <Loading /> : <ShowProducts />}
-        </div>
+        </Row>
       </div>
     </div>
   );

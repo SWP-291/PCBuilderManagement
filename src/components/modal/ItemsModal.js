@@ -23,41 +23,45 @@ const ItemsModal = ({
   const [components, setComponents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sortingOption, setSortingOption] = useState("");
+  const [search, setSearch] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   useEffect(() => {
-    const fetchComponents = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch("https://localhost:7262/api/Component");
-        const responseData = await response.json();
-        console.log("API Response:", responseData); // Log the response data
-        setComponents(responseData.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching components:", error);
-        setLoading(false);
-      }
-    };
+    fetchComponents(search);
+  }, [search, sortingOption]);
 
-    fetchComponents();
-  }, []);
+  const fetchComponents = async (search) => {
+    try {
+      setLoading(true);
+      const response = await fetch("https://localhost:7262/api/Component");
+      const responseData = await response.json();
+      let sortedData = responseData.data;
+
+      // Sort the components based on the selected sorting option
+      if (sortingOption === "increase") {
+        sortedData = sortedData.sort((a, b) => a.price - b.price);
+      } else if (sortingOption === "decrease") {
+        sortedData = sortedData.sort((a, b) => b.price - a.price);
+      }
+
+      // Filter components based on the search input
+      const filteredData = sortedData.filter((component) =>
+        component.name.includes(search)
+      );
+
+      setComponents(filteredData);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching components:", error);
+      setLoading(false);
+    }
+  };
 
   const filteredComponents = components.filter((component) =>
     component.name.includes(selectedLocation)
   );
-
-  // const handleSelectComponent = (component) => {
-  //   const componentIndex = components.findIndex(
-  //     (item) => item.id === component.id
-  //   );
-  //   const selectedComponent = filteredComponents[componentIndex];
-
-  //   handleComponentSelect(selectedLocation, selectedComponent);
-  //   toast.success("Components Updated Successfully!");
-  // };
 
   const handleSelectComponent = (component) => {
     handleComponentSelect(selectedLocation, component);
@@ -88,6 +92,8 @@ const ItemsModal = ({
                 borderRadius: "6px",
                 textAlign: "center",
               }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </Col>
           <Col>

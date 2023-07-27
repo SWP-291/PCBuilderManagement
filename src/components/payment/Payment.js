@@ -9,17 +9,30 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import pc from "../assets/image/payment.png";
 import { useSelector } from "react-redux";
+import Popup from "reactjs-popup";
+import { useNavigate } from "react-router-dom";
 
 const Payment = () => {
   const [validated, setValidated] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+  console.log(location.search);
   const productName = searchParams.get("name");
   const productPrice = searchParams.get("price");
   const [payment, setPayment] = useState();
+  const [paymentTime, setPaymentTime] = useState();
   const productId = searchParams.get("id");
   const userId = useSelector((state) => state.auth.login.currentUser?.id);
-
+  const fullname = useSelector(
+    (state) => state.auth.login.currentUser?.fullName
+  );
+  const emailAddress = useSelector(
+    (state) => state.auth.login.currentUser?.email
+  );
+  const address = useSelector((state) => state.auth.login.currentUser?.address);
+  const phone = useSelector((state) => state.auth.login.currentUser?.phone);
   const randomCode = Math.floor(1000 + Math.random() * 9000);
 
   const handleInputChange = (event) => {
@@ -31,6 +44,20 @@ const Payment = () => {
     }
   };
 
+  const handleInputPaymentTime = (event) => {
+    const { name, value, type, checked } = event.target;
+    if (type === "radio") {
+      setPaymentTime(checked ? value : "");
+    } else {
+      setPaymentTime(value);
+    }
+  };
+
+  const handleClose = () => {
+    setShowPopup(false);
+    navigate("/home");
+  };
+
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -40,17 +67,25 @@ const Payment = () => {
     } else {
       event.preventDefault();
       try {
+        const currentDate = new Date().toISOString();
         const paymentData = {
-          name: productName,
+          orderDate: currentDate,
+          pcId: productId,
+          userId: userId,
           amount: parseFloat(productPrice),
-          code: randomCode,
-          paymentMode: payment,
-          paymentTime: "Installments",
+          statusId: "Successful",
+          paymentDTO: {
+            name: productName,
+            code: randomCode,
+            amount: parseFloat(productPrice),
+            paymentMode: payment,
+            paymentTime: paymentTime,
+          },
         };
         console.log("Payment:", paymentData);
 
-        const paymentResponse = await axios.post(
-          "https://localhost:7262/api/Payment",
+        await axios.post(
+          "https://localhost:7262/api/Order/CreateOrderWithPayment",
           paymentData,
           {
             headers: {
@@ -58,29 +93,10 @@ const Payment = () => {
             },
           }
         );
-        console.log("Payment created:", paymentResponse.data);
 
-        const orderData = {
-          pcId: parseInt(productId),
-          amount: parseFloat(productPrice),
-          userId: userId,
-          statusId: "pending",
-          paymentId: "2",
-        };
+        setShowPopup(true);
 
-        const orderResponse = await axios.post(
-          "https://localhost:7262/api/Order",
-          orderData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        console.log("Order created:", orderResponse.data);
-
-        toast.success("Payment and Order created successfully");
+        // toast.success("Payment and Order created successfully");
       } catch (error) {
         console.error("Error", error);
         toast.error("Payment not created");
@@ -89,141 +105,228 @@ const Payment = () => {
   };
 
   return (
-    <div className="container py-5">
-      <div className="row">
-        <div className="col-sm-8">
-          <div className="py-3">
-            <h1 className="title">Biling Detail</h1>
-            <hr />
-          </div>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Col>
-              <Form.FloatingLabel
-                controlId="validationCustom02"
-                label="Full Name"
-                className="mb-3"
-              >
-                <Form.Control
-                  required
-                  type="fullname"
-                  placeholder="Nguyễn Văn A"
-                />
-              </Form.FloatingLabel>
-              <Form.FloatingLabel
-                controlId="validationCustom03"
-                label="Email address"
-                className="mb-3"
-              >
-                <Form.Control
-                  required
-                  type="email"
-                  placeholder="name@example.com"
-                />
-              </Form.FloatingLabel>
-              <Form.FloatingLabel
-                controlId="validationCustom04"
-                label="Address"
-                className="mb-3"
-              >
-                <Form.Control required type="text" placeholder="ABC-NewYork" />
-              </Form.FloatingLabel>
-              <Form.FloatingLabel
-                controlId="validationCustom05"
-                label="Phone Number"
-                className="mb-3"
-              >
-                <Form.Control required type="number" placeholder="0123456789" />
-              </Form.FloatingLabel>
-            </Col>
-            <hr />
-            <Col>
-              <Form.Check
-                className="mb-3"
-                label="Shipping address is the same as my billing address"
-              />
-              <Form.Check
-                className="mb-3"
-                label="Save this information for next time"
-              />
-            </Col>
-            <hr />
+    <div className="hero1">
+      <div className="container py-5">
+        <div className="row">
+          <div className="col-sm-8">
             <div className="py-3">
-              <h3 className="title">Payment</h3>
+              <h1 className="title">Biling Detail</h1>
+              <hr />
             </div>
-            <Col>
-              <div>
-                <label>
-                  <input
-                    type="radio"
-                    value="Credit Card"
-                    name="paymentMethod"
-                    onChange={handleInputChange}
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Col>
+                <Form.FloatingLabel
+                  controlId="validationCustom02"
+                  label="Full Name"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="Nguyễn Văn A"
+                    defaultValue={fullname}
                   />
-                  Credit Card
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="radio"
-                    value="PayPal"
-                    name="paymentMethod"
-                    onChange={handleInputChange}
+                </Form.FloatingLabel>
+                <Form.FloatingLabel
+                  controlId="validationCustom03"
+                  label="Email address"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    required
+                    type="email"
+                    placeholder="name@example.com"
+                    defaultValue={emailAddress}
                   />
-                  PayPal
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="radio"
-                    value="Debit Card"
-                    name="paymentMethod"
-                    onChange={handleInputChange}
+                </Form.FloatingLabel>
+                <Form.FloatingLabel
+                  controlId="validationCustom04"
+                  label="Address"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="ABC-NewYork"
+                    defaultValue={address}
                   />
-                  Debit Card
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="radio"
-                    value="Bank Transfer"
-                    name="paymentMethod"
-                    onChange={handleInputChange}
+                </Form.FloatingLabel>
+                <Form.FloatingLabel
+                  controlId="validationCustom05"
+                  label="Phone Number"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    required
+                    type="number"
+                    placeholder="0123456789"
+                    defaultValue={phone}
                   />
-                  Bank Transfer
-                </label>
+                </Form.FloatingLabel>
+              </Col>
+              <hr />
+              <Col>
+                <Form.Check
+                  className="mb-3"
+                  label="Shipping address is the same as my billing address"
+                />
+                <Form.Check
+                  className="mb-3"
+                  label="Save this information for next time"
+                />
+              </Col>
+              <hr />
+              <div className="py-3">
+                <h3 className="title">Payment Method</h3>
+              </div>
+              <Col>
+                <div>
+                  <label style={{ marginLeft: "100px" }}>
+                    <input
+                      type="radio"
+                      value="Credit Card"
+                      name="paymentMethod"
+                      onChange={handleInputChange}
+                    />
+                    Credit Card
+                  </label>
+                  <label style={{ marginLeft: "100px" }}>
+                    <input
+                      type="radio"
+                      value="PayPal"
+                      name="paymentMethod"
+                      onChange={handleInputChange}
+                    />
+                    PayPal
+                  </label>
+                  <label style={{ marginLeft: "100px" }}>
+                    <input
+                      type="radio"
+                      value="Debit Card"
+                      name="paymentMethod"
+                      onChange={handleInputChange}
+                    />
+                    Debit Card
+                  </label>
+                  <label style={{ marginLeft: "100px" }}>
+                    <input
+                      type="radio"
+                      value="Bank Transfer"
+                      name="paymentMethod"
+                      onChange={handleInputChange}
+                    />
+                    Bank Transfer
+                  </label>
+                </div>
+              </Col>
+              <hr />
+              <div className="py-3">
+                <h3 className="title">Payment Time</h3>
+              </div>
+              <Col>
+                <div>
+                  <label style={{ marginLeft: "160px" }}>
+                    <input
+                      type="radio"
+                      value="Immediate"
+                      name="paymentTime"
+                      onChange={handleInputPaymentTime}
+                    />
+                    Immediate
+                  </label>
+                  <label style={{ marginLeft: "100px" }}>
+                    <input
+                      type="radio"
+                      value="Installments"
+                      name="paymentTime"
+                      onChange={handleInputPaymentTime}
+                    />
+                    Installments
+                  </label>
+                  <label style={{ marginLeft: "100px" }}>
+                    <input
+                      type="radio"
+                      value="Deferred"
+                      name="paymentTime"
+                      onChange={handleInputPaymentTime}
+                    />
+                    Deferred
+                  </label>
+                </div>
+              </Col>
+            </Form>
+            <Popup
+              open={showPopup}
+              onClose={() => setShowPopup(false)}
+              closeOnDocumentClick
+              style={{ borderColor: "black" }}
+            >
+              <div
+                className="popup-content"
+                style={{
+                  backgroundColor: "#ffffff",
+                  color: "#009393",
+                  borderRadius: "10px",
+                  textAlign: "center",
+                  border: "1px solid black",
+                }}
+              >
+                <i className="fa fa-check" style={{ fontSize: "100px" }}></i>
+                <h3 style={{ alignContent: "center" }}>Payment Successful</h3>
+                <p>Your payment and order have been created successfully!</p>
+                <Button
+                  style={{
+                    color: "#ffffff",
+                    background: "#009393",
+                    borderColor: "#00abc6",
+                  }}
+                  onClick={() => handleClose()}
+                >
+                  Close
+                </Button>
+              </div>
+            </Popup>
+          </div>
+          <div className="col-sm 4">
+            <div className="py-3">
+              <h1 className="title">Summary</h1>
+              <hr />
+            </div>
+            <Col className="md-3">
+              <div className="d-flex align-items-center mb-3">
+                <img
+                  style={{ width: 100, height: 100 }}
+                  src={pc}
+                  alt="Product"
+                />
+                <div className="ms-3">
+                  <p style={{ fontWeight: 600 }}>{productName}</p>
+                </div>
               </div>
             </Col>
+            <hr />
+            <p style={{ fontWeight: 600 }}>
+              Total:{" "}
+              {parseFloat(productPrice).toLocaleString("vi-VN", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
+            </p>
             <Button
-              style={{ marginLeft: "75%" }}
+              style={{
+                marginLeft: "49%",
+                color: "#00abc6",
+                background: "#ffffff",
+                fontSize: "20px",
+                fontWeight: "bold",
+                borderColor: "black",
+              }}
               type="submit"
               onClick={handleSubmit}
             >
               CONTINUE TO CHECKOUT
             </Button>
-          </Form>
-        </div>
-
-        <div className="col-sm 4">
-          <div className="py-3">
-            <h1 className="title">Summary</h1>
-            <hr />
           </div>
-          <Col className="md-3">
-            <div className="d-flex align-items-center mb-3">
-              <img style={{ width: 100, height: 100 }} src={pc} alt="Product" />
-              <div className="ms-3">
-                <p style={{ fontWeight: 600 }}>{productName}</p>
-              </div>
-            </div>
-          </Col>
-          <hr />
-          <p style={{ fontWeight: 600 }}>
-            Total:{" "}
-            {parseFloat(productPrice).toLocaleString("vi-VN", {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            })}
-          </p>
         </div>
       </div>
     </div>

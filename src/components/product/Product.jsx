@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Skeleton from "react-loading-skeleton";
 import "../product/Template.scss";
-import Row from "react-bootstrap/Row";
 import ItemsModal from "../modal/ItemsModal";
 import { NavLink } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import Popup from "reactjs-popup";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
+import { Button, Col, Row, Card } from "react-bootstrap";
 
 export default function Product() {
   const { id } = useParams();
@@ -25,9 +24,13 @@ export default function Product() {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [selectedComponents, setSelectedComponents] = useState([]);
   const [originalComponents, setOriginalComponents] = useState([]);
+  const [originalPrices, setOriginalPrices] = useState([]);
+  const [selectedPrices, setSelectedPrices] = useState([]);
   const [toastProps, setToastProps] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
+  const location = useLocation();
   const [showTotalPrice, setShowTotalPrice] = useState(false);
+  const [showSelectedPrice, setShowSelectedPrice] = useState(false);
   const navigate = useNavigate();
   const [toggleState, setToggleState] = useState(0);
   const isLoggedIn = useSelector(
@@ -48,6 +51,13 @@ export default function Product() {
       const pcData = responseData.data;
       setProduct(pcData);
       setOriginalComponents(pcData.components);
+
+      const prices = pcData.components.map((component) => component.price || 0);
+      setOriginalPrices(prices);
+
+      const defaulSelectedPrices = prices.map(() => 0);
+      setSelectedPrices(defaulSelectedPrices);
+
       setLoading(false);
     };
 
@@ -80,8 +90,23 @@ export default function Product() {
     setShowTotalPrice(false);
   };
 
+  const handleReset = () => {
+    setSelectedComponents(originalComponents);
+    setShowSelectedPrice(false);
+    setShowTotalPrice(false);
+  };
+
   const handleComponentSelect = async (componentType, component) => {
     // Create a new array with the updated component
+    const updatedSelectedPrices = selectedPrices.map((price, index) => {
+      if (index === product.components.indexOf(component)) {
+        return component.price || 0;
+      }
+      return price;
+    });
+    setSelectedPrices(updatedSelectedPrices);
+    setShowSelectedPrice(true);
+
     const updatedSelectedComponents = selectedComponents.map(
       (selectedComponent) => {
         if (selectedComponent.name.includes(componentType)) {
@@ -127,33 +152,33 @@ export default function Product() {
 
   const handleBuyNow = async (image, name, totalPrice) => {
     try {
-      const temporarySelectedComponents = localStorage.getItem(
-        "temporarySelectedComponents"
-      );
-
-      const parsedSelectedComponents = temporarySelectedComponents
-        ? JSON.parse(temporarySelectedComponents)
-        : [];
-      console.log(parsedSelectedComponents);
-
-      await axios.post(
-        `https://localhost:7262/api/PC/CreatePCWithComponentsFromTemplate?templateId=${id}`,
-        parsedSelectedComponents,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      console.log("API Call conducted successfully");
-      localStorage.removeItem("temporarySelectedComponents");
       if (isLoggedIn) {
+        const temporarySelectedComponents = localStorage.getItem(
+          "temporarySelectedComponents"
+        );
+
+        const parsedSelectedComponents = temporarySelectedComponents
+          ? JSON.parse(temporarySelectedComponents)
+          : [];
+        console.log(parsedSelectedComponents);
+
+        await axios.post(
+          `https://localhost:7262/api/PC/CreatePCWithComponentsFromTemplate?templateId=${id}`,
+          parsedSelectedComponents,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("API Call conducted successfully");
+        localStorage.removeItem("temporarySelectedComponents");
         // User is logged in, redirect to the payment page
         navigate(
           `/payment?url=${encodeURIComponent(
             product.url
-          )}&price=${totalPrice}&image=${encodeURIComponent(
+          )}&id=${id}&price=${totalPrice}&image=${encodeURIComponent(
             image
           )}&name=${encodeURIComponent(name)}`
         );
@@ -299,7 +324,18 @@ export default function Product() {
                 <div className="title">
                   <h1>SELECT YOUR COMPONENTS</h1>
                 </div>
-
+                <Button
+                  style={{
+                    color: "#00abc6",
+                    background: "#ffffff",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    borderColor: "black",
+                  }}
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
                 <div className="box-table">
                   {product.components && product.components.length > 0 ? (
                     <table className="ae-table">
@@ -357,7 +393,7 @@ export default function Product() {
                               </div>
                             </td>
 
-                            <td className="component-price">
+                            {/* <td className="component-price">
                               <div className="d-flex d-flex-center box-price">
                                 <span className="d-price fw-bold">
                                   {component.price &&
@@ -372,16 +408,57 @@ export default function Product() {
                                     <p>Price not available</p>
                                   )}
                                 </span>
+                              </div>
+                            </td> */}
 
-                                <div className="btn-select ml-auto">
-                                  <Button
-                                    onClick={() =>
-                                      openComponentModal(component)
+                            <td className="component-price">
+                              <div className="d-flex d-flex-center centered-content">
+                                <span className="d-price fw-bold">
+                                  {originalPrices[index].toLocaleString(
+                                    "vi-VN",
+                                    {
+                                      minimumFractionDigits: 0,
+                                      maximumFractionDigits: 0,
                                     }
-                                  >
-                                    Select
-                                  </Button>
+                                  )}
+                                </span>
+                              </div>
+                            </td>
+
+                            {showSelectedPrice && (
+                              <td className="component-price-change">
+                                <div className="d-flex d-flex-center centered-content">
+                                  <span className="d-price fw-bold">
+                                    {selectedComponents[index] &&
+                                    typeof selectedComponents[index].price ===
+                                      "number" ? (
+                                      <p>
+                                        {selectedComponents[
+                                          index
+                                        ].price.toLocaleString("vi-VN", {
+                                          minimumFractionDigits: 0,
+                                          maximumFractionDigits: 0,
+                                        })}
+                                      </p>
+                                    ) : (
+                                      <p>Price not available</p>
+                                    )}
+                                  </span>
                                 </div>
+                              </td>
+                            )}
+                            <td className="component-price">
+                              <div className="btn-select ml-auto centered-content">
+                                <Button
+                                  style={{
+                                    color: "#ffffff",
+                                    background: "#00abc6",
+                                    borderColor: "#00abc6",
+                                  }}
+                                  onClick={() => openComponentModal(component)}
+                                >
+                                  Select
+                                </Button>
                               </div>
                             </td>
                           </tr>
@@ -432,6 +509,13 @@ export default function Product() {
         </NavLink> */}
             <div>
               <Button
+                style={{
+                  color: "#00abc6",
+                  background: "#ffffff",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  borderColor: "black",
+                }}
                 type="submit"
                 onClick={() => {
                   handleBuyNow(product.image, product.name, totalPrice);

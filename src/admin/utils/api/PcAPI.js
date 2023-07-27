@@ -16,5 +16,5 @@ export const deletePcAPI = (id) => {
 };
 
 export const editPcAPI = (id) => {
-  return axiosClient.put(`${END_POINT.PC}/${id}`);
+  return axiosClient.put(`https://localhost:7262/api/PC/${id}`);
 };

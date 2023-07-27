@@ -23,6 +23,14 @@ const userSlice = createSlice({
     // getUsersStart: (state) => {
     //     state.users.isFetching = true;
     // },
+    getDataSuccess: (state, action) => {
+      state.profiles.profile = action.payload;
+      state.profiles.loading = false;
+      state.profiles.error = false;
+
+      // Store the profile data in localStorage (or any other storage)
+      localStorage.setItem("userProfile", JSON.stringify(action.payload));
+    },
     // getUsersSuccess: (state, action) => {
     //     state.users.isFetching = false;
     //     state.users.user = action.payload;
