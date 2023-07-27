@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Form, Row } from "react-bootstrap";
 export default function NewBrand() {
-  const URL = "https://localhost:7262/api/Brand";
+  const URL = "https://fpc-shop.azurewebsites.net/api/Brand";
   const token = localStorage.getItem("tokenUser");
   const initialState = {
     name: "",

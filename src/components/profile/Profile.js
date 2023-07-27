@@ -6,7 +6,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./Profile.scss";
 const Profile = () => {
-  const URL = "https://localhost:7262/api/User";
+  const URL = "https://fpc-shop.azurewebsites.net/api/User";
   const [userData, setUserData] = useState({
     fullname: "",
     gender: "",

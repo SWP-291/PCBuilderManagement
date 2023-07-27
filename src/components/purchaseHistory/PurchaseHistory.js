@@ -4,7 +4,7 @@ import "./PurchaseHistory.scss";
 import axios from "axios";
 import { useEffect, useState } from "react";
 const History = () => {
-  const URL = "https://localhost:7262/api/Order/byUserId";
+  const URL = "https://fpc-shop.azurewebsites.net/api/Order/byUserId";
   const token = localStorage.getItem("tokenUser");
   const id = localStorage.getItem("idUser");
   const [data, setData] = useState([]);

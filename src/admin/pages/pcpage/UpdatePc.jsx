@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
 export default function NewPc() {
-  const URL = "https://localhost:7262/api/PC";
+  const URL = "https://fpc-shop.azurewebsites.net/api/PC";
   const token = localStorage.getItem("tokenUser");
   const initialState = {
     name: "",

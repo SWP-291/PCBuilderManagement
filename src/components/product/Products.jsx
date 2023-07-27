@@ -24,7 +24,7 @@ export default function Products() {
     const getProducts = async () => {
       setLoading(true);
       const response = await fetch(
-        "https://localhost:7262/api/PC/GetListByCustomer"
+        "https://fpc-shop.azurewebsites.net/api/PC/GetListByCustomer"
       );
 
       if (componentMounted) {

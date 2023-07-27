@@ -35,7 +35,7 @@ const ItemsModal = ({
   const fetchComponents = async (search) => {
     try {
       setLoading(true);
-      const response = await fetch("https://localhost:7262/api/Component");
+      const response = await fetch("https://fpc-shop.azurewebsites.net/api/Component");
       const responseData = await response.json();
       let sortedData = responseData.data;
 

@@ -15,7 +15,7 @@ export default function Navbar() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const URL = "https://localhost:7262/api/User";
+  const URL = "https://fpc-shop.azurewebsites.net/api/User";
   useEffect(() => {
     if (id) {
       getOneUser(id);

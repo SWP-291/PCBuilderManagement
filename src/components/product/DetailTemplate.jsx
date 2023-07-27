@@ -16,7 +16,7 @@ export default function DetailTemplate() {
     const getProducts = async () => {
       setLoading(true);
       const response = await fetch(`
-      https://localhost:7262/api/PC/${id}`);
+      https://fpc-shop.azurewebsites.net/api/PC/${id}`);
       const responseData = await response.json();
       setProduct(responseData.data);
       setLoading(false);

@@ -34,7 +34,7 @@ import { toast } from "react-toastify";
 
 export const loginUser = async (user, dispatch, navigate) => {
   axios
-    .post(`https://localhost:7262/api/Authenticate/login`, user)
+    .post(`https://fpc-shop.azurewebsites.net/api/Authenticate/login`, user)
     .then(function (response) {
       // dispatch(loginSuccess(response.data.token.token));
       // localStorage.setItem('token',response.data.token.token);
@@ -90,7 +90,7 @@ export const loginUser = async (user, dispatch, navigate) => {
 };
 export const loginGoogle = async (idToken, dispatch, navigate) => {
   await axios
-    .post("https://localhost:7262/api/Authenticate/google-login", { idToken })
+    .post("https://fpc-shop.azurewebsites.net/api/Authenticate/google-login", { idToken })
     .then(function (response) {
       console.log("res: ", response);
       dispatch(loginSuccess(response.data.token.token));
@@ -129,7 +129,7 @@ export const getAllListPc = async (dispatch) => {
   dispatch(getAllListPcStart());
   const token = localStorage.getItem("tokenUser");
   axios
-    .get(`https://localhost:7262/api/PC/GetListByCustomer`, {
+    .get(`https://fpc-shop.azurewebsites.net/api/PC/GetListByCustomer`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -146,7 +146,7 @@ export const getAllListPc = async (dispatch) => {
 // const getAllPc = async(dispatch) => {
 //   const token = localStorage.getItem("tokenUser");
 //   await axios
-//   .get(`https://localhost:7262/api/PC/GetListByAdmin`, {
+//   .get(`https://fpc-shop.azurewebsites.net/api/PC/GetListByAdmin`, {
 //     headers: {
 //       Authorization: `Bearer ${token}`,
 //     },
@@ -161,7 +161,7 @@ export const getAllListPc = async (dispatch) => {
 // // export const getAllPc = async (dispatch) => {
 // //   dispatch(getAllPcStart());
 // //   axios
-// //     .get(`https://localhost:7262/api/PC/GetListByAdmin`)
+// //     .get(`https://fpc-shop.azurewebsites.net/api/PC/GetListByAdmin`)
 // //     .then(function (response) {
 // //       dispatch(getAllPcSuccess(response.data));
 // //       console.log(response.data);
@@ -174,7 +174,7 @@ export const getAllListPc = async (dispatch) => {
 // export const getAllComponents = async (dispatch) => {
 //   dispatch(getAllComponentsStart());
 //   axios
-//     .get(`https://localhost:7262/api/Component`)
+//     .get(`https://fpc-shop.azurewebsites.net/api/Component`)
 //     .then(function (response) {
 //       dispatch(getAllComponentsSuccess(response.data));
 //       console.log(response.data);
@@ -187,7 +187,7 @@ export const getAllListPc = async (dispatch) => {
 // export const getAllCategories = async (dispatch) => {
 //   dispatch(getAllCategoryStart());
 //   axios
-//     .get(`https://localhost:7262/api/Category`)
+//     .get(`https://fpc-shop.azurewebsites.net/api/Category`)
 //     .then(function (response) {
 //       dispatch(getAllCategorySuccess(response.data));
 //       console.log(response.data);
@@ -200,7 +200,7 @@ export const getAllListPc = async (dispatch) => {
 // export const getAllUsers = async (dispatch) => {
 //   dispatch(getAllUsersStart());
 //   axios
-//     .get(`https://localhost:7262/api/User`)
+//     .get(`https://fpc-shop.azurewebsites.net/api/User`)
 //     .then(function (response) {
 //       dispatch(getAllUsersSuccess(response.data));
 //       console.log(response.data);
@@ -213,7 +213,7 @@ export const getAllListPc = async (dispatch) => {
 // export const getAllBrands = async (dispatch) => {
 //   dispatch(getAllBrandStart());
 //   axios
-//     .get(`https://localhost:7262/api/Brand`)
+//     .get(`https://fpc-shop.azurewebsites.net/api/Brand`)
 //     .then(function (response) {
 //       dispatch(getAllBrandSuccess(response.data));
 //       console.log(response.data);
@@ -226,7 +226,7 @@ export const getAllListPc = async (dispatch) => {
 // export const getAllOrders = async (dispatch) => {
 //   dispatch(getAllOrderStart());
 //   axios
-//     .get(`https://localhost:7262/api/Order`)
+//     .get(`https://fpc-shop.azurewebsites.net/api/Order`)
 //     .then(function (response) {
 //       dispatch(getAllOrderSuccess(response.data));
 //       console.log(response.data);
@@ -240,7 +240,7 @@ export const updateProfileUsers = async (id, dispatch, updateInfo) => {
   dispatch(updateStart());
   dispatch(loginSuccess(updateInfo));
   axios
-    .put(`https://localhost:7262/api/User/${id}`, updateInfo)
+    .put(`https://fpc-shop.azurewebsites.net/api/User/${id}`, updateInfo)
     .then(function (response) {
       dispatch(updateSuccess(response.data));
       toast.success(response.data.message);

@@ -39,7 +39,7 @@ const Payment = () => {
     if (window.confirm("Are you sure you want to cancel this transaction?")) {
       try {
         await axios.delete(
-          `https://localhost:7262/api/PC/${productId}/DeletePCWithComponent`
+          `https://fpc-shop.azurewebsites.net/api/PC/${productId}/DeletePCWithComponent`
         );
         console.log("DELETE success");
         // Optionally, you can show a success message or navigate to a different page after deletion.
@@ -103,7 +103,7 @@ const Payment = () => {
         console.log("Payment:", paymentData);
 
         await axios.post(
-          "https://localhost:7262/api/Order/CreateOrderWithPayment",
+          "https://fpc-shop.azurewebsites.net/api/Order/CreateOrderWithPayment",
           paymentData,
           {
             headers: {

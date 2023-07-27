@@ -7,7 +7,7 @@ import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
 import { toast } from "react-toastify";
 import axios from "axios";
 const OrderTable = () => {
-  const URL = "https://localhost:7262/api/Brand";
+  const URL = "https://fpc-shop.azurewebsites.net/api/Brand";
   const token = localStorage.getItem("tokenUser");
   const [data, setData] = useState([]);
   useEffect(() => {

@@ -16,7 +16,7 @@ const ListPC = () => {
 
   const getAllPc = async () => {
     await axios
-      .get(`https://localhost:7262/api/PC/GetListByAdmin`, {
+      .get(`https://fpc-shop.azurewebsites.net/api/PC/GetListByAdmin`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -36,7 +36,7 @@ const ListPC = () => {
     if (window.confirm("Are you sure you want to delete this order?")) {
       await axios
         .delete(
-          `https://localhost:7262/api/PC/${id}/DeletePCWithComponent`,
+          `https://fpc-shop.azurewebsites.net/api/PC/${id}/DeletePCWithComponent`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

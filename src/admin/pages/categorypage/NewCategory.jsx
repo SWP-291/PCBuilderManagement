@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Col, Form, Row } from "react-bootstrap";
 export default function NewCategory() {
-  const URL = "https://localhost:7262/api/Category";
+  const URL = "https://fpc-shop.azurewebsites.net/api/Category";
   const token = localStorage.getItem("tokenUser");
   const initialState = {
     name: "",

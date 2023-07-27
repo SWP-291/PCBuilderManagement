@@ -44,7 +44,7 @@ export default function Product() {
     const getProducts = async () => {
       setLoading(true);
       const response = await fetch(
-        `https://localhost:7262/api/PC/PCWithComponent/${id}`
+        `https://fpc-shop.azurewebsites.net/api/PC/PCWithComponent/${id}`
       );
       const responseData = await response.json();
       const pcData = responseData.data;
@@ -160,7 +160,7 @@ export default function Product() {
           : [];
         console.log(parsedSelectedComponents);
         const response = await axios.post(
-          `https://localhost:7262/api/PC/CreatePCWithComponentsFromTemplate?templateId=${id}`,
+          `https://fpc-shop.azurewebsites.net/api/PC/CreatePCWithComponentsFromTemplate?templateId=${id}`,
           parsedSelectedComponents,
           {
             headers: {

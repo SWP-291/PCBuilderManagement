@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import "./AddOrder.scss";
 export default function NewOrder() {
-  const URL = "https://localhost:7262/api/Order";
+  const URL = "https://fpc-shop.azurewebsites.net/api/Order";
   const token = localStorage.getItem("tokenUser");
 
   const getCurrentDate = () => {

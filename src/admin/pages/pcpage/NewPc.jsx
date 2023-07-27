@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Col, Form, Row } from "react-bootstrap";
 export default function NewPc() {
-  const URL = "https://localhost:7262/api/PC";
+  const URL = "https://fpc-shop.azurewebsites.net/api/PC";
   const token = localStorage.getItem("tokenUser");
   const initialState = {
     name: "",
@@ -88,7 +88,7 @@ export default function NewPc() {
 
   const fetchAvailableComponents = async () => {
     try {
-      const response = await axios.get("https://localhost:7262/api/Component");
+      const response = await axios.get("https://fpc-shop.azurewebsites.net/api/Component");
       console.log(response.data);
       setComponents(response.data.data);
     } catch (error) {
@@ -167,7 +167,7 @@ export default function NewPc() {
     console.log("component data", data.components);
     await axios
       .post(
-        `https://localhost:7262/api/PC/CreatePCAndAddComponentsToPCByAdmin`,
+        `https://fpc-shop.azurewebsites.net/api/PC/CreatePCAndAddComponentsToPCByAdmin`,
         data,
         {
           headers: {

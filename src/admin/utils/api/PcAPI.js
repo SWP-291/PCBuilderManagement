@@ -16,5 +16,5 @@ export const deletePcAPI = (id) => {
 };
 
 export const editPcAPI = (id) => {
-  return axiosClient.put(`https://localhost:7262/api/PC/${id}`);
+  return axiosClient.put(`https://fpc-shop.azurewebsites.net/api/PC/${id}`);
 };

@@ -1,7 +1,9 @@
 .loginform{
     height: 100vh;
     // width: 100vw;
-    background: linear-gradient(135deg, rgba(34,193,195,1) 0%,rgba(253,187,45,1) 100%);  
+    background: hsl(177, 97%, 85%);  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #acdbe5, #B2FEFA);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #48bed6, #B2FEFA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ 
     .container{
         display: flex;
         flex-direction: column;
@@ -46,7 +48,9 @@
                 text-align: center;
             }
             .btn-login{
-                background: linear-gradient(135deg, rgba(34,193,195,1) 0%,rgba(253,187,45,1) 100%);
+                background: hsl(177, 97%, 85%);  /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #acdbe5, #B2FEFA);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #48bed6, #B2FEFA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ 
                 font-size: 20px;
                 font-weight: 600;
                 width: 100%;
