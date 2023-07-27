@@ -13,6 +13,7 @@ namespace PCBuilder.Services.Service
     public interface IOrderServices
     {
         Task<ServiceResponse<OrderDTO>> GetOrderById(int orderId);
+        Task<ServiceResponse<OrderPaymentDTO>> GetOrderByUserId(int userId);
         Task<ServiceResponse<List<OrderDTO>>> GetAllOrders();
         Task<ServiceResponse<OrderDTO>> CreateOrder(OrderDTO orderDTO);
         Task<ServiceResponse<OrderDTO>> UpdateOrder(int id, OrderDTO orderDTO);
@@ -25,12 +26,16 @@ namespace PCBuilder.Services.Service
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
         private readonly IPaymentRepository _paymentRepository;
+        private readonly IPCRepository _pcRepository;
+        private readonly IUserRepository _userRepository;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper, IPaymentRepository paymentRepository)
+        public OrderService(IOrderRepository orderRepository, IMapper mapper, IPaymentRepository paymentRepository, IPCRepository pcRepository, IUserRepository userRepository)
         {
             this._orderRepository = orderRepository;
             this._mapper = mapper;
             this._paymentRepository = paymentRepository;
+            this._pcRepository = pcRepository;
+            this._userRepository = userRepository;
         }
 
         public async Task<ServiceResponse<OrderDTO>> GetOrderById(int orderId)
@@ -110,7 +115,7 @@ namespace PCBuilder.Services.Service
 
             return response;
         }
-        
+
 
         public async Task<ServiceResponse<OrderDTO>> UpdateOrder(int id, OrderDTO orderDTO)
         {
@@ -182,8 +187,6 @@ namespace PCBuilder.Services.Service
 
             try
             {
-                
-
                 var payment = _mapper.Map<Payment>(orderPaymentDTO.PaymentDTO);
                 var paymentDTO = await _paymentRepository.CreatePaymentAsync(payment);
                 var createPayment = _mapper.Map<PaymentDTO>(paymentDTO);
@@ -200,8 +203,6 @@ namespace PCBuilder.Services.Service
                 response.Data = createOrder;
                 response.Success = true;
                 response.Message = "Order create successfully";
-
-
             }
             catch (Exception ex)
             {
@@ -209,7 +210,54 @@ namespace PCBuilder.Services.Service
                 response.Message = "Error";
                 response.ErrorMessages = new List<string> { ex.Message };
             }
-            return  response;
+            return response;
+        }
+
+        public async Task<ServiceResponse<OrderPaymentDTO>> GetOrderByUserId(int userId)
+        {
+            var response = new ServiceResponse<OrderPaymentDTO>();
+
+            try
+            {
+                var order = await _orderRepository.GetOrderByUserIdAsync(userId);
+
+                if (order == null)
+                {
+                    response.Success = false;
+                    response.Message = "Order not found.";
+                    return response;
+                }
+                int paymentId = order.PaymentId;
+                int pcId = order.PcId;
+
+                var payment = await _paymentRepository.GetPaymentByIdAsync(paymentId);
+                var pc = await _pcRepository.GetPcsByIdAsync(pcId);
+                var user = await _userRepository.GetUserByIdAsync(userId);
+
+                var OrderDTO = _mapper.Map<OrderPaymentDTO>(order);
+
+                if (payment != null && pc != null && user != null)
+                {
+                    var paymentDTO = _mapper.Map<PaymentDTO>(payment);
+                    var userDTO = _mapper.Map<UserDTO>(user);
+                    var pcDTO = _mapper.Map<PcDTO>(pc);
+
+                    OrderDTO.PaymentDTO = paymentDTO;
+                    OrderDTO.userDTO = userDTO;
+                    OrderDTO.pcDTO = pcDTO;
+                }
+
+                response.Data = OrderDTO;
+                response.Success = true;
+                response.Message = "Order retrieved successfully";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = "Error";
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return response;
         }
     }
 }

@@ -45,7 +45,7 @@ namespace PCBuilder.API.Config
                 })
                 .AddJwtBearer(options =>
                 {
-                    options.RequireHttpsMetadata = false; // Chỉ sử dụng HTTPS trong môi trường thực tế
+                    options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {

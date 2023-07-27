@@ -23,5 +23,7 @@ namespace PCBuilder.Services.DTO
         public int PaymentId { get; set; }
 
         public PaymentDTO PaymentDTO { get; set; }
+        public UserDTO userDTO { get; set; }
+        public PcDTO pcDTO { get; set; }
     }
 }

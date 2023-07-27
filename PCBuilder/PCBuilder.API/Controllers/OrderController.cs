@@ -31,6 +31,18 @@ namespace PCBuilder.API.Controllers
 
             return Ok(response);
         }
+        [HttpGet("byUserId/{userId}")]
+        public async Task<IActionResult> GetOrderByUserId(int userId)
+        {
+            var response = await _orderServices.GetOrderByUserId(userId);
+
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()

@@ -17,7 +17,7 @@ public partial class Order
 
     public string? StatusId { get; set; }
 
-    public int? PaymentId { get; set; }
+    public int PaymentId { get; set; }
 
     public virtual Payment? Payment { get; set; }
 
