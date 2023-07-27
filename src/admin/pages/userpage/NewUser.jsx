@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import "./newUser.scss";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Button, Col,Form,Row } from "react-bootstrap";
@@ -311,7 +311,12 @@ const NewUser = () => {
             )}
           </Form.Group>
           <div className="form-button">
-            <Button type="submit">{id ? "Update User" : "Create User"}</Button>
+            <Button type="submit">
+              {id ? "Update User" : "Create"}
+            </Button>
+            <Link to="/users">
+              <Button style={{backgroundColor: 'red'}}>Cancel</Button>
+            </Link>
           </div>
         </Form>
       </div>

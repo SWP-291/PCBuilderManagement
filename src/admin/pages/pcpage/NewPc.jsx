@@ -1,10 +1,9 @@
 import "./newPc.scss";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Col, Form, Row } from "react-bootstrap";
-
 export default function NewPc() {
   const URL = 'https://localhost:7262/api/PC';
   const token = localStorage.getItem("tokenUser");
@@ -323,7 +322,12 @@ export default function NewPc() {
             )}
           </Form.Group>
           <div className="form-button">
-            <Button type="submit">{id ? "Update Pc" : "Create Pc"}</Button>
+            <Button type="submit">
+              {id ? "Update PC" : "Create"}
+            </Button>
+            <Link to="/pc">
+              <Button style={{backgroundColor: 'red'}}>Cancel</Button>
+            </Link>
           </div>
         </Form>
       </div>

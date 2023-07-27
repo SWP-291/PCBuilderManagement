@@ -1,10 +1,10 @@
 import React from "react";
 import "./newBrand.scss";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Form, Row } from "react-bootstrap";
 export default function NewBrand() {
   const URL = 'https://localhost:7262/api/Brand';
   const token = localStorage.getItem("tokenUser");
@@ -197,8 +197,11 @@ export default function NewBrand() {
 
           <div className="form-button">
             <Button type="submit">
-              {id ? "Update Brand" : "Create Brand"}
+              {id ? "Update Brand" : "Create"}
             </Button>
+            <Link to="/brands">
+              <Button style={{backgroundColor: 'red'}}>Cancel</Button>
+            </Link>
           </div>
         </Form>
       </div>

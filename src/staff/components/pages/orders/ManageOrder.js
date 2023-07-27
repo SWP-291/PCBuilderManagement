@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
 import { toast } from "react-toastify";
 import axios from "axios";
-const Users = () => {
-  const URL = "https://localhost:7262/api/User";
+import { Link } from "react-router-dom";
+const OrderList = () => {
+  const URL = "https://localhost:7262/api/Order";
   const token = localStorage.getItem("tokenUser");
   const [ data, setData ] = useState([]);
   useEffect(() => {
-    getAllUsers();
+    getAllOrders();
   }, []);
 
-  const getAllUsers = async() => {
+  const getAllOrders = async() => {
     
     await axios
     .get(`${URL}`, {
@@ -33,15 +33,16 @@ const Users = () => {
     const { id, field, value } = params;
     data?.map((item) => (item.id === id ? { ...item, [field]: value } : item));
   };
+
   const handleDeleteClick = async (id) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
+    if (window.confirm("Are you sure you want to delete this order?")) {
       await axios.delete(`${URL}/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           },
         }, id)
         .then(function (response) {
-          getAllUsers();
+          getAllOrders();
           toast.success("Deleted Successfully ~");
         })
         .catch(function (error) {
@@ -52,20 +53,28 @@ const Users = () => {
   };
   const columns = [
     { field: "id", headerName: "ID", width: 50, editable: false },
-    { field: "fullname", headerName: "Full Name", width: 150, editable: true },
-    { field: "email", headerName: "Email", width: 210, editable: true },
     {
-      field: "phone",
-      headerName: "Phone",
-      type: "number",
-      width: 100,
+      field: "orderDate",
+      headerName: "Order Date",
+      width: 300,
       editable: true,
     },
-    { field: "country", headerName: "Country", width: 80, editable: true },
-    { field: "gender", headerName: "Gender", width: 60, editable: true },
-    { field: "password", headerName: "Password", width: 80, editable: true },
-    { field: "address", headerName: "Address", width: 180, editable: true },
-    { field: "avatar", headerName: "Avatar", width: 120, editable: true },
+    { field: "pcId", headerName: "PC ID", width: 100, editable: true },
+    { field: "userId", headerName: "User ID", width: 100, editable: true },
+    {
+      field: "amount",
+      headerName: "Amount",
+      type: "number",
+      width: 130,
+      editable: true,
+    },
+    { field: "statusId", headerName: "Status", width: 120, editable: true },
+    {
+      field: "paymentId",
+      headerName: "Payment ID",
+      width: 120,
+      editable: true,
+    },
     {
       field: "actions",
       headerName: "Actions",
@@ -75,7 +84,7 @@ const Users = () => {
 
         return (
           <>
-            <Link to={`/editUser/${id}`}>
+            <Link to={`/editOrder/${id}`}>
               <button>
                 <AiOutlineEdit /> Edit
               </button>
@@ -90,15 +99,15 @@ const Users = () => {
   ];
 
   return (
-    <div className="layout">
-      <h1 className="title">Users List</h1>
+    <div className="container py-5">
+      <h1 className="title">Orders List</h1>
       <div className="Createbtn">
-          <Link to="/addUser/">
-            <button className="btn-create">Create User</button>
+          <Link to="/addOrder/">
+            <button className="btn-create">Create Order</button>
           </Link>
       </div>
-      
-      <Box sx={{ height: "60%", width: "100%", marginTop: "30px" }}>
+
+      <Box sx={{ height: "60%", width: "98%", marginTop: "30px" }}>
         <div
           className="dashboard-content"
           style={{
@@ -128,4 +137,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default OrderList;

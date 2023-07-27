@@ -92,7 +92,7 @@ const OrderTable = () => {
   ];
 
   return (
-    <div className="container py-5">
+    <div className="layout">
       <h2 className="title">Orders List</h2>
 
       <Box sx={{ height: "60%", width: "98%", marginTop: "30px" }}>

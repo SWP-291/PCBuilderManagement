@@ -56,7 +56,7 @@ const Login = () => {
   const handleGoogleLoginSuccess = async (response) => {
     // Xử lý khi người dùng đăng nhập thành công bằng Google
     const idToken = response.credential;
-    loginUser(idToken, dispatch, navigate);
+    // loginUser(idToken, dispatch, navigate);
     
 
   };

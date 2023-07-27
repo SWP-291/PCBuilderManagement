@@ -55,14 +55,14 @@ const ListPC = () => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   return (
-    <div className="container py-5 listPc">
+    <div className="layout">
       <h1 className="title"> PCs List </h1>
       <div className="Createbtn">
         <Link to="/addPc/">
           <button className="btn-create">Create PC</button>
         </Link>
       </div>
-      <Row xs={1} md={4} className="g-4">
+      <Row xs={1} md={5} className="g-4">
       {data && data.map((info) => (
         <Col key={info.id}>
           <Card>
@@ -74,7 +74,8 @@ const ListPC = () => {
             <Card.Footer>
               <Link to={`/editPc/${info.id}`}>
                 <Button className="btn-footer">
-                  <AiOutlineEdit /> Edit
+                  <AiOutlineEdit /> 
+                  <span>Edit</span>
                 </Button>
               </Link>
 

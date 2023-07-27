@@ -1,11 +1,10 @@
 import React from "react";
 import "./newCategory.scss";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { getAllCategory } from "../../../redux/apiRequest";
 export default function NewCategory() {
   const URL = "https://localhost:7262/api/Category";
   const token = localStorage.getItem("tokenUser");
@@ -172,8 +171,11 @@ export default function NewCategory() {
           </Row>
           <div className="form-button">
             <Button type="submit">
-              {id ? "Update Category" : "Create Category"}
+              {id ? "Update Category" : "Create"}
             </Button>
+            <Link to="/category">
+              <Button style={{backgroundColor: 'red'}}>Cancel</Button>
+            </Link>
           </div>
         </Form>
       </div>

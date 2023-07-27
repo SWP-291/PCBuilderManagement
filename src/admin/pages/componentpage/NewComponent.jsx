@@ -1,7 +1,7 @@
 import React from "react";
 import "./newComponent.scss";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Col, Form, Row } from "react-bootstrap";
@@ -228,8 +228,11 @@ export default function NewComponent() {
 
           <div className="form-button">
             <Button type="submit">
-              {id ? "Update Component" : "Create Component"}
+              {id ? "Update Component" : "Create"}
             </Button>
+            <Link to="/components">
+              <Button style={{backgroundColor: 'red'}}>Cancel</Button>
+            </Link>
           </div>
         </Form>
       </div>

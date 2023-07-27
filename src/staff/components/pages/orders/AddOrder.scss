@@ -1,9 +1,9 @@
-.newUser{
+.newOrder{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    .form{
+    .form {
         width: 100%;
         h2{
             text-align  : center;
@@ -12,7 +12,7 @@
             font-weight: 700;
             margin-bottom: 20px;
         }
-        .contentUser{
+        .contentOrder{
             display: flex;
             flex-direction: column;
             margin: 5px 0px;
@@ -23,14 +23,12 @@
                 font-weight: 500;
             }
         }
-        #check{
+        #abc{
             input{
-                width: 20px;
-                height: 20px;
-                margin-left: 20px;
+                height: 500px;
             }
+            
         }
-
         .form-button{
             margin: 15px 0px;
             padding: 5px;

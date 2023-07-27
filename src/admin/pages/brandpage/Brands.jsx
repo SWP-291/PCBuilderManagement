@@ -93,7 +93,7 @@ const OrderTable = () => {
   ];
 
   return (
-    <div className="container py-5">
+    <div className="layout">
       <h1 className="title">Brands List</h1>
       <div className="Createbtn">
         <Link to="/addBrand/">
