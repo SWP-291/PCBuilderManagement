@@ -119,14 +119,14 @@ const Components = () => {
     },
     {
       field: "brandId",
-      headerName: "Brand ID",
+      headerName: "Brand Name",
       width: 90,
       editable: true,
       valueGetter: (params) => nameBrands[params.row.brandId] || "Unknown PC",
     },
     {
       field: "categoryId",
-      headerName: "Category ID",
+      headerName: "Category Name",
       width: 90,
       editable: true,
       valueGetter: (params) => nameCate[params.row.categoryId] || "Unknown PC",

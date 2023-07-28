@@ -120,7 +120,7 @@ const OrderTable = () => {
     },
     {
       field: "amount",
-      headerName: "Amount",
+      headerName: "Price",
       type: "number",
       width: 130,
       editable: true,
