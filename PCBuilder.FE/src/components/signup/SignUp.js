@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Col, Form, Row } from "react-bootstrap";
 const SignUp = () => {
-  const URL = 'https://localhost:7262/api/Authenticate/signup'
+  const URL = 'https://fpc-shop.azurewebsites.net/api/Authenticate/signup'
   const token = localStorage.getItem("tokenUser");
   const initialState = {
     fullname: "",
