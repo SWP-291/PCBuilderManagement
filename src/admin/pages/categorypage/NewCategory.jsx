@@ -197,14 +197,14 @@ export default function NewCategory() {
           </Form.Group>
           <Row>
             <Col className="mb-3 contentCategory">
-              <Form.Label htmlFor="parentId">ParentID: </Form.Label>
+              <Form.Label htmlFor="parentId">Parent Name: </Form.Label>
               <Form.Control
                 as="select"
                 name="parentId"
                 value={state.parentId}
                 onChange={handleInputChange}
               >
-                <option value="">Select Parent ID</option>
+                <option value="">Select Parent Name</option>
                 {Object.entries(nameCate).map(([id, name]) => (
                   <option key={id} value={id}>
                     {name}

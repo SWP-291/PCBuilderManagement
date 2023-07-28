@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 import axios from "axios";
 import { toast } from "react-toastify";
 import pc from "../assets/image/payment.png";
-import { useSelector } from "react-redux";
 import Popup from "reactjs-popup";
 import { useNavigate } from "react-router-dom";
 
@@ -24,15 +21,25 @@ const Payment = () => {
   const [payment, setPayment] = useState();
   const [paymentTime, setPaymentTime] = useState();
   const productId = searchParams.get("pcId");
-  const userId = useSelector((state) => state.auth.login.currentUser?.id);
-  const fullname = useSelector(
-    (state) => state.auth.login.currentUser?.fullName
-  );
-  const emailAddress = useSelector(
-    (state) => state.auth.login.currentUser?.email
-  );
-  const address = useSelector((state) => state.auth.login.currentUser?.address);
-  const phone = useSelector((state) => state.auth.login.currentUser?.phone);
+
+  const userId = localStorage.getItem("idUser");
+  const [info, setInfo] = useState({});
+  useEffect(() => {
+    const data = localStorage.getItem("currentUser");
+    console.log("data: ", data);
+    if (data) {
+      try {
+        // Chuyển đổi chuỗi JSON thành object và gán vào biến info
+        const parsedData = JSON.parse(data);
+        setInfo(parsedData);
+      } catch (error) {
+        console.error("Error parsing data from Local Storage:", error);
+      }
+    } else {
+      console.log("Not found currentUser in Local Storage");
+    }
+  }, []);
+
   const randomCode = Math.floor(1000 + Math.random() * 9000);
 
   const handleDeleteClick = async (productId) => {
@@ -41,14 +48,11 @@ const Payment = () => {
         await axios.delete(
           `https://fpc-shop.azurewebsites.net/api/PC/${productId}/DeletePCWithComponent`
         );
-        console.log("DELETE success");
-        // Optionally, you can show a success message or navigate to a different page after deletion.
-        // For example:
-        toast.success("Transaction canceled successfully");
-        navigate("/home");
       } catch (error) {
         console.error("DELETE error:", error);
         toast.error("Failed to cancel transaction");
+      } finally {
+        navigate("/home");
       }
     }
   };
@@ -91,7 +95,7 @@ const Payment = () => {
           pcId: productId,
           userId: userId,
           amount: parseFloat(productPrice),
-          statusId: "Successful",
+          statusId: "Pending",
           paymentDTO: {
             name: productName,
             code: randomCode,
@@ -121,13 +125,7 @@ const Payment = () => {
       }
     }
   };
-  <Form noValidate validated={validated} onSubmit={handleSubmit}>
-    {validated && (!payment || !paymentTime) && (
-      <div className="text-danger">
-        Please select a payment method and payment time.
-      </div>
-    )}
-  </Form>;
+
   return (
     <div className="hero1">
       <div className="container py-5">
@@ -148,7 +146,7 @@ const Payment = () => {
                     required
                     type="text"
                     placeholder="Nguyễn Văn A"
-                    defaultValue={fullname}
+                    defaultValue={info?.fullname}
                   />
                 </Form.FloatingLabel>
                 <Form.FloatingLabel
@@ -160,7 +158,7 @@ const Payment = () => {
                     required
                     type="email"
                     placeholder="name@example.com"
-                    defaultValue={emailAddress}
+                    defaultValue={info?.email}
                   />
                 </Form.FloatingLabel>
                 <Form.FloatingLabel
@@ -172,7 +170,7 @@ const Payment = () => {
                     required
                     type="text"
                     placeholder="ABC-NewYork"
-                    defaultValue={address}
+                    defaultValue={info?.address}
                   />
                 </Form.FloatingLabel>
                 <Form.FloatingLabel
@@ -184,7 +182,7 @@ const Payment = () => {
                     required
                     type="number"
                     placeholder="0123456789"
-                    defaultValue={phone}
+                    defaultValue={info?.phone}
                   />
                 </Form.FloatingLabel>
               </Col>

@@ -84,10 +84,15 @@ const Categories = () => {
       width: 600,
       editable: true,
     },
-    { field: "parentId", headerName: "Parent ID", width: 150, editable: true },
+    {
+      field: "parentId",
+      headerName: "Parent Name",
+      width: 150,
+      editable: true,
+    },
     {
       field: "brandId",
-      headerName: "Brand ID",
+      headerName: "Brand Name",
       width: 150,
       editable: true,
       valueGetter: (params) => nameBrands[params.row.brandId] || "Unknown PC",
