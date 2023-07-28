@@ -1,39 +1,38 @@
 {
   "format": 1,
   "restore": {
-    "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.API\\PCBuilder.API.csproj": {}
+    "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.API/PCBuilder.API.csproj": {}
   },
   "projects": {
-    "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.API\\PCBuilder.API.csproj": {
+    "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.API/PCBuilder.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.API\\PCBuilder.API.csproj",
+        "projectUniqueName": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.API/PCBuilder.API.csproj",
         "projectName": "PCBuilder.API",
-        "projectPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.API\\PCBuilder.API.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.API\\obj\\",
+        "projectPath": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.API/PCBuilder.API.csproj",
+        "packagesPath": "/Users/thinhtran/.nuget/packages/",
+        "outputPath": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/thinhtran/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\sdk\\7.0.306\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+          "/usr/local/share/dotnet/library-packs": {},
+          "/usr/local/share/dotnet/sdk/7.0.306/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
-                "projectPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
+              "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Repository/PCBuilder.Repository.csproj": {
+                "projectPath": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Repository/PCBuilder.Repository.csproj"
               },
-              "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj": {
-                "projectPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj"
+              "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Services/PCBuilder.Services.csproj": {
+                "projectPath": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Services/PCBuilder.Services.csproj"
               }
             }
           }
@@ -94,28 +93,27 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
+    "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Repository/PCBuilder.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
+        "projectUniqueName": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Repository/PCBuilder.Repository.csproj",
         "projectName": "PCBuilder.Repository",
-        "projectPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\obj\\",
+        "projectPath": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Repository/PCBuilder.Repository.csproj",
+        "packagesPath": "/Users/thinhtran/.nuget/packages/",
+        "outputPath": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Repository/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/thinhtran/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -171,36 +169,35 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj": {
+    "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Services/PCBuilder.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj",
+        "projectUniqueName": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Services/PCBuilder.Services.csproj",
         "projectName": "PCBuilder.Services",
-        "projectPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Services\\obj\\",
+        "projectPath": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Services/PCBuilder.Services.csproj",
+        "packagesPath": "/Users/thinhtran/.nuget/packages/",
+        "outputPath": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Services/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/thinhtran/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
-                "projectPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
+              "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Repository/PCBuilder.Repository.csproj": {
+                "projectPath": "/Users/thinhtran/Desktop/PCBuilder-deploy/PCBuilderManagement/PCBuilder.Repository/PCBuilder.Repository.csproj"
               }
             }
           }
@@ -240,7 +237,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -76,6 +76,10 @@ namespace PCBuilder.Services.Service
             try
             {
                 var orders = await _orderRepository.GetAllOrdersAsync();
+
+                // Sort orders by order date (from newest to oldest)
+                orders.Sort((x, y) => DateTime.Compare(y.OrderDate, x.OrderDate));
+
                 var orderDTOs = _mapper.Map<List<OrderDTO>>(orders);
 
                 response.Data = orderDTOs;
@@ -237,6 +241,9 @@ namespace PCBuilder.Services.Service
                     response.Message = "No orders found for the given user.";
                     return response;
                 }
+
+                // Sort orders by order date (from newest to oldest)
+                orders.Sort((x, y) => DateTime.Compare(y.OrderDate, x.OrderDate));
 
                 var orderDTOs = new List<OrderDetailDTO>();
                 foreach (var order in orders)
