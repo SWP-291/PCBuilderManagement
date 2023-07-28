@@ -1,200 +1,221 @@
 import React, { useState } from "react";
 import "./signup.scss";
-import { Button } from "react-bootstrap";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Popover from "react-bootstrap/Popover";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import { Button, Col, Form, Row } from "react-bootstrap";
 const SignUp = () => {
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [country, setCountry] = useState("");
-  const [gender, setGender] = useState("");
-  const [address, setAddress] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [password, setPassword] = useState("");
-  const [isShowPassword, setIsShowPassword] = useState(false);
-
-  const [fullnameError, setFullnameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [countryError, setCountryError] = useState("");
-  const [genderError, setGenderError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      );
+  const URL = 'https://localhost:7262/api/Authenticate/signup'
+  const token = localStorage.getItem("tokenUser");
+  const initialState = {
+    fullname: "",
+    email: "",
+    phone: "",
+    country: "",
+    gender: "",
+    password: "",
+    address: "",
+    avatar: "",
+    isActive: true,
+    roleId: 1,
   };
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    validateEmail(email);
+  const error_init = {
+    fullname_err: "",
+    email_err: "",
+    password_err: "",
+  };
+  const [state, setState] = useState(initialState);
+  const { fullname, email, phone, country,  gender, password, address, avatar} = state;
+  const [errors, setErrors] = useState(error_init);
+  
+  const navigate = useNavigate();
+  const addNewUser = async (data) => {
+    await axios
+      .post(`${URL}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        console.log(response.request.status);
+        if (
+          response.request.status === 200 ||
+          response.request.status === 201
+        ) {
+          toast.success("New User has been added successfully ~");
+          navigate("/login");
+        } else {
+          toast.error("Added new user failed ~");
+        }
+      })
+      .catch(function (error) {
+        console.log(error.response.data.message);
+        toast.error(error.response.data.message);
+        // console.error("Fetch User data failed:", error);
+      });
+  };
+  // validate
+  const validateForm = () => {
+    let isValid = true;
+    let errors = { ...error_init };
 
-    if (fullname.trim() === "") setFullnameError("Enter full name");
-    else setFullnameError("");
+    if (fullname.trim() === "") {
+      errors.fullname_err = "Name is Required";
+      isValid = false;
+    }
 
-    if (phone.trim() === "") setPhoneError("Enter phone number");
-    else setPhoneError("");
+    if (email.trim() === "") {
+      errors.email_err = "Email is required";
+      isValid = false;
+    } else if (
+      !email
+        .toLowerCase()
+        .match(
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        )
+    ) {
+      errors.email_err = "It is not email. Email like name@email.com";
+    }
 
-    if (country.trim() === "") setCountryError("Enter country");
-    else setCountryError("");
+    if (password.trim() === "") {
+      errors.password_err = "Password is required";
+      isValid = false;
+    }
 
-    if (gender === "") setGenderError("Select gender");
-    else setGenderError("");
+    setErrors(errors);
+    return isValid;
+  };
 
-    if (password.length < 1) setPasswordError("Enter password");
-    else setPasswordError("");
-
-    if (email.length < 1) setEmailError("Enter email");
-    else {
-      setEmailError("");
-
-      // Perform sign-up action
-      const newUser = {
-        fullname: fullname,
-        email: email,
-        phone: phone,
-        country: country,
-        gender: gender,
-        address: address,
-        avatar: avatar,
-        password: password,
-      };
-
-      axios
-        .post("https://fpc-shop.azurewebsites.net/api/User", newUser)
-        .then(function (response) {
-          if (response.data.success) {
-            toast.success(response.data.message); // Show success message from the server
-            navigate("/login");
-          } else {
-            toast.error("User creation failed"); // Show an error message in case of failure
-          }
-        })
-        .catch(function (error) {
-          toast.error("Create new user failed");
-          console.error("Error in API request:", error);
-        });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('state: ',state);
+    if (validateForm()) {
+      addNewUser(state);
+    } else {
+      toast.error("Some info is invalid ~ Pls check again");
     }
   };
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    if (name === "gender") {
+      setState((state) => ({ ...state, gender: value }));
+    } else {
+      setState((state) => ({ ...state, [name]: value }));
+    }
+  };
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const handleShowHidePassword = () => {
     setIsShowPassword(!isShowPassword);
   };
 
   return (
-    <div className="signup-form">
-      <form className="contentLogin row" onSubmit={handleSignUp}>
-        <div className="col-12 text-center text-login">Sign Up</div>
-        <div className="col-12 form-group input-login">
-          <label>Full Name</label>
-          <input
-            type="text"
-            placeholder="Nguyen Van A"
-            value={fullname}
-            onChange={(event) => setFullname(event.target.value)}
-            className="form-control"
-          />
-          <div className="error-msg">{fullnameError}</div>
-        </div>
-        <div className="col-12 form-group input-login">
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="name@gmail.com"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            className="form-control"
-          />
-          <div className="error-msg">{emailError}</div>
-        </div>
-        <div className="col-12 form-group input-login">
-          <label>Phone</label>
-          <input
-            type="text"
-            placeholder="Enter phone number"
-            value={phone}
-            onChange={(event) => setPhone(event.target.value)}
-            className="form-control"
-          />
-          <div className="error-msg">{phoneError}</div>
-        </div>
-        <div className="col-12 form-group input-login">
-          <label>Country</label>
-          <input
-            type="text"
-            placeholder="Enter country"
-            value={country}
-            onChange={(event) => setCountry(event.target.value)}
-            className="form-control"
-          />
-          <div className="error-msg">{countryError}</div>
-        </div>
-        <div className="col-12 form-group input-login">
-          <label>Gender</label>
-          <select
-            value={gender}
-            onChange={(event) => setGender(event.target.value)}
-            className="form-control"
-          >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-          <div className="error-msg">{genderError}</div>
-        </div>
-        <div className="col-12 form-group input-login">
-          <label>Address</label>
-          <textarea
-            placeholder="Enter address"
-            value={address}
-            onChange={(event) => setAddress(event.target.value)}
-            className="form-control"
-          />
-        </div>
-        <div className="col-12 form-group input-login">
-          <label>Avatar</label>
-          <input
-            type="text"
-            onChange={(event) => setAvatar(event.target.value)}
-            className="form-control"
-          />
-        </div>
-        <div className="col-12 form-group input-login">
-          <label>Password</label>
-          <div className="custom-input-password">
-            <input
-              type={isShowPassword ? "text" : "password"}
-              placeholder=""
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="form-control"
+    <div className="container py-5 signup">
+      <div className="form">
+        <h2>Sign Up</h2>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="fullname">Full Name(*): </Form.Label>
+            <Form.Control
+              type="text"
+              name="fullname"
+              value={state.fullname}
+              onChange={handleInputChange}
             />
-            <span onClick={handleShowHidePassword}>
-              <i>{isShowPassword ? <BsEyeSlashFill /> : <BsEyeFill />}</i>
-            </span>
+            {errors.fullname_err && (
+              <span className="error">{errors.fullname_err}</span>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="email">Email(*): </Form.Label>
+            <Form.Control
+              type="text"
+              name="email"
+              value={state.email}
+              onChange={handleInputChange}
+            />
+            {errors.email_err && (
+              <span className="error">{errors.email_err}</span>
+            )}
+          </Form.Group>
+              <Form.Group className="mb-3 contentUser">
+                <Form.Label htmlFor="password">Password(*): </Form.Label>
+                <div className="custom-input-password">
+                  <input
+                    type={isShowPassword ? "text" : "password"}
+                    placeholder=""
+                    value={password}
+                    onChange={handleInputChange} // Use the handleInputChange function
+                    className="form-control"
+                    name="password" 
+                  />
+                  <span onClick={handleShowHidePassword}>
+                    <i>{isShowPassword ? <BsEyeSlashFill /> : <BsEyeFill />}</i>
+                  </span>
+                </div>
+              </Form.Group>
+            {errors.password_err && (
+              <span className="error">{errors.password_err}</span>
+            )}
+            <Form.Group className="mb-3 contentUser">
+              <Form.Label htmlFor="phone">Phone: </Form.Label>
+              <Form.Control
+                type="text"
+                name="phone"
+                value={state.phone}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3 contentUser">
+              <Form.Label htmlFor="country">Country: </Form.Label>
+              <Form.Control
+                type="text"
+                name="country"
+                value={state.country}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3 contentUser">
+                <Form.Label htmlFor="gender">Gender: </Form.Label>
+                <select
+                  value={gender} 
+                  onChange={handleInputChange}
+                  className="form-control"
+                  name="gender" 
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </Form.Group>
+
+              
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="address">Address: </Form.Label>
+            <Form.Control
+              type="text"
+              name="address"
+              value={state.address}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3 contentUser">
+            <Form.Label htmlFor="avatar">Avatar: </Form.Label>
+            <Form.Control
+              type="text"
+              name="avatar"
+              value={state.avatar}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <div className="form-button">
+            <Button type="submit">Sign Up</Button>
           </div>
-          <div className="error-msg">{passwordError}</div>
-        </div>
-        <div className="col-12">
-          <Button className="btn-login" type="submit">
-            Sign Up
-          </Button>
-        </div>
-      </form>
+        </Form>
+      </div>
     </div>
   );
 };
