@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XX0ZVDAK44BMZhlt6U3X5cPNhphm1afTMjAV7DZs3RWtu+nWdXPBqcZ+44d8NUuBaTdnUWrrBDrVGoMnCt7G6A==",
+  "dgSpecHash": "a3DHP2gCkiqa3JB41ddu420B2eNBW50UKYZViOJ6r1KGZDVVNst1m3NKQetpbj8pxmM3NkNysglUexqXQEFXKA==",
   "success": true,
-  "projectFilePath": "T:\\LearnSpace\\Git Manager\\BE-Main\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
+  "projectFilePath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

@@ -4209,11 +4209,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "T:\\LearnSpace\\Git Manager\\BE-Main\\PCBuilderManagement\\PCBuilder.API\\PCBuilder.API.csproj",
+      "projectUniqueName": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.API\\PCBuilder.API.csproj",
       "projectName": "PCBuilder.API",
-      "projectPath": "T:\\LearnSpace\\Git Manager\\BE-Main\\PCBuilderManagement\\PCBuilder.API\\PCBuilder.API.csproj",
+      "projectPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.API\\PCBuilder.API.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "T:\\LearnSpace\\Git Manager\\BE-Main\\PCBuilderManagement\\PCBuilder.API\\obj\\",
+      "outputPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4231,11 +4231,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "T:\\LearnSpace\\Git Manager\\BE-Main\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
-              "projectPath": "T:\\LearnSpace\\Git Manager\\BE-Main\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
+            "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj": {
+              "projectPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Repository\\PCBuilder.Repository.csproj"
             },
-            "T:\\LearnSpace\\Git Manager\\BE-Main\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj": {
-              "projectPath": "T:\\LearnSpace\\Git Manager\\BE-Main\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj"
+            "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj": {
+              "projectPath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj"
             }
           }
         }

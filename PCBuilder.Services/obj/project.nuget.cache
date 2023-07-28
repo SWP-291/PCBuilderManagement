@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TxgYf3JACI4UMGJ/+u4oALKiV0JyTi1FGoGJF/6LrTEiUz3PpamcDHQ3AQhLaQnJlpGxqSXqf8PQ4Mb/g6FjtQ==",
+  "dgSpecHash": "5jseV8LrqLz4CB426DF2EvLsHDOF+4P2+MlQAI+XMgkfjOavHCk0w8EF8oiCWOq5/WWXrGtyk/qo7zjAQRJzSg==",
   "success": true,
-  "projectFilePath": "T:\\LearnSpace\\Git Manager\\BE-Main\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj",
+  "projectFilePath": "T:\\LearnSpace\\Git Manager\\MainApp\\PCBuilderManagement\\PCBuilder.Services\\PCBuilder.Services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
