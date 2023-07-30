@@ -84,7 +84,7 @@ namespace PCBuilder.Repository.Repository
         // check user co email nay ton tai hay khong
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email) && u.IsActive == true);
             return user;
         }
 
